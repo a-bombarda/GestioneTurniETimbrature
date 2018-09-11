@@ -1,0 +1,95 @@
+%------------------------------------------------
+\subsection{UC12: Gestione dei dati provenienti dalla timbratrice}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vogliono estrarre i dati contenuti nei file XML, selezionando solamente i dati di interesse. Il gestore del personale può fare delle modifiche o eliminare alcuni dati. \\
+Successivamente, confermando i dati, gli orari delle timbrature vengono aggregati per ogni dipendente, in modo da avere tutti gli orari di ingresso ed uscita del giorno.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+FM00-FM05, SM09, SM10, SM20-SM23
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+E' disponibile il file \verb|.XML| contenente i dati delle timbrature. Questo file contiene i dati "grezzi", quindi non ancora elaborati.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+\begin{itemize}
+	\item Le informazioni di interesse (orario, ID badge, tipo timbratura) vengono estratte e memorizzate all'interno del database.
+	\item Nel caso si siano modificati alcuni dati, nel database sono presenti i dati aggiornati.
+	\item Nel caso si siano eliminati alcuni dati, nel database non sono più presenti tali dati.
+\end{itemize}
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Importa file \verb|.XML|".
+		\begin{enumerate}
+			\item Viene mostrata una maschera per la selezione del file da importare.
+		\end{enumerate}	
+	\item L'impiegato dell'ufficio amministrazione seleziona il file che vuole importare. 
+	\item Il sistema estrae i vari record delle timbrature tramite parsing, scorrendo i vari tag.
+		\begin{enumerate}
+			\item Viene mostrata una form contenente i dati importati, per un'eventuale modifica.
+		\end{enumerate}		
+	\item L'impiegato dell'ufficio amministrazione può fare una delle seguenti scelte:
+		\begin{enumerate}
+			\item \underline{Modifica dati}:
+				\begin{enumerate}
+						\item L'impiegato dell'ufficio amministrazione seleziona una timbratura che vuole modificare.
+						\item L'impiegato dell'ufficio amministrazione effettua un doppio click sul dato che vuole modificare.
+							\begin{itemize}
+								\item I campi con i dati della timbratura diventano modificabili.
+							\end{itemize}
+						\item L'impiegato dell'ufficio amministrazione inserisce i dati corretti.
+						\item L'impiegato dell'ufficio amministrazione preme il pulsante \verb|INVIO|.
+							\begin{itemize}
+								\item Viene aggiornato il contenuto della form di revisione dei dati importati.
+								\item Si ritorna al passo (4).
+							\end{itemize}
+				\end{enumerate}
+			\item \underline{Eliminazione dei dati}:
+				\begin{enumerate}
+						\item L'impiegato dell'ufficio amministrazione seleziona una timbratura che vuole eliminare.
+						\item L'impiegato dell'ufficio amministrazione svuota tutti i campi della riga che vuole eliminate.
+							\begin{itemize}
+								\item Viene aggiornato il contenuto della form di revisione dei dati importati.
+								\item Si ritorna al passo (4).
+							\end{itemize}
+				\end{enumerate}
+		\end{enumerate}
+	\item L'impiegato dell'ufficio amministrazione conferma i dati, tramite il pulsante "Salva".
+		\begin{enumerate}
+			\item Il sistema salva i dati grezzi, provenienti dalla timbratrice, con le eventuali modifiche effettuate manualmente dall'impiegato dell'ufficio amministrazione.
+			\item Il sistema aggrega i dati di ogni dipendente, grazie al codice identificativo, al fine di avere per ogni dipendente tutti gli orari di ingresso/uscita giornalieri.
+			\item I dati aggregati vengono inseriti all'interno del database.
+		\end{enumerate}	
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Struttura file .XML errata}
+		\begin{itemize}
+			\item Al passo (2) l'impiegato dell'ufficio amministrazione seleziona un file che non soddisfa la struttura prevista (ad esempio con tag mancante o tag aggiuntivo). Il processo di parsing viene quindi interrotto e viene visualizzato un messaggio di errore.
+		\end{itemize}
+	\item \underline{Nessun file .XML selezionato}
+		\begin{itemize}
+			\item Al passo (2) l'impiegato dell'ufficio amministrazione non seleziona alcun file, oppure seleziona un file non \verb|.XML|. Il processo di parsing viene quindi interrotto e viene visualizzato un messaggio di errore.
+		\end{itemize}
+	\item \underline{Inserimento di una data errata}
+		\begin{itemize}
+			\item Al passo (4.a.iii) l'impiegato dell'ufficio amministrazione inserisce un valore errato per il campo "Data". Viene quindi mostrato un messaggio di errore e viene data la possibilità di modificare il campo errato.
+		\end{itemize}
+	\item \underline{Inserimento di un orario errato}
+		\begin{itemize}
+			\item Al passo (4.a.iii) l'impiegato dell'ufficio amministrazione inserisce un valore errato per il campo "Orario Timbratura". Viene quindi mostrato un messaggio di errore e viene data la possibilità di modificare il campo errato.
+		\end{itemize}
+\end{itemize}

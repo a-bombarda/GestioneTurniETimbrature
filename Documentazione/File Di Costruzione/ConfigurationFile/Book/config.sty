@@ -1,0 +1,146 @@
+% fornisce svariate estensioni per il miglioramento della gestione di documenti che contengono formule matematiche.
+\usepackage{amsmath} 
+\usepackage{siunitx}
+% arricchisce la scelta di simboli matematici.
+\usepackage{amssymb} 
+% migliora la gestione degli enunciati matematici.
+\usepackage{amsthm} 
+% permette l’uso di lingue diverse dall’inglese.
+\usepackage[italian]{babel} 
+% migliora l’aspetto delle tabelle.
+\usepackage{booktabs} 
+% consente di personalizzare le didascalie.
+\usepackage{caption} 
+% permette di modificare i margini di una singola pagina.
+\usepackage{chngpage} 
+% introduce il simbolo dell’euro.
+\usepackage{eurosym}
+% permette di creare oggetti mobili personalizzati e di forzare il posizionamento di un oggetto. 
+\usepackage{float} 
+% specifica la codifica dei font da usare nel documento stampato.
+\usepackage[T1]{fontenc} 
+% imposta i margini di pagina nelle classi standard.
+% \usepackage[margin=2cm]{geometry} 
+% gestisce l’inserimento delle immagini.
+\usepackage{graphicx} 
+% abilita i riferimenti ipertestuali.
+\usepackage[hidelinks]{hyperref} 
+% permette l’inserimento di caratteri accentati da tastiera nel documento sorgente.
+\usepackage[utf8]{inputenc} 
+% consente l’inserimento di codici, permettendo un controllo molto sofisticato del loro formato.
+\usepackage{listings} 
+% fornisce comandi per realizzare l’indice analitico.
+\usepackage{makeidx}
+% migliora il riempimento delle righe. 
+\usepackage{microtype}
+% dispone il testo su più colonne con bilanciamento.
+\usepackage{multicol} 
+% permette di affiancare figure e tabelle.
+\usepackage{subfig} 
+% compone tabelle di larghezza impostata dall’utente.
+\usepackage{tabularx} 
+% imposta l’inserimento degli indirizzi Internet.
+\usepackage{url} 
+% rende più flessibile la gestione dei riferimenti incrociati.
+\usepackage[italian]{varioref} 
+% permette di avvolgere le figure nel testo
+\usepackage{wrapfig} 
+% consente la gestione del colore
+\usepackage{xcolor} 
+% permette di gestire il layout di pagina
+\usepackage{fancyhdr} 
+% abilita il pacchetto fancyhdr
+\pagestyle{fancy} 
+% permette la modifica dello stile dell'elenco puntato
+\usepackage{enumitem} 
+% include le varie funzioni per l'aggiunta delle immagini
+\usepackage{ConfigurationFile/function}
+% Struttura if else
+\usepackage{ifthen} 
+\usepackage{fontawesome}
+\usepackage{tabu}
+\usepackage{widetable}
+%Dichiara l'utilizzo del pacchetto necessario alla gestione delle tabelle «lunghe»;
+\usepackage{longtable} 
+
+
+
+
+% Personalizzazione dei pacchetti
+\addto\captionsitalian{\renewcommand{\lstlistingname}{Codice}} % Permette di dichiarare automaticamente i listing in Codice
+\addto\captionsitalian{\renewcommand{\lstlistlistingname}{Elenco dei codici}} % Permette di sostituire i list of listing con Elenco dei codici
+\renewcommand{\headrulewidth}{0.4pt} % spessore linea di testa
+\renewcommand{\footrulewidth}{0.4pt} % spessore linea di fondo
+
+
+% Creo le variabili:
+\makeatletter
+\newcommand{\makexcmd}[1]{\@namedef{#1}##1{\@namedef{x#1}{##1}}}
+\makeatother
+\makexcmd{titolo}
+\makexcmd{corso}
+\makexcmd{professore}
+\makexcmd{annoaccademico}
+
+\newcommand{\apricopertina}{
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\begin{scshape}
+\vspace{2cm}
+\includegraphics[scale=0.7]{ConfigurationFile/Book/logo}
+\Large{ \\}
+\vspace{0.5cm}
+\Huge{Università Degli Studi Di Bergamo \\}
+\huge{Scuola di Ingegneria \\}
+\end{scshape}
+\vspace{1cm}
+\LARGE{\textbf{\xtitolo \\}}
+\vspace{0.7cm}
+\Large{\xcorso \\}
+%\Large{\xprofessore \\}
+\Large{\xannoaccademico \\}
+\vspace{1cm}
+\end{center}
+}
+
+\newcommand{\macrocapitolo}[1]{
+\begin{center}
+	%\begin{scshape}
+		\begin{large}
+			\textbf{\LARGE{#1}}
+		\end{large}	
+	%\end{scshape}
+\end{center}
+}
+
+\newcommand{\redattoda}[3]{%
+\begin{flushright}
+\large{#1 \\}
+\textbf{\Large{#2 \\}}
+\large{Mat.#3 \\}
+\end{flushright}
+}
+
+\newcommand{\redattodaRigheAlternative}[3]{%
+\begin{flushright}
+\textbf{\Large{#2 \\}}
+\large{Mat.#3 \\}
+\end{flushright}
+}
+
+\newcommand{\chiudicopertina}{
+\newpage
+\end{titlepage}
+}
+
+\newcommand{\indice}{
+\tableofcontents
+\newpage
+}
+
+\newcommand{\sommario}[2]{
+\newpage
+\ifthenelse{\equal{#1}{1}}{\listoffigures}{}
+\ifthenelse{\equal{#2}{1}}{\listoftables}{}
+}

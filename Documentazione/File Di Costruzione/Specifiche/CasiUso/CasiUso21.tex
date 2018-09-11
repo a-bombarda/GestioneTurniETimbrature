@@ -1,0 +1,47 @@
+%------------------------------------------------
+\subsection{UC21: Verifica copertura turni assegnati}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole verificare che un dipendente abbia coperto tutti i turni che gli sono stati assegnati.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+SM25
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Sono già stati caricati i turni per le date che si vogliono analizzare. Inoltre deve già essere caricato anche il dipendente all'interno del database.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Viene mostrata una finestra riepilogativa, indicante quali turni sono stati effettivamente coperti dal dipendente, e quali no.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione clicca su "Verifica copertura turni".
+		\begin{enumerate}
+			\item Viene mostrata una form nella quale l'impiegato dell'ufficio amministrazione può selezionare il dipendente e l'intervallo di interesse.
+		\end{enumerate}
+	\item L'impiegato dell'ufficio amministrazione inserisce il dipendente per il quale vuole avviare il processo di verifica.
+	\item L'impiegato dell'ufficio amministrazione inserisce l'intervallo per il quale vuole avviare il processo di verifica.
+	\item L'impiegato dell'ufficio amministrazione clicca su "Verifica".
+		\begin{enumerate}
+			\item Viene mostrata una form nella quale vengono mostrati i turni che sono stati effettivamente coperti dal dipendente.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento date errate}
+		\begin{itemize}
+			\item Al passo (3), l'impiegato dell'ufficio amministrazione inserisce, per filtrare i risultati, delle date errate. Viene, quindi, mostrato un messaggio di errore e viene data la possibilità di correggere i valori inseriti.
+		\end{itemize}
+\end{itemize}

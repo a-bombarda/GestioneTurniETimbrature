@@ -1,0 +1,34 @@
+\chapter{Introduzione}
+%------------------------------------------------
+\section{Scelta della funzione da implementare}
+\paragraph{Selezione del caso d'uso da implementare}
+Per questa \textit{Fase 2} del processo di sviluppo dell'applicazione si è scelto di implementare una delle due funzionalità chiave del programma, ovvero la funzionalità descritta all'interno del caso d'uso \verb|UC12|: Gestione dei dati provenienti dalla timbratrice.
+
+\paragraph{Formato file di scambio dati}
+Come accennato anche all'interno della descrizione del caso d'uso, i dati tra la timbratrice ed il software di gestione delle timbrature vengono scambiati tramite file di tipo \verb|XML|.
+
+\paragraph{Breve descrizione dell'obbiettivo}
+Si vuole creare una procedura che permetta la selezione, da parte dell'utente, di un file \verb|XML| prodotto dalla timbratrice e contenente i dati delle timbrature dei dipendenti. L'utente deve inoltre avere la possibilità di aggiungere, modificare o eliminare alcuni dei dati e, successivamente, confermare le modifiche effettuando l'aggregazione dei dati.
+
+\paragraph{Dati di input}
+Gli unici dati di input sono contenuti all'interno del file \verb|XML|:
+\begin{itemize}
+	\item Data timbratura
+	\item Tipo di timbratura (\verb|IN| o \verb|OUT|)
+	\item Identificativo del badge
+	\item Orario di timbratura
+\end{itemize}
+%------------------------------------------------
+\section{Passi principali della funzionalità}
+I passi principali dei quali si compone la funzionalità da implementare saranno:
+\begin{itemize}
+	\item Scelta del file \verb|XML|
+	\item Conversione del file \verb|XML| in strutture dati (\textit{parsing})
+	\item Visualizzazione dei dati parsati, con relativa possibilità di:
+		\begin{itemize}
+			\item Cancellazione dato
+			\item Modifica dato
+		\end{itemize}
+	\item Salvataggio dei dati modificati manualmente
+	\item Aggregazione degli orari e salvataggio definitivo
+\end{itemize}

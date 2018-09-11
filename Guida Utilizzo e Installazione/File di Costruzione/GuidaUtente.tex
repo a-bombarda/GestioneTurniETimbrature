@@ -1,0 +1,62 @@
+\documentclass[a4paper,10pt,twoside]{book}
+\usepackage{ConfigurationFile/Book/config}
+\titolo{Gestione turnazione dipendenti}
+\corso{Informatica IIIB}
+\professore{}
+\annoaccademico{A.A. 2017-2018}
+\lhead{\footnotesize \xcorso}
+\chead{\footnotesize \xprofessore }
+\rhead{\xtitolo}
+\lfoot{\footnotesize Abdelmajid Arif, Bombarda Andrea, Paravisi Federica}
+\cfoot{\footnotesize \xannoaccademico}
+\cfoot{\footnotesize}
+\rfoot{Pagina \thepage}
+\renewcommand*{\thesection}{\arabic{section}}
+\setcounter{secnumdepth}{3}
+%------ PARAMETRI PER IL CODICE SORGENTE--------------------
+\definecolor{Green}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=none,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+%------------------------------------------------------------
+\begin{document}
+%--------------- COPERTINA ----------------------------------
+\vspace{2cm}
+\apricopertina
+\macrocapitolo{Guida installazione ed utilizzo}
+\vfill
+\redattoda{Studenti:}{Arif Abdelmajid}{1030217}
+\redattodaRigheAlternative{}{Bombarda Andrea}{1029969}
+\redattodaRigheAlternative{}{Paravisi Federica}{1029712}
+\chiudicopertina
+\indice
+%------------------------------------------------------------
+\input{Guida}
+
+
+
+
+
+
+\sommario{1}{1}
+\end{document}

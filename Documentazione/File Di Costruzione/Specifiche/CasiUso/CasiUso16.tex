@@ -1,0 +1,82 @@
+%------------------------------------------------
+\subsection{UC16: Visualizzazione e calcolo mensile ore di lavoro}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vogliono calcolare le ore di lavoro relative ai dipendenti, a partire dai dati derivanti dal parsing del file \verb|.XML| (si veda UC12).
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+SM05-SM08, SM13, SM24, SM25
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+\begin{itemize}
+	\item I dati relativi agli orari mensili dei dipendenti non sono presenti.
+	\item I dati grezzi (con eventuale modifica manuale o revisione) sono già stati importati dal file \verb|.XML| (si veda UC12).
+\end{itemize}
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Per ogni dipendente sono calcolate le ore mensili di lavoro ordinario, straordinario, di ferie, di permesso e malattia.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Visualizza orari dipendenti".
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Visualizza orari mensili".
+		\begin{enumerate}
+			\item Viene richiesto all'impiegato dell'ufficio amministrazione di inserire il mese e l'anno di interesse.
+			\item Viene richiesto all'impiegato dell'ufficio amministrazione di inserire l'identificativo del dipendente per il quale vuole conoscere gli orari mensili.
+		\end{enumerate}
+	\item L'impiegato dell'ufficio amministrazione inserisce l'anno ed il mese di interesse.
+	\item L'impiegato dell'ufficio amministrazione inserisce l'identificativo del dipendente per il quale vuole conoscere gli orari mensili e preme sul pulsante "Conferma" per avviare il processo.
+		\begin{enumerate}
+			\item Viene avviato il processo di calcolo degli orari del mese selezionato:
+				\begin{itemize}
+					\item \underline{Lavoro ordinario}: se gli orari rientrano nelle fasce di lavoro ordinario, in base al turno assegnato ogni giorno al dipendente.
+					\item \underline{Lavoro straordinario}: se il dipendente supera gli orari di lavoro ordinario.
+					\item \underline{Ferie}: se un determinato giorno è stato inserito, per il dipendente considerato, come giorno di ferie (si veda UC14).
+					\item \underline{Permesso}: se le ore di ordinario sono inferiori a quelle giornaliere contrattuali.
+					\item \underline{Malattia}: se un determinato giorno è stato inserito, per il dipendente considerato, come giorno di malattia (si veda UC14).
+				\end{itemize}
+			\item Viene mostrata una maschera riassuntiva in cui, per il dipendente desiderato, è indicato il numero di ore mensili di lavoro ordinario, straordinario, di ferie, di permesso e di malattia.
+		\end{enumerate}	
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Dipendente in ferie presente}
+		\begin{itemize}
+			\item Al passo (4), il sistema rileva una timbratura per il dipendente in un giorno che è stato precedentemente inserito come giorno di ferie. Viene, quindi, mostrato un messaggio di errore informativo.
+		\end{itemize}
+	\item \underline{Dipendente in malattia presente}
+		\begin{itemize}
+			\item Al passo (4), il sistema rileva una timbratura per il dipendente in un giorno che è stato precedentemente inserito come giorno di malattia. Viene, quindi, mostrato un messaggio di errore informativo.
+		\end{itemize}
+	\item \underline{Superamento limite di lavoro straordinario}
+		\begin{itemize}
+			\item Al passo (4), il sistema rileva una quantità di ore di lavoro straordinario superiore al limite. In questo caso viene mostrato un messaggio di errore.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\paragraph{Estensioni}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Stampa report mensile dipendente}
+		\begin{itemize}
+			\item Al passo (4), l'impiegato dell'ufficio amministrazione può cliccare sul pulsante "Stampa" per esportare un PDF contenente il report mensile degli orari del dipendente.
+			\item Si procede come da UC19.
+		\end{itemize}
+	\item \underline{Modifica orari timbratura}
+		\begin{itemize}
+			\item Al passo (3.b), l'impiegato dell'ufficio amministrazione può modificare gli orari di ingresso e uscita del dipendente.
+			\item In questo caso, una volta confermata la modifica, viene ripetuto il calcolo delle ore.
+		\end{itemize}
+\end{itemize}

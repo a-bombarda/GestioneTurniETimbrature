@@ -1,0 +1,156 @@
+\chapter{Test ed analisi del componente implementato}
+%------------------------------------------------
+\section{Analisi statica}
+Attraverso il tool \verb|Stan4j| è stata effettuata l'analisi statica della porzione del software sviluppata in questa fase.
+Analizzando quanto riportato in Figura \ref{fig:Stan4j} risulta rispettata la struttura \verb|MVP| che ci si era proposti di realizzare.
+\addfig{Fase2/img/}{Stan4j}{0.4}{Analisi statica del codice}{Analisi statica del codice}
+%------------------------------------------------
+\section{Analisi dinamica - testing}
+In questa sezione ci si concentrerà sull'implementazione di un certo numero di casi di test al fine di avere la massima copertura possibile del codice della porzione di software implementato in questa fase.\\
+
+\noindent
+Data la suddivisione, tramite pattern \verb|MVP|, del codice in \verb|GUI|, \verb|Application| e \verb|Data| è stato scelto di testare principalmente la componente \verb|Application|,  tralasciando i due \verb|Listener|, in quanto:
+\begin{itemize}
+	\item La componente \verb|GUI| è difficile da testare
+	\item La componente \verb|Data| è stata generata in automatico grazie alle API \verb|JPA|.
+\end{itemize}
+Inoltre, al fine di mantenere la migliore organizzazione possibile, si è scelto di inserire i casi di test in un package a parte, denominato \verb|gestioneOrariTest|.
+%------------------------------------------------
+\subsection{Test della classe DateValidator}
+Per testare la classe \verb|DateValidator|, utilizzata nel processo di salvataggio nel database dei dati modificati manualmente da parte dell'impiegato dell'ufficio amministrazione, si è scelto di analizzare, per la funzione di verifica del formato della data (\verb|isThisDateValid|), i seguenti casi:
+\begin{itemize}
+	\item Data e formato di controllo validi
+	\item Data errata ma formato di controllo valido:
+		\begin{enumerate}
+			\item Giorno non esistente
+			\item Mese non esistente
+			\item Data non numerica
+		\end{enumerate}
+	\item Formato di controllo errato
+	\item Controllo su 29 febbraio nel caso di anno bisestile ed anno non bisestile
+	\item Data \verb|null|
+\end{itemize}
+Per quanto riguarda la funzione \verb|addDays|, usata nella somma di un certo numero di giorni ad una data, sono stati analizzati i casi seguenti:
+\begin{itemize}
+	\item Data corretta
+		\begin{enumerate}
+			\item Con numero di giorni positivo
+			\item Con numero di giorni negativo
+			\item Con numero di giorni pari a zero
+		\end{enumerate}
+	\item Data \verb|null|
+\end{itemize}
+I casi di test sono stati eseguiti tramite \verb|JUnit| ed il codice riportato in Codice \ref{codice:JUnitDate}.
+\lstset{
+    language=java,
+    tabsize=1,
+    frame=lines,
+    caption=Casi JUnit per il test della classe DateValidator,
+    label=codice:JUnitDate,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=java]{Fase2/src/DateValidatorTest.java}
+\noindent
+Tutti i casi di test hanno dato esito positivo (Figura \ref{fig:EsitoDate}) ed hanno permesso di raggiungere un coverage della classe \verb|DateValidator| dell'$91.7\%$ delle istruzioni (figura \ref{fig:CoverageDate}). Avere una copertura maggiore dell'$91.7\%$ risulta impossibile, in quanto nel calcolo del numero delle istruzioni viene anche considerata la riga di intestazione della classe e le righe dei commenti.
+\addfig{Fase2/img/}{EsitoDate}{0.6}{Risultato dell'esecuzione dei casi di test}{Risultato dell'esecuzione dei casi di test}
+\addfig{Fase2/img/}{CoverageDate}{1}{Livello di copertura dei casi di test}{Livello di copertura dei casi di test}
+%------------------------------------------------
+\subsection{Test della classe TimeValidator}
+Per testare la classe \verb|TimeValidator|, utilizzata nel processo di salvataggio nel database dei dati modificati manualmente da parte dell'impiegato dell'ufficio amministrazione, per la funzione di verifica del formato dell'orario (\verb|validate|), si è scelto di analizzare i seguenti casi:
+\begin{itemize}
+	\item Orari validi
+	\item Orari con formato diverso da quello valido ($hh:mm:ss$)
+	\item Orari non esistenti:
+		\begin{enumerate}
+			\item Ora superiore a $23$
+			\item Minuti superiori a $59$
+			\item Secondi superiori a $59$
+		\end{enumerate}
+\end{itemize}
+Per quanto riguarda la funzione \verb|HoursSet|, usata per decrementare di $1h$ l'orario, prima di inserirlo nel database \verb|MySQL|, sono stati analizzati i casi seguenti:
+\begin{itemize}
+	\item Orario corretto
+	\item Orario \verb|null|
+\end{itemize}
+I casi di test sono stati eseguiti tramite \verb|JUnit| ed il codice riportato in Codice \ref{codice:JUnitTime}.
+
+\lstset{
+    caption=Casi JUnit per il test della classe TimeValidator,
+    label=codice:JUnitTime,
+ }
+
+\lstinputlisting[language=java]{Fase2/src/TimeValidatorTest.java}
+\noindent
+Tutti i casi di test hanno dato esito positivo (Figura \ref{fig:EsitoTime}) ed hanno permesso di raggiungere un coverage della classe \verb|TimeValidator| del $90.3\%$ delle istruzioni (figura \ref{fig:CoverageTime}). Avere una copertura maggiore dell'$90.3\%$ risulta impossibile, in quanto nel calcolo del numero delle istruzioni viene anche considerata la riga di intestazione della classe e le righe dei commenti.
+\addfig{Fase2/img/}{EsitoTime}{0.6}{Risultato dell'esecuzione dei casi di test}{Risultato dell'esecuzione dei casi di test}
+\addfig{Fase2/img/}{CoverageTime}{1}{Livello di copertura dei casi di test}{Livello di copertura dei casi di test}
+%------------------------------------------------
+\subsection{Test della funzionalità di parsing del file XML}
+Nel test della funzionalità di parsing del file \verb|XML| si riescono a testare diverse classi contemporaneamente:
+\begin{itemize}
+	\item \verb|DBHandler|, utilizzata per ricavare l'oggetto \verb|EntityManager| tramite il quale eseguire delle query sul database.
+	\item \verb|RecordParser|, utilizzata per ottenere una \verb|List<Timbratura>| a partire dal file \verb|XML|.
+	\item \verb|XMLHandler|, che estende la classe \verb|DefaultHandler| e definisce i metodi utilizzati per trattare i vari tag \verb|XML| ed il loro contenuto.
+	\item \verb|XMLTag|, l'enumerazione contenente tutti i tag che possono essere incontrati nel file \verb|XML|.
+\end{itemize}
+Per il test di questa funzionalità si è deciso di implementare un metodo che creasse in automatico il file \verb|XML| da parsare:
+\lstset{
+    caption=Metodo per la creazione del file XML di test,
+    label=codice:XMLTest,
+ }
+
+\lstinputlisting[language=java]{Fase2/src/CreaXML}
+
+Nei casi di test, eseguiti tramite \verb|JUnit| sono state testate due situazioni:
+\begin{itemize}
+	\item Parsing di un file non esistente
+	\item Parsing di un file \verb|XML| corretto
+\end{itemize}
+Il codice della classe di test è riportato in Codice \ref{codice:JUnitXML}.
+
+\lstset{
+    caption=Casi JUnit per il test delle funzionalità di gestione del file XML,
+    label=codice:JUnitXML,
+ }
+
+\lstinputlisting[language=java]{Fase2/src/XMLTest.java}
+
+\noindent
+Tutti i casi di test hanno dato esito positivo (Figura \ref{fig:EsitoXML}) ed hanno permesso di raggiungere un coverage delle classi molto buona (figura \ref{fig:CoverageXML}). 
+\addfig{Fase2/img/}{EsitoXML}{0.6}{Risultato dell'esecuzione dei casi di test}{Risultato dell'esecuzione dei casi di test}
+\addfig{Fase2/img/}{CoverageXML}{1}{Livello di copertura dei casi di test}{Livello di copertura dei casi di test}
+%------------------------------------------------
+\subsection{Test della classe RecordAggregator}
+Per testare la classe \verb|RecordAggregator|, utilizzata nel processo di aggregazione degli orari, passando dalle singole timbrature "grezze" a quelle elaborate, si è scelto di analizzare i seguenti casi:
+\begin{itemize}
+	\item Nessuna timbratura grezza inserita in database
+	\item Timbrature grezze presenti in database
+	\item Singoli metodi chiamati passando delle date nulle
+\end{itemize}
+I casi di test sono stati eseguiti tramite \verb|JUnit| ed il codice riportato in Codice \ref{codice:JUnitAggregator}.
+\lstset{
+    caption=Casi JUnit per il test della classe RecordAggregator,
+    label=codice:JUnitAggregator,
+ }
+
+\lstinputlisting[language=java]{Fase2/src/RecordAggregatorTest.java}
+
+\noindent
+Tutti i casi di test hanno dato esito positivo (Figura \ref{fig:EsitoAggregator}) ed hanno permesso di raggiungere un coverage della classe \verb|RecordAggregator| dell'$95.7\%$ delle istruzioni (figura \ref{fig:CoverageAggregator}). 
+\addfig{Fase2/img/}{EsitoAggregator}{0.6}{Risultato dell'esecuzione dei casi di test}{Risultato dell'esecuzione dei casi di test}
+\addfig{Fase2/img/}{CoverageAggregator}{1}{Livello di copertura dei casi di test}{Livello di copertura dei casi di test}
+
+

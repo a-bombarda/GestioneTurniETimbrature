@@ -1,0 +1,74 @@
+%------------------------------------------------
+\subsection{UC3: Modifica dipendente}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vogliono modificare alcuni dati di un dipendente.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+DD03-DD08, DA01, DA08
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Gestore del personale
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Vari utenti sono presenti nel database.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Alcuni dati del dipendente scelto sono modificati.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item Il gestore del personale clicca su “Lista dipendenti” nella pagina di gestione dei dipendenti.
+		\begin{enumerate}
+			\item Viene visualizzata la lista di tutti i dipendenti.
+		\end{enumerate}
+	\item Il gestore del personale seleziona il dipendente che vuole modificare.	
+	\item Il gestore del personale clicca su “Modifica dipendente”. 
+		\begin{enumerate}
+			\item Viene mostrata la form per la modifica dei dati.
+			\item Il gestore del personale modifica i dati.
+		\end{enumerate}
+	\item Il gestore del personale clicca su “Conferma modifica”.
+		\begin{enumerate}
+			\item E' richiesta la conferma dell’azione: se l’azione è confermata, il dipendente è modificato.
+			\item I nuovi dati del dipendente vengono salvati all’interno del database.
+			\item Il dipendente riceve una e-mail contenente la conferma di inserimento ed il riepilogo delle informazioni inserite.
+			\item Il sistema mostra un riepilogo indicante, per ogni attività disponibile, quali e quanti dipendenti sono disponibili.
+			\item Viene aggiornata la lista di tutti i dipendenti, in modo che si possa eventualmente procedere ad una ulteriore modifica.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento dati errati}
+		\begin{itemize}
+			\item Al passo (3.b) sono inseriti dati errati, in questo caso la modifica è annullata e viene lanciato un messaggio di errore. 
+			\item Con “dati errati” si intende nome, cognome, posizione vuoti o formato delle date diverso da gg/mm/aaaa. 
+		\end{itemize}
+	\item \underline{Dipendente a tempo indeterminato}
+		\begin{itemize}
+			\item Al passo (3.b) non viene compilato il campo “data fine contratto”. 
+			\item Quando si clicca “Conferma modifica” viene lanciato un messaggio di avviso per informare del campo vuoto, ma è comunque possibile proseguire. 
+		\end{itemize}
+	\item \underline{Attività non presente}
+		\begin{itemize}
+			\item Al passo (3.b) il gestore del personale non trova l'attività da assegnare al dipendente.
+			\item Il gestore del personale clicca sul pulsante “Nuova Attività”.
+				\begin{itemize}
+					\item Da qua si procede come da UC4.
+				\end{itemize}
+		\end{itemize}
+		\item \underline{Dipendente senza indirizzo e-mail}
+		\begin{itemize}
+			\item Al passo (3.b) non viene compilato il campo “indirizzo e-mail”. 
+			\item Quando si clicca “Prosegui” viene lanciato un messaggio di avviso per informare del campo vuoto, ma è comunque possibile proseguire. 
+		\end{itemize}
+\end{itemize}

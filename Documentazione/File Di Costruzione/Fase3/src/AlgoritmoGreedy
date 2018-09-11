@@ -1,0 +1,56 @@
+algoritmo schedulaTurni (dataMin, dataMax) -> AssegnazioneTurno
+	//==========================
+	// Inizializzazione 
+	//==========================
+	// Nessun turno e' assegnato
+	ListaAssegnazioni <- nil
+	// Tutti i dipendenti hanno le ore "rimanenti" uguale a 
+	// quelle totali, nessuno dei dipendenti viene fatto 
+	// lavorare
+	for each dipendente:
+		F_i <- L_i
+		y_i <- 0
+	end for	
+	//==========================
+	// Iterazione
+	//==========================
+	// Scorrimento di tutti gli slot da assegnare, in ordine di 
+	// data, di turno ed infine di attivita'
+	for each t in Fabbisogno_Dipendenti between dataMin and dataMax:
+		// Cerco di assegnare i dipendenti necessari
+		while R(t)>0
+			// Si e' deciso di assegnare per primi i dipendenti che
+			// possono svolgere meno attivita', in modo da avere dei
+			// "Jolly" liberi
+			ListaDipendenti <- Lista di tutti i dipendenti in grado 
+			   di svolgere Attivita(t) ordinata
+			   per numero di attivita svolgibili in ordine crescente 
+			   e che hanno F_i >= 8 e che non hanno lavorato nello
+			   stesso giorno
+			if inters(ListaDipendenti, ListaDipendentiAssegnati) 
+			           != {Insieme Vuoto} then
+				ListaAssegnazioni.add(t,
+				      ListaDipendenti[indice_min_intersezione])
+				R(t) <- R(t) - 1
+				F_{ListaDipendenti[indice_min_intersezione]} <-
+				      F_{ListaDipendenti[indice_min_intersezione] - 8
+				y_{ListaDipendenti[indice_min_intersezione]} <- 1
+			else
+				if(ListaDipendenti.size > 0) then 
+					// Aggiunta del primo dipendente
+					ListaAssegnazioni.add(t,ListaDipendenti[0])
+					R(t) <- R(t) - 1
+					F_{ListaDipendenti[0]} <-
+				      		F_{ListaDipendenti[0] - 8
+					y_{ListaDipendenti[0]} <- 1
+				else
+					SCHEDULE NON POSSIBILE!!
+					return nil
+				end if
+			end if
+		end while
+	end for
+	return ListaAssegnazioni
+fine algoritmo
+		
+		

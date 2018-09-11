@@ -1,0 +1,61 @@
+%------------------------------------------------
+\subsection{UC10: Visualizzazione turnazione giornaliera}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole visualizzare la turnazione assegnata per uno specifico giorno.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+TD02, TD04, TD05, TD14
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+La turnazione del giorno è inserita all'interno del database, quindi è già stata generata come da UC1.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+La turnazione del giorno viene mostrata all'impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione preme il pulsante "Visualizza turnazione giornaliera".
+	\item L'impiegato dell'ufficio amministrazione seleziona il giorno per il quale vuole visualizzare la turnazione.
+	\item L'impiegato dell'ufficio amministrazione preme il pulsante "Conferma".
+		\begin{enumerate}
+			\item La turnazione del giorno selezionato viene mostrata.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Selezione giorno errata}
+		\begin{itemize}
+			\item Al passo (2) l'impiegato dell'ufficio amministrazione seleziona una data non esistente o per la quale non è ancora stata generata una turnazione. Viene quindi mostrato un messaggio di errore.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\paragraph{Estensioni}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Visualizzazione turni del singolo dipendente}
+		\begin{itemize}
+			\item Al passo (2) l'impiegato dell'ufficio amministrazione può anche selezionare il dipendente del quale vuole conoscere la turnazione.\\
+				Al passo (3), quindi, non verranno mostrati tutti gli orari, ma solamente quelli del dipendente selezionato.
+		\end{itemize}
+	\item \underline{Invio mail aggiornamento}
+		\begin{itemize}
+			\item Al passo (3) l'impiegato dell'ufficio amministrazione può anche cliccare sul pulsante "Invia mail". Il sistema si occuperà, quindi, di inviare una mail a tutti i dipendenti contenenti i relativi turni per il giorno visualizzato.
+		\end{itemize}
+	\item \underline{Stampa report allocazione dipendenti sui turni}
+		\begin{itemize}
+			\item Al passo (3) l'impiegato dell'ufficio amministrazione può anche cliccare sul pulsante "Stampa turnazione". Il sistema si occuperà, quindi, di esportare in formato PDF la tabella con l'allocazione dei dipendenti sui turni, per il giorno selezionato.
+		\end{itemize}
+\end{itemize}

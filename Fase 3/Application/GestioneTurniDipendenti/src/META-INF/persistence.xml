@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="GestioneTurniDipendenti">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>gestioneOrariData.Dipendente</class>
+		<class>gestioneOrariData.Orario</class>
+		<class>gestioneOrariData.Straordinario</class>
+		<class>gestioneOrariData.Timbratura</class>
+		<class>gestioneOrariData.Turno</class>
+		<class>gestioneTurniData.Attività</class>
+		<class>gestioneTurniData.AssegnazioneTurno</class>
+		<class>gestioneTurniData.IDAssegnazione</class>
+		<class>gestioneTurniData.Fabbisogno_Dipendenti</class>
+		<class>gestioneTurniData.IDFabbisogno</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Turni?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.password" value=""/>
+		</properties>
+	</persistence-unit>
+</persistence>

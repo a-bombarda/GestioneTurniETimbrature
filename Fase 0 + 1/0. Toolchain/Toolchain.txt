@@ -1,0 +1,7 @@
+TOOLCHAIN Progetto:
+
+* Scrittura documentazione: LaTex
+* Diagrammi deployment, component, architettura: UMLet
+* Diagramma database: Vertabelo (online - https://my.vertabelo.com/doc/nssVbO2mHXk5x7jZWDN9RtPV39NZHTWs)
+* Linguaggio di programmazione: JAVA
+* Diagramma delle classi: ObjectAid UML Explorer

@@ -1,0 +1,280 @@
+\select@language {italian}
+\select@language {italian}
+\contentsline {part}{I\hspace {1em}Fase 0 - Fase 1}{7}{part.1}
+\contentsline {chapter}{\numberline {1}Requisiti}{9}{chapter.1}
+\contentsline {section}{\numberline {1}Introduzione}{9}{section.1.1}
+\contentsline {section}{\numberline {2}Esempio di file .XML}{10}{section.1.2}
+\contentsline {section}{\numberline {3}Tool chain}{11}{section.1.3}
+\contentsline {chapter}{\numberline {2}Specifiche}{13}{chapter.2}
+\contentsline {section}{\numberline {1}Introduzione}{13}{section.2.1}
+\contentsline {paragraph}{Importanza delle funzioni}{13}{section*.2}
+\contentsline {section}{\numberline {2}Funzionalit\IeC {\`a} richieste}{13}{section.2.2}
+\contentsline {subsection}{\numberline {2.1}Gestione dipendenti}{13}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2}Gestione dati base dell'azienda}{14}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.3}Gestione turni dipendenti}{14}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.4}Gestione file XML}{15}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.5}Gestione orari}{15}{subsection.2.2.5}
+\contentsline {section}{\numberline {3}Analisi casi d'uso}{16}{section.2.3}
+\contentsline {subsection}{\numberline {3.1}UC1: Inserimento dipendente}{16}{subsection.2.3.1}
+\contentsline {paragraph}{Descrizione}{16}{section*.3}
+\contentsline {paragraph}{Requisiti coperti}{16}{section*.4}
+\contentsline {paragraph}{Attori coinvolti}{16}{section*.5}
+\contentsline {paragraph}{Precondizioni}{16}{section*.6}
+\contentsline {paragraph}{Postcondizioni}{16}{section*.7}
+\contentsline {paragraph}{Processo}{16}{section*.8}
+\contentsline {paragraph}{Alternative}{17}{section*.9}
+\contentsline {paragraph}{Estensioni}{18}{section*.10}
+\contentsline {subsection}{\numberline {3.2}UC2: Cancellazione dipendente}{18}{subsection.2.3.2}
+\contentsline {paragraph}{Descrizione}{18}{section*.11}
+\contentsline {paragraph}{Requisiti coperti}{18}{section*.12}
+\contentsline {paragraph}{Attori coinvolti}{18}{section*.13}
+\contentsline {paragraph}{Precondizioni}{18}{section*.14}
+\contentsline {paragraph}{Postcondizioni}{18}{section*.15}
+\contentsline {paragraph}{Processo}{18}{section*.16}
+\contentsline {paragraph}{Alternative}{18}{section*.17}
+\contentsline {subsection}{\numberline {3.3}UC3: Modifica dipendente}{18}{subsection.2.3.3}
+\contentsline {paragraph}{Descrizione}{18}{section*.18}
+\contentsline {paragraph}{Requisiti coperti}{18}{section*.19}
+\contentsline {paragraph}{Attori coinvolti}{18}{section*.20}
+\contentsline {paragraph}{Precondizioni}{19}{section*.21}
+\contentsline {paragraph}{Postcondizioni}{19}{section*.22}
+\contentsline {paragraph}{Processo}{19}{section*.23}
+\contentsline {paragraph}{Alternative}{19}{section*.24}
+\contentsline {subsection}{\numberline {3.4}UC4: Inserimento nuova attivit\IeC {\`a}}{20}{subsection.2.3.4}
+\contentsline {paragraph}{Descrizione}{20}{section*.25}
+\contentsline {paragraph}{Requisiti coperti}{20}{section*.26}
+\contentsline {paragraph}{Attori coinvolti}{20}{section*.27}
+\contentsline {paragraph}{Precondizioni}{20}{section*.28}
+\contentsline {paragraph}{Postcondizioni}{20}{section*.29}
+\contentsline {paragraph}{Processo}{20}{section*.30}
+\contentsline {paragraph}{Alternative}{20}{section*.31}
+\contentsline {paragraph}{Estensioni}{20}{section*.32}
+\contentsline {subsection}{\numberline {3.5}UC5: Cancellazione di una attivit\IeC {\`a}}{21}{subsection.2.3.5}
+\contentsline {paragraph}{Descrizione}{21}{section*.33}
+\contentsline {paragraph}{Requisiti coperti}{21}{section*.34}
+\contentsline {paragraph}{Attori coinvolti}{21}{section*.35}
+\contentsline {paragraph}{Precondizioni}{21}{section*.36}
+\contentsline {paragraph}{Postcondizioni}{21}{section*.37}
+\contentsline {paragraph}{Processo}{21}{section*.38}
+\contentsline {paragraph}{Alternative}{21}{section*.39}
+\contentsline {subsection}{\numberline {3.6}UC6: Modifica di una attivit\IeC {\`a}}{21}{subsection.2.3.6}
+\contentsline {paragraph}{Descrizione}{21}{section*.40}
+\contentsline {paragraph}{Requisiti coperti}{21}{section*.41}
+\contentsline {paragraph}{Attori coinvolti}{21}{section*.42}
+\contentsline {paragraph}{Precondizioni}{21}{section*.43}
+\contentsline {paragraph}{Postcondizioni}{21}{section*.44}
+\contentsline {paragraph}{Processo}{22}{section*.45}
+\contentsline {paragraph}{Alternative}{22}{section*.46}
+\contentsline {paragraph}{Estensioni}{22}{section*.47}
+\contentsline {subsection}{\numberline {3.7}UC7. Allocazione dipendenti per ogni attivit\IeC {\`a}}{22}{subsection.2.3.7}
+\contentsline {paragraph}{Descrizione}{22}{section*.48}
+\contentsline {paragraph}{Requisiti coperti}{22}{section*.49}
+\contentsline {paragraph}{Attori coinvolti}{22}{section*.50}
+\contentsline {paragraph}{Precondizioni}{22}{section*.51}
+\contentsline {paragraph}{Postcondizioni}{22}{section*.52}
+\contentsline {paragraph}{Processo}{23}{section*.53}
+\contentsline {paragraph}{Alternative}{23}{section*.54}
+\contentsline {subsection}{\numberline {3.8}UC8: Generazione turnazione settimanale}{23}{subsection.2.3.8}
+\contentsline {paragraph}{Descrizione}{23}{section*.55}
+\contentsline {paragraph}{Requisiti coperti}{23}{section*.56}
+\contentsline {paragraph}{Attori coinvolti}{23}{section*.57}
+\contentsline {paragraph}{Precondizioni}{23}{section*.58}
+\contentsline {paragraph}{Postcondizioni}{24}{section*.59}
+\contentsline {paragraph}{Processo}{24}{section*.60}
+\contentsline {paragraph}{Alternative}{24}{section*.61}
+\contentsline {paragraph}{Estensioni}{24}{section*.62}
+\contentsline {subsection}{\numberline {3.9}UC9: Visualizzazione turnazione settimanale}{24}{subsection.2.3.9}
+\contentsline {paragraph}{Descrizione}{24}{section*.63}
+\contentsline {paragraph}{Requisiti coperti}{25}{section*.64}
+\contentsline {paragraph}{Attori coinvolti}{25}{section*.65}
+\contentsline {paragraph}{Precondizioni}{25}{section*.66}
+\contentsline {paragraph}{Postcondizioni}{25}{section*.67}
+\contentsline {paragraph}{Processo}{25}{section*.68}
+\contentsline {paragraph}{Alternative}{25}{section*.69}
+\contentsline {paragraph}{Estensioni}{25}{section*.70}
+\contentsline {subsection}{\numberline {3.10}UC10: Visualizzazione turnazione giornaliera}{26}{subsection.2.3.10}
+\contentsline {paragraph}{Descrizione}{26}{section*.71}
+\contentsline {paragraph}{Requisiti coperti}{26}{section*.72}
+\contentsline {paragraph}{Attori coinvolti}{26}{section*.73}
+\contentsline {paragraph}{Precondizioni}{26}{section*.74}
+\contentsline {paragraph}{Postcondizioni}{26}{section*.75}
+\contentsline {paragraph}{Processo}{26}{section*.76}
+\contentsline {paragraph}{Alternative}{26}{section*.77}
+\contentsline {paragraph}{Estensioni}{26}{section*.78}
+\contentsline {subsection}{\numberline {3.11}UC11: Cambio turno dipendente}{27}{subsection.2.3.11}
+\contentsline {paragraph}{Descrizione}{27}{section*.79}
+\contentsline {paragraph}{Requisiti coperti}{27}{section*.80}
+\contentsline {paragraph}{Attori coinvolti}{27}{section*.81}
+\contentsline {paragraph}{Precondizioni}{27}{section*.82}
+\contentsline {paragraph}{Postcondizioni}{27}{section*.83}
+\contentsline {paragraph}{Processo}{27}{section*.84}
+\contentsline {paragraph}{Alternative}{28}{section*.85}
+\contentsline {paragraph}{Estensioni}{28}{section*.86}
+\contentsline {subsection}{\numberline {3.12}UC12: Gestione dei dati provenienti dalla timbratrice}{28}{subsection.2.3.12}
+\contentsline {paragraph}{Descrizione}{28}{section*.87}
+\contentsline {paragraph}{Requisiti coperti}{28}{section*.88}
+\contentsline {paragraph}{Attori coinvolti}{28}{section*.89}
+\contentsline {paragraph}{Precondizioni}{28}{section*.90}
+\contentsline {paragraph}{Postcondizioni}{29}{section*.91}
+\contentsline {paragraph}{Processo}{29}{section*.92}
+\contentsline {paragraph}{Alternative}{30}{section*.93}
+\contentsline {subsection}{\numberline {3.13}UC13: Gestione straordinari}{30}{subsection.2.3.13}
+\contentsline {paragraph}{Descrizione}{30}{section*.94}
+\contentsline {paragraph}{Requisiti coperti}{30}{section*.95}
+\contentsline {paragraph}{Attori coinvolti}{30}{section*.96}
+\contentsline {paragraph}{Precondizioni}{30}{section*.97}
+\contentsline {paragraph}{Postcondizioni}{31}{section*.98}
+\contentsline {paragraph}{Processo}{31}{section*.99}
+\contentsline {paragraph}{Alternative}{32}{section*.100}
+\contentsline {subsection}{\numberline {3.14}UC14: Gestione giorni di malattia/ferie}{32}{subsection.2.3.14}
+\contentsline {paragraph}{Descrizione}{32}{section*.101}
+\contentsline {paragraph}{Requisiti coperti}{32}{section*.102}
+\contentsline {paragraph}{Attori coinvolti}{32}{section*.103}
+\contentsline {paragraph}{Precondizioni}{33}{section*.104}
+\contentsline {paragraph}{Postcondizioni}{33}{section*.105}
+\contentsline {paragraph}{Processo}{33}{section*.106}
+\contentsline {paragraph}{Alternative}{34}{section*.107}
+\contentsline {subsection}{\numberline {3.15}UC15: Visualizzazione e calcolo giornaliero ore di lavoro}{34}{subsection.2.3.15}
+\contentsline {paragraph}{Descrizione}{34}{section*.108}
+\contentsline {paragraph}{Requisiti coperti}{35}{section*.109}
+\contentsline {paragraph}{Attori coinvolti}{35}{section*.110}
+\contentsline {paragraph}{Precondizioni}{35}{section*.111}
+\contentsline {paragraph}{Postcondizioni}{35}{section*.112}
+\contentsline {paragraph}{Processo}{35}{section*.113}
+\contentsline {paragraph}{Alternative}{35}{section*.114}
+\contentsline {paragraph}{Estensioni}{36}{section*.115}
+\contentsline {subsection}{\numberline {3.16}UC16: Visualizzazione e calcolo mensile ore di lavoro}{36}{subsection.2.3.16}
+\contentsline {paragraph}{Descrizione}{36}{section*.116}
+\contentsline {paragraph}{Requisiti coperti}{36}{section*.117}
+\contentsline {paragraph}{Attori coinvolti}{36}{section*.118}
+\contentsline {paragraph}{Precondizioni}{36}{section*.119}
+\contentsline {paragraph}{Postcondizioni}{36}{section*.120}
+\contentsline {paragraph}{Processo}{36}{section*.121}
+\contentsline {paragraph}{Alternative}{37}{section*.122}
+\contentsline {paragraph}{Estensioni}{37}{section*.123}
+\contentsline {subsection}{\numberline {3.17}UC17: Applicazione incremento percentuale straordinari}{38}{subsection.2.3.17}
+\contentsline {paragraph}{Descrizione}{38}{section*.124}
+\contentsline {paragraph}{Requisiti coperti}{38}{section*.125}
+\contentsline {paragraph}{Attori coinvolti}{38}{section*.126}
+\contentsline {paragraph}{Precondizioni}{38}{section*.127}
+\contentsline {paragraph}{Postcondizioni}{38}{section*.128}
+\contentsline {paragraph}{Processo}{38}{section*.129}
+\contentsline {subsection}{\numberline {3.18}UC18: Calcolo stipendio}{38}{subsection.2.3.18}
+\contentsline {paragraph}{Descrizione}{38}{section*.130}
+\contentsline {paragraph}{Requisiti coperti}{38}{section*.131}
+\contentsline {paragraph}{Attori coinvolti}{38}{section*.132}
+\contentsline {paragraph}{Precondizioni}{38}{section*.133}
+\contentsline {paragraph}{Postcondizioni}{38}{section*.134}
+\contentsline {paragraph}{Processo}{38}{section*.135}
+\contentsline {paragraph}{Alternative}{39}{section*.136}
+\contentsline {subsection}{\numberline {3.19}UC19: Generazione report dipendente}{39}{subsection.2.3.19}
+\contentsline {paragraph}{Descrizione}{39}{section*.137}
+\contentsline {paragraph}{Requisiti coperti}{39}{section*.138}
+\contentsline {paragraph}{Attori coinvolti}{39}{section*.139}
+\contentsline {paragraph}{Precondizioni}{39}{section*.140}
+\contentsline {paragraph}{Postcondizioni}{39}{section*.141}
+\contentsline {paragraph}{Processo}{39}{section*.142}
+\contentsline {paragraph}{Alternative}{40}{section*.143}
+\contentsline {subsection}{\numberline {3.20}UC20: Prenotazione per straordinari}{40}{subsection.2.3.20}
+\contentsline {paragraph}{Descrizione}{40}{section*.144}
+\contentsline {paragraph}{Requisiti coperti}{40}{section*.145}
+\contentsline {paragraph}{Attori coinvolti}{40}{section*.146}
+\contentsline {paragraph}{Precondizioni}{40}{section*.147}
+\contentsline {paragraph}{Postcondizioni}{40}{section*.148}
+\contentsline {paragraph}{Processo}{41}{section*.149}
+\contentsline {paragraph}{Alternative}{41}{section*.150}
+\contentsline {paragraph}{Estensioni}{41}{section*.151}
+\contentsline {subsection}{\numberline {3.21}UC21: Verifica copertura turni assegnati}{41}{subsection.2.3.21}
+\contentsline {paragraph}{Descrizione}{41}{section*.152}
+\contentsline {paragraph}{Requisiti coperti}{42}{section*.153}
+\contentsline {paragraph}{Attori coinvolti}{42}{section*.154}
+\contentsline {paragraph}{Precondizioni}{42}{section*.155}
+\contentsline {paragraph}{Postcondizioni}{42}{section*.156}
+\contentsline {paragraph}{Processo}{42}{section*.157}
+\contentsline {paragraph}{Alternative}{42}{section*.158}
+\contentsline {section}{\numberline {4}Use case diagram}{43}{section.2.4}
+\contentsline {chapter}{\numberline {3}Architettura}{45}{chapter.3}
+\contentsline {section}{\numberline {1}Deployment diagram}{45}{section.3.1}
+\contentsline {subsection}{\numberline {1.1}Architettura hardware}{45}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {1.2}Architettura software}{46}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {1.3}Analisi dei componenti}{48}{subsection.3.1.3}
+\contentsline {subsubsection}{\numberline {1.3.1}Component Database}{49}{subsubsection.3.1.3.1}
+\contentsline {subsubsection}{\numberline {1.3.2}Component Gestione orari}{50}{subsubsection.3.1.3.2}
+\contentsline {paragraph}{GUI}{51}{section*.166}
+\contentsline {paragraph}{Application}{53}{section*.168}
+\contentsline {paragraph}{Data}{53}{section*.170}
+\contentsline {subsubsection}{\numberline {1.3.3}Component Gestione turni}{54}{subsubsection.3.1.3.3}
+\contentsline {paragraph}{GUI}{55}{section*.173}
+\contentsline {paragraph}{Application}{56}{section*.175}
+\contentsline {paragraph}{Data}{57}{section*.177}
+\contentsline {part}{II\hspace {1em}Fase 2}{59}{part.2}
+\contentsline {chapter}{\numberline {4}Introduzione}{61}{chapter.4}
+\contentsline {section}{\numberline {1}Scelta della funzione da implementare}{61}{section.4.1}
+\contentsline {paragraph}{Selezione del caso d'uso da implementare}{61}{section*.179}
+\contentsline {paragraph}{Formato file di scambio dati}{61}{section*.180}
+\contentsline {paragraph}{Breve descrizione dell'obbiettivo}{61}{section*.181}
+\contentsline {paragraph}{Dati di input}{61}{section*.182}
+\contentsline {section}{\numberline {2}Passi principali della funzionalit\IeC {\`a}}{61}{section.4.2}
+\contentsline {chapter}{\numberline {5}Creazione del Database}{63}{chapter.5}
+\contentsline {section}{\numberline {1}Creazione del DB}{63}{section.5.1}
+\contentsline {chapter}{\numberline {6}Parser XML ed inserimento dati grezzi in DB}{67}{chapter.6}
+\contentsline {section}{\numberline {1}Formato file XML}{67}{section.6.1}
+\contentsline {section}{\numberline {2}Set-up preventivo}{68}{section.6.2}
+\contentsline {section}{\numberline {3}Implementazione del parser}{68}{section.6.3}
+\contentsline {section}{\numberline {4}Funzionamento della classe XMLHandler}{69}{section.6.4}
+\contentsline {subsection}{\numberline {4.1}Identificazione dei tag}{70}{subsection.6.4.1}
+\contentsline {subsection}{\numberline {4.2}Selezione del contenuto del tag}{71}{subsection.6.4.2}
+\contentsline {subsection}{\numberline {4.3}Chiusura del tag}{71}{subsection.6.4.3}
+\contentsline {subsection}{\numberline {4.4}Risultato del Parsing}{72}{subsection.6.4.4}
+\contentsline {section}{\numberline {5}Inserimento dei dati grezzi nel database}{72}{section.6.5}
+\contentsline {chapter}{\numberline {7}Aggregazione degli orari}{73}{chapter.7}
+\contentsline {section}{\numberline {1}Introduzione}{73}{section.7.1}
+\contentsline {section}{\numberline {2}Funzione di aggregazione}{73}{section.7.2}
+\contentsline {subsection}{\numberline {2.1}Funzione di creazione delle righe vuote}{74}{subsection.7.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Analisi della complessit\IeC {\`a}}{75}{subsubsection.7.2.1.1}
+\contentsline {subsection}{\numberline {2.2}Funzione di posizionamento degli orari}{75}{subsection.7.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Analisi della complessit\IeC {\`a}}{77}{subsubsection.7.2.2.1}
+\contentsline {subsection}{\numberline {2.3}Funzione di elaborazione degli orari}{77}{subsection.7.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}Analisi della complessit\IeC {\`a}}{79}{subsubsection.7.2.3.1}
+\contentsline {subsection}{\numberline {2.4}Funzione di eliminazione dei dati grezzi}{79}{subsection.7.2.4}
+\contentsline {subsubsection}{\numberline {2.4.1}Analisi della complessit\IeC {\`a}}{79}{subsubsection.7.2.4.1}
+\contentsline {subsection}{\numberline {2.5}Analisi della complessit\IeC {\`a} generale}{79}{subsection.7.2.5}
+\contentsline {chapter}{\numberline {8}Test ed analisi del componente implementato}{81}{chapter.8}
+\contentsline {section}{\numberline {1}Analisi statica}{81}{section.8.1}
+\contentsline {section}{\numberline {2}Analisi dinamica - testing}{81}{section.8.2}
+\contentsline {subsection}{\numberline {2.1}Test della classe DateValidator}{82}{subsection.8.2.1}
+\contentsline {subsection}{\numberline {2.2}Test della classe TimeValidator}{84}{subsection.8.2.2}
+\contentsline {subsection}{\numberline {2.3}Test della funzionalit\IeC {\`a} di parsing del file XML}{86}{subsection.8.2.3}
+\contentsline {subsection}{\numberline {2.4}Test della classe RecordAggregator}{88}{subsection.8.2.4}
+\contentsline {part}{III\hspace {1em}Fase 3}{93}{part.3}
+\contentsline {chapter}{\numberline {9}Introduzione}{95}{chapter.9}
+\contentsline {section}{\numberline {1}Scelta della funzione da implementare}{95}{section.9.1}
+\contentsline {paragraph}{Selezione del caso d'uso da implementare}{95}{section*.196}
+\contentsline {paragraph}{Breve descrizione dell'obbiettivo}{95}{section*.197}
+\contentsline {paragraph}{Dati di input}{95}{section*.198}
+\contentsline {paragraph}{Dati di output}{95}{section*.199}
+\contentsline {section}{\numberline {2}Aggiornamento dei dati nel database}{95}{section.9.2}
+\contentsline {chapter}{\numberline {10}Progettazione algoritmo}{99}{chapter.10}
+\contentsline {section}{\numberline {1}Modello del problema}{99}{section.10.1}
+\contentsline {subsection}{\numberline {1.1}Indici utilizzati}{99}{subsection.10.1.1}
+\contentsline {subsection}{\numberline {1.2}Variabili decisionali}{99}{subsection.10.1.2}
+\contentsline {subsection}{\numberline {1.3}Variabili considerate}{100}{subsection.10.1.3}
+\contentsline {subsection}{\numberline {1.4}Vincoli}{100}{subsection.10.1.4}
+\contentsline {subsection}{\numberline {1.5}Funzione obbiettivo}{100}{subsection.10.1.5}
+\contentsline {section}{\numberline {2}Algoritmo greedy per la risoluzione}{100}{section.10.2}
+\contentsline {paragraph}{Passi dell'algoritmo}{101}{section*.200}
+\contentsline {subsection}{\numberline {2.1}Pseudocodice dell'algoritmo}{101}{subsection.10.2.1}
+\contentsline {paragraph}{Euristica}{102}{section*.201}
+\contentsline {subsection}{\numberline {2.2}Analisi della complessit\IeC {\`a} dell'algoritmo}{102}{subsection.10.2.2}
+\contentsline {subsection}{\numberline {2.3}Flow-chart dell'algoritmo}{103}{subsection.10.2.3}
+\contentsline {subsection}{\numberline {2.4}Risultato atteso}{104}{subsection.10.2.4}
+\contentsline {section}{\numberline {3}Implementazione dell'algoritmo}{105}{section.10.3}
+\contentsline {subsection}{\numberline {3.1}Interfaccia Scheduler}{105}{subsection.10.3.1}
+\contentsline {subsection}{\numberline {3.2}Classe StaffScheduler}{106}{subsection.10.3.2}
+\contentsline {subsection}{\numberline {3.3}Classe ListIntersect<T>}{108}{subsection.10.3.3}
+\contentsline {section}{\numberline {4}Risultato ottenuto}{108}{section.10.4}
+\contentsline {chapter}{\numberline {11}Test ed analisi del componente implementato}{111}{chapter.11}
+\contentsline {section}{\numberline {1}Analisi statica}{111}{section.11.1}
+\contentsline {section}{\numberline {2}Analisi dinamica - testing}{112}{section.11.2}
+\contentsline {subsection}{\numberline {2.1}Test della classe ListIntersect}{112}{subsection.11.2.1}
+\contentsline {subsection}{\numberline {2.2}Test della classe StaffScheduler}{114}{subsection.11.2.2}

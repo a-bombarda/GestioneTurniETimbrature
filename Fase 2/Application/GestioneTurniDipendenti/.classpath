@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/MySQL JDBC Driver"/>
+	<classpathentry exported="true" kind="lib" path="ExternalJAR/eclipselink-javax.persistence-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="ExternalJAR/mysql-connector-java-8.0.11.jar"/>
+	<classpathentry kind="lib" path="ExternalJAR"/>
+	<classpathentry kind="lib" path="src/META-INF/eclipselink-javax.persistence-2.0.jar"/>
+	<classpathentry kind="lib" path="src/META-INF/eclipselink.jar"/>
+	<classpathentry kind="lib" path="src/META-INF/javax.persistence_2.2.0.v201708071007.jar"/>
+	<classpathentry kind="lib" path="src/META-INF/mysql-connector-java-8.0.11.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

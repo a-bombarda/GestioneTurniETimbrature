@@ -1,0 +1,53 @@
+%------------------------------------------------
+\subsection{UC18: Calcolo stipendio}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole calcolare lo stipendio mensile di ogni dipendente.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+SM12
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Sono caricate le timbrature di ogni dipendente.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Per ogni dipendente è calcolato lo stipendio mensile.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Calcola stipendi".
+		\begin{enumerate}
+			\item Viene mostrata una form con la possibilità di selezionare il mese e l'anno di interesse.
+		\end{enumerate}
+	\item L'impiegato dell'ufficio amministrazione seleziona l'anno ed il mese di interesse.
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Calcola".
+		\begin{enumerate}
+			\item Il sistema calcola in automatico gli stipendi per tutti i dipendenti.
+			\item Nel caso di straordinari o orari notturni, viene applicato un incremento percentuale come da UC17.
+			\item Il sistema applica eventuali tassazioni.
+			\item Viene mostrata una form con l'indicazione, per ogni dipendente, del relativo stipendio.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento anno o mese errato}
+		\begin{itemize}
+			\item Al passo (2), l'impiegato dell'ufficio amministrazione inserisce dei valori errati per l'anno o il mese. Viene, quindi, mostrato un messaggio di errore e viene data la possibilità di correggere i valori inseriti.
+		\end{itemize}
+	\item \underline{Inserimento anno o mese futuro}
+		\begin{itemize}
+			\item Al passo (2), l'impiegato dell'ufficio amministrazione inserisce dei valori futuri per l'anno o il mese (\textit{quindi per i quali ancora non si hanno indicazioni sulle timbrature}). Viene, quindi, mostrato un messaggio di errore e viene data la possibilità di correggere i valori inseriti.
+		\end{itemize}
+\end{itemize}

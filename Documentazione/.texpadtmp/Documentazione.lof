@@ -1,0 +1,50 @@
+\select@language {italian}
+\select@language {italian}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Use case diagram}}{43}{figure.caption.159}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Architettura hardware}}{45}{figure.caption.160}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Deployment diagram}}{46}{figure.caption.161}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Component diagram}}{47}{figure.caption.162}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Pattern Model-View-Presenter}}{48}{figure.caption.163}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Modello del database}}{49}{figure.caption.164}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Component diagram del componente di gestione degli orari}}{51}{figure.caption.165}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Class diagram della GUI del componente di gestione degli orari}}{52}{figure.caption.167}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Component diagram del componente Application}}{53}{figure.caption.169}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Class diagram del componente data del componente di gestione degli orari}}{54}{figure.caption.171}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Component diagram del componente di gestione dei turni}}{55}{figure.caption.172}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Class diagram della GUI del componente di gestione dei turni}}{56}{figure.caption.174}
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Component diagram del componente Application}}{57}{figure.caption.176}
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Class diagram del componente data del componente di gestione dei turni}}{58}{figure.caption.178}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Finestra per la modifica degli orari}}{72}{figure.caption.183}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Flow-chart per la funzione di creazione delle righe vuote}}{74}{figure.caption.184}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Flow-chart per la funzione di posizionamento degli orari}}{76}{figure.caption.185}
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Flow-chart per la funzione di elaborazione degli orari}}{78}{figure.caption.186}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Analisi statica del codice}}{81}{figure.caption.187}
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Risultato dell'esecuzione dei casi di test}}{84}{figure.caption.188}
+\contentsline {figure}{\numberline {8.3}{\ignorespaces Livello di copertura dei casi di test}}{84}{figure.caption.189}
+\contentsline {figure}{\numberline {8.4}{\ignorespaces Risultato dell'esecuzione dei casi di test}}{86}{figure.caption.190}
+\contentsline {figure}{\numberline {8.5}{\ignorespaces Livello di copertura dei casi di test}}{86}{figure.caption.191}
+\contentsline {figure}{\numberline {8.6}{\ignorespaces Risultato dell'esecuzione dei casi di test}}{88}{figure.caption.192}
+\contentsline {figure}{\numberline {8.7}{\ignorespaces Livello di copertura dei casi di test}}{88}{figure.caption.193}
+\contentsline {figure}{\numberline {8.8}{\ignorespaces Risultato dell'esecuzione dei casi di test}}{90}{figure.caption.194}
+\contentsline {figure}{\numberline {8.9}{\ignorespaces Livello di copertura dei casi di test}}{91}{figure.caption.195}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {10.1}{\ignorespaces Flow chart dell'algoritmo greedy per il problema dello Staff Scheduling}}{104}{figure.caption.202}
+\contentsline {figure}{\numberline {10.2}{\ignorespaces Schedule parziale per 6 giorni}}{105}{figure.caption.203}
+\contentsline {figure}{\numberline {10.3}{\ignorespaces Messaggio di errore nella schedulazione}}{109}{figure.caption.204}
+\contentsline {figure}{\numberline {10.4}{\ignorespaces Schedule parziale prodotto dal software}}{109}{figure.caption.205}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {11.1}{\ignorespaces Analisi statica del codice}}{111}{figure.caption.206}
+\contentsline {figure}{\numberline {11.2}{\ignorespaces Analisi statica del codice completo}}{112}{figure.caption.207}
+\contentsline {figure}{\numberline {11.3}{\ignorespaces Risultato dell'esecuzione dei casi di test}}{114}{figure.caption.208}
+\contentsline {figure}{\numberline {11.4}{\ignorespaces Livello di copertura dei casi di test}}{114}{figure.caption.209}
+\contentsline {figure}{\numberline {11.5}{\ignorespaces Risultato dell'esecuzione dei casi di test}}{116}{figure.caption.210}
+\contentsline {figure}{\numberline {11.6}{\ignorespaces Livello di copertura dei casi di test}}{116}{figure.caption.211}

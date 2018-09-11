@@ -1,0 +1,85 @@
+% ---- FUNZIONE PER L'AGGIUNTA DI UNA SINGOLA FIGURA -----
+% \addfig{dove}{nome}{scale}{caption}{shortcaption}
+\newcommand{\addfig}[5]{
+\begin{figure}[H]
+\centering
+\includegraphics[width=#3\textwidth]{#1#2}
+\caption[#5]{#4}
+\label{fig:#2}
+\end{figure}
+\noindent
+}
+
+% ---- FUNZIONE PER L'AGGIUNTA DI DUE FIGURE, UNA A FIANCO DELL'ALTRA -----
+% \addtwofig{nome_fig1}{angolo1}{scale1}{caption1}{nome_fig2}{angolo2}{scale2}{caption2}{dove} %di default la scale=0.95
+\newcommand{\addtwofig}[9]{
+\begin{center}
+\begin{small}
+\hfill
+\begin{minipage}[c]{0.45 \textwidth}
+\centering
+\includegraphics[width=#3\textwidth, angle=#2]{#9#1}
+\captionof{figure}{#4}
+\label{fig:#1}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.45 \textwidth}
+\centering
+\includegraphics[width=#7\textwidth, angle= #6]{#9#5}
+\captionof{figure}{#8}
+\label{fig:#5}
+\end{minipage}
+\hfill
+\end{small}
+\end{center}
+}
+
+% ---- FUNZIONE PER L'AGGIUNTA DI DUE FIGURE, UNA A FIANCO DELL'ALTRA -----
+% \addIIfig{nome1}{angle1}{caption1}{nome2}{angle2}{caption2}{dove}
+\newcommand{\addIIfig}[7]{
+\begin{center}
+\begin{small}
+\begin{minipage}[c]{0.32 \textwidth}
+\centering
+\includegraphics[width=0.95\textwidth, angle=#2]{#7#1}
+\captionof{figure}{#3}
+\label{fig:#1}
+\end{minipage}
+\hspace{0.03mm}
+\begin{minipage}[c]{0.32 \textwidth}
+\centering
+\includegraphics[width=0.95\textwidth, angle=#5]{#7#4}
+\captionof{figure}{#6}
+\label{fig:#4}
+\end{minipage}
+\end{small}
+\end{center}
+}
+
+% ---- FUNZIONE PER L'AGGIUNTA DI TRE FIGURE, UNA A FIANCO DELL'ALTRA -----
+% \addIIIfig{nome1}{caption1}{nome2}{caption2}{nome3}{caption3}{dove}
+\newcommand{\addIIIfig}[7]{
+\begin{center}
+\begin{small}
+\begin{minipage}[c]{0.32 \textwidth}
+\centering
+\includegraphics[width=0.95\textwidth, angle=0]{#7#1}
+\captionof{figure}{#2}
+\label{fig:#1}
+\end{minipage}
+\begin{minipage}[c]{0.32 \textwidth}
+\centering
+\includegraphics[width=0.95\textwidth, angle=0]{#7#3}
+\captionof{figure}{#4}
+\label{fig:#3}
+\end{minipage}
+\begin{minipage}[c]{0.32 \textwidth}
+\centering
+\includegraphics[width=0.95\textwidth, angle=0]{#7#5}
+\captionof{figure}{#6}
+\label{fig:#5}
+\end{minipage}
+\end{small}
+\end{center}
+}
+

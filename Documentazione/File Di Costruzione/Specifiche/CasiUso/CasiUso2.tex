@@ -1,0 +1,47 @@
+%------------------------------------------------
+\subsection{UC2: Cancellazione dipendente}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole eliminare dal database un dipendente.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+DD02, DD05
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Gestore del personale
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Vari dipendenti sono presenti nel database.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Il dipendente viene eliminato dal database.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item Il gestore del personale clicca su “Lista dipendenti” nella pagina di gestione dei dipendenti.
+		\begin{enumerate}
+			\item Viene visualizzata la lista di tutti i dipendenti.
+		\end{enumerate}
+	\item Il gestore del personale seleziona il dipendente che vuole eliminare. 
+	\item Il gestore del personale clicca su “Elimina dipendente”. 
+		\begin{enumerate}
+			\item E' richiesta la conferma dell’azione: se l’azione è confermata, il dipendente viene eliminato dal database.
+			\item Viene aggiornata la lista di tutti i dipendenti, in modo che si possa eventualmente procedere ad una ulteriore eliminazione.	
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Dipendente con turnazione assegnata}
+		\begin{itemize}
+			\item Se al passo (3) si sta cercando di eliminare un dipendente assegnato ad uno o più turni per i giorni futuri, la cancellazione è annullata e viene visualizzato un messaggio di errore. 
+		\end{itemize}
+\end{itemize}

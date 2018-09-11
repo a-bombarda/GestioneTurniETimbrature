@@ -1,0 +1,68 @@
+%------------------------------------------------
+\subsection{UC20: Prenotazione per straordinari}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole fare in modo che un dipendente possa prenotarsi per un certo numero di ore di straordinario previste.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+SM28
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Dipendente
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Sono già stati caricati i dati relativi alle ore di straordinario necessarie, previste dall'azienda.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Nel database è registrata la prenotazione del dipendente per un certo numero di ore di straordinario previste.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item Il dipendente clicca su "Prenotazione straordinari".
+		\begin{enumerate}
+			\item Viene mostrata una form con l'elenco degli straordinari previsti (si veda UC13), per i quali non sono già terminate le prenotazioni.\\
+				Si dà inoltre la possibilità di filtrare le date, inserendo l'intervallo di date desiderato.
+		\end{enumerate}
+	\item Il dipendente seleziona la riga relativa alla data di interesse.
+	\item Il dipendente clicca su "Prenota".
+	\item Il dipendente inserisce il numero di ore per cui si prenota.
+		\begin{enumerate}
+			\item Il dato inserito viene memorizzato nel database.
+			\item Viene mostrato al dipendente un messaggio di conferma.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento date errate}
+		\begin{itemize}
+			\item Al passo (2.a), il dipendente inserisce, per filtrare i risultati, delle date errate. Viene, quindi, mostrato un messaggio di errore e viene data la possibilità di correggere i valori inseriti.
+		\end{itemize}
+	\item \underline{Inserimento ore sopra il limite}
+		\begin{itemize}
+			\item Al passo (4), il dipendente inserisce un numero di ore superiori a quelle disponibili. Viene, quindi, mostrato un messaggio di errore e viene data la possibilità di correggere i valori inseriti.
+			\item Lo stesso comportamento si ha quando il dipendente si prenota, nella stessa settimana o nello stesso mese, per un numero di ore che eccede quelle permesse legalmente.
+		\end{itemize}
+	\item \underline{Prenotazione per date passate}
+		\begin{itemize}
+			\item Al passo (3), il dipende cerca di prenotarsi per una data passata. Viene, quindi, mostrato un messaggio di errore.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\paragraph{Estensioni}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Selezione date per filtro}
+		\begin{itemize}
+			\item Al passo (2.a) il dipendente può inserire una o due date, per filtrare quelle memorizzare.
+			\item In questo caso vengono mostrate solamente le date con straordinari disponibili, comprese all'interno dell'intervallo.
+		\end{itemize}
+\end{itemize}

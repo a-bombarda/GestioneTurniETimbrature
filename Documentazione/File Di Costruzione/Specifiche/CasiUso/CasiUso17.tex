@@ -1,0 +1,33 @@
+%------------------------------------------------
+\subsection{UC17: Applicazione incremento percentuale straordinari}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole applicare un incremento percentuale in caso di lavoro straordinario o di lavoro notturno (prima delle 08:00 e dopo le 22:00).
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+SM11
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Gestione degli orari dei dipendenti
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Ad ogni orario del dipendente è applicata la paga base oraria.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Viene applicato l'incremento percentuale sia alle ore di lavoro straordinario che in quelle di lavoro ordinario.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item Il sistema seleziona dal database le ore di lavoro straordinario o notturno.
+	\item Il sistema applica l'incremento percentuale alle ore notturne.
+	\item Il sistema applica l'incremento percentuale alle ore di straordinario.
+	\item I dati vengono memorizzati all'interno del database.
+\end{enumerate}
+

@@ -1,0 +1,2397 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1534423322889" TestSessionContainerId="389b147f-b04a-4c96-aa72-29348d5a84a0" version="1.0">
+<SrcFileList>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;/*&#10; * Interfaccia che viene implementata dal componente che si occupa di fare l'aggregazione tra le timbrature &#10; * dei dipendenti&#10; */&#10;public interface Aggregator {&#10;&#9;public void aggregate();&#10;}&#10;" Filename="Aggregator.java" Intrnl_Id="1"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;import javax.persistence.EntityManager;&#10;import javax.persistence.Persistence;&#10;&#10;/*&#10; * Componente utilizzato per l'accesso alle operazioni di persistenza tra oggetti JAVA e le tabelle del database&#10; */&#10;public class DBHandler {&#9;&#10;&#9;private static EntityManager em = Persistence.createEntityManagerFactory(&quot;GestioneTurniDipendenti&quot;).createEntityManager();&#9;&#10;&#9;public static EntityManager getEntityManager() {&#10;&#9;&#9;return em;&#10;&#9;}&#9;&#10;}&#10;" Filename="DBHandler.java" Intrnl_Id="2"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;import java.text.ParseException;&#10;import java.text.SimpleDateFormat;&#10;import java.util.Date;&#10;&#10;/*&#10; * Classe utilizzata per validare le date inserite ed, in caso, permettere la modifica&#10; */&#10;public class DateValidator {&#10;&#10;&#9;public static void isThisDateValid(String dateToValidate, String dateFromat) throws ParseException{&#10;&#9;&#9;if(dateToValidate == null){&#10;&#9;&#9;&#9;throw new ParseException(&quot;Data vuota&quot;, 0);&#10;&#9;&#9;}&#10;&#9;&#9;SimpleDateFormat sdf = new SimpleDateFormat(dateFromat);&#10;&#9;&#9;sdf.setLenient(false);&#10;&#9;&#9;// Creazione della data usando i dati inseriti. Nel caso in cui il formato sia sbagliato viene lanciata una ParseException&#10;&#9;&#9;@SuppressWarnings(&quot;unused&quot;)&#10;&#9;&#9;Date date = sdf.parse(dateToValidate);&#9;&#9;&#10;&#9;}&#10;&#9;&#10;}&#10;" Filename="DateValidator.java" Intrnl_Id="3"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;import java.awt.event.ActionEvent;&#10;import java.awt.event.ActionListener;&#10;import java.util.List;&#10;import javax.swing.JFileChooser;&#10;import javax.swing.JFrame;&#10;import javax.swing.JOptionPane;&#10;&#10;import gestioneOrariGUI.gestioneOrariView;&#10;import gestioneOrariData.Timbratura;&#10;&#10;/*&#10; * Listener che si occupa di gestire il click sul pulsante &quot;Importa XML&quot; nella GUI&#10; */&#10;public class ImportaXMLActionListener implements ActionListener{&#10;&#10;&#9;JFrame parentFrame;&#10;&#9;&#10;&#9;public ImportaXMLActionListener(JFrame parentFrame) {&#10;&#9;&#9;this.parentFrame=parentFrame;&#10;&#9;}&#10;&#9;&#10;&#9;@SuppressWarnings(&quot;deprecation&quot;)&#10;&#9;@Override&#10;&#9;public void actionPerformed(ActionEvent e) {&#10;&#9;&#9;try {&#9;   &#10;&#9;&#9;&#9;// Visualizzazione della finestra di selezione del file&#10;&#9;&#9;&#9;JFileChooser fc = new JFileChooser();&#10;&#9;&#9;&#9;int n = fc.showOpenDialog(parentFrame);&#10;&#9;&#9;&#9;RecordParser rp = new RecordParser();&#10;&#9;&#9;&#9;String[][] matrixTimbrature;&#10;&#9;&#9;&#9;// Se è stato selezionato qualcosa&#10;&#9;        if (n == JFileChooser.APPROVE_OPTION) {&#10;&#9;        &#9;&#9;// Parsing del file XML e creazione della matrice di Stringhe che deve essere mostrata nella &#10;&#9;        &#9;&#9;// JTable della GUI &#10;&#9;        &#9;&#9;List&lt;Timbratura&gt; lista = rp.parserXML(fc.getSelectedFile().getAbsolutePath());&#10;&#9;        &#9;&#9;matrixTimbrature = new String[lista.size()][4];&#10;&#9;        &#9;&#9;for (int i=0;i&lt;lista.size();i++) {&#10;&#9;        &#9;&#9;&#9;matrixTimbrature[i][0]=lista.get(i).getDipendente().getIDBadge();&#10;&#9;        &#9;&#9;&#9;matrixTimbrature[i][1]=lista.get(i).getTipo();&#10;&#9;        &#9;&#9;&#9;matrixTimbrature[i][2]=String.format(&quot;%02d&quot;, lista.get(i).getData().getDate()) + &quot;/&quot; + &#10;&#9;        &#9;&#9;&#9;&#9;&#9;String.format(&quot;%02d&quot;, lista.get(i).getData().getMonth()+1) + &quot;/&quot; + &#10;&#9;        &#9;&#9;&#9;&#9;&#9;(lista.get(i).getData().getYear()+1900);&#10;&#9;        &#9;&#9;&#9;matrixTimbrature[i][3]=lista.get(i).getOra().toString();&#9;        &#9;&#9;&#9;&#10;&#9;        &#9;&#9;}&#10;&#9;        &#9;&#9;// Visualizzazione della finestra di modifica degli orari&#10;&#9;        &#9;&#9;((gestioneOrariView)parentFrame).openRecordMng(matrixTimbrature);&#10;&#9;        }&#10;&#9;        else {&#10;&#9;        &#9;&#9;JOptionPane.showMessageDialog(null, &#10;&#9;                    &quot;Nessun file selezionato!&quot;, &#10;&#9;                    &quot;Errore operazione&quot;, JOptionPane.ERROR_MESSAGE);&#10;&#9;        }&#10;&#9;&#9;} catch (Exception ex) {&#10;&#9;&#9;&#9;ex.printStackTrace();&#10;&#9;    }&#10;&#9;}&#10;&#10;}&#10;" Filename="ImportaXMLActionListener.java" Intrnl_Id="4"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;import java.sql.Time;&#10;import java.util.ArrayList;&#10;import java.util.Calendar;&#10;import java.util.Date;&#10;import javax.persistence.TypedQuery;&#10;import javax.swing.JOptionPane;&#10;import gestioneOrariData.Dipendente;&#10;import gestioneOrariData.Orario;&#10;import gestioneOrariData.Timbratura;&#10;&#10;public class RecordAggregator implements Aggregator{&#10;&#10;&#9;/* Funzione per tutto il processo di aggregazione degli orari, a partire dalle timbrature fino ad arrivare&#10;&#9; * agli orari aggregati per giorno, con già un precalcolo delle componenti di ordinario, straordinario e ferie&#10;&#9; */&#10;&#9;@Override&#10;&#9;public void aggregate() {&#10;&#9;&#9;try {&#10;&#9;&#9;&#9;// Selezione della minima e della massima data&#10;&#9;&#9;&#9;TypedQuery&lt;Date&gt; queryMax = DBHandler.getEntityManager().createQuery(&quot;SELECT MAX(T.data) FROM Timbratura T&quot;,Date.class);&#10;&#9;&#9;&#9;TypedQuery&lt;Date&gt; queryMin = DBHandler.getEntityManager().createQuery(&quot;SELECT MIN(T.data) FROM Timbratura T&quot;,Date.class);&#10;&#9;&#9;&#9;// Creazione delle righe vuote&#10;&#9;&#9;&#9;creaRigheVuoteOrari(queryMax.getSingleResult(),queryMin.getSingleResult());&#10;&#9;&#9;&#9;// Posizionamento (aggregazione) delle timbrature nella riga corretta &#10;&#9;&#9;&#9;posizionaOrari(queryMax.getSingleResult(),queryMin.getSingleResult());&#10;&#9;&#9;&#9;// Elaborazione degli orari per il calcolo di ordinari, straordinari, ferie e permessi&#10;&#9;&#9;&#9;elaboraOrari(queryMax.getSingleResult(),queryMin.getSingleResult());&#10;&#9;&#9;&#9;// Eliminazione di tutti i dati nella tabella delle Timbrature&#10;&#9;&#9;&#9;eliminaDatiTimbrature();&#9;&#9;&#10;&#9;&#9;&#9;// Messaggio di conferma&#10;&#9;&#9;&#9;JOptionPane.showMessageDialog(null, &#10;                    &quot;Operazione di importazione ed aggregazione delle timbrature completata correttamente&quot;, &#10;                    &quot;Conferma operazione&quot;, JOptionPane.INFORMATION_MESSAGE);&#10;&#9;&#9;} catch (Exception e) {&#10;&#9;&#9;&#9;e.printStackTrace();&#10;&#9;&#9;}&#10;&#9;}&#10;&#10;&#9;/* Funzione che permette di creare le righe vuote per tutti i giorni compresi tra la minima data di&#10;&#9; * importazione e l'ultima data di importazione&#10;&#9; */&#10;&#9;public void creaRigheVuoteOrari(Date dataMin, Date dataMax) {&#10;&#9;&#9;// Selezione di tutti i dipendenti&#10;&#9;&#9;TypedQuery&lt;Dipendente&gt; queryDip = DBHandler.getEntityManager().createQuery(&quot;SELECT D FROM Dipendente D&quot;,Dipendente.class);&#10;&#9;&#9;// Per ogni dipendente e per ogni data, tra quella minima e quella massima, creazione di una riga vuota&#10;&#9;&#9;// nella tabella degli orari&#10;&#9;&#9;for(Object d:queryDip.getResultList().toArray()) {&#10;&#9;&#9;&#9;Date dateCur = new Date();&#10;&#9;&#9;&#9;dateCur=dataMin;&#10;&#9;&#9;&#9;while(dateCur.compareTo(dataMax)&lt;=0) {&#10;&#9;&#9;&#9;&#9;Orario o = new Orario();&#10;&#9;&#9;&#9;&#9;o.setDipendente((Dipendente)d);&#10;&#9;&#9;&#9;&#9;o.setData(addDays(dateCur,1));&#10;&#9;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().begin();&#10;&#9;&#9;&#9;&#9;DBHandler.getEntityManager().persist(o);&#10;&#9;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().commit();&#10;&#9;&#9;&#9;&#9;dateCur = addDays(dateCur,1);&#10;&#9;&#9;&#9;}&#10;&#9;&#9;}&#10;&#9;}&#10;&#9;&#10;&#9;/* &#10;&#9; * Funzione utilizzata per l'incremento della data di un certo numero di giorni&#10;&#9; */&#10;&#9;public static Date addDays(Date date, int days)&#10;    {&#10;        Calendar cal = Calendar.getInstance();&#10;        cal.setTime(date);&#10;        cal.add(Calendar.DATE, days); //minus number would decrement the days&#10;        return cal.getTime();&#10;    }&#10;&#10;&#9;/*&#10;&#9; * Funzione che si occupa di prendere tutte le timbrature e comporre la riga nella tabella degli orari,&#10;&#9; * raggruppando tutte le timbrature del giorno&#10;&#9; */&#10;&#9;@SuppressWarnings(&quot;deprecation&quot;)&#10;&#9;public void posizionaOrari(Date dataMin, Date dataMax) throws Exception {&#10;&#9;&#9;// Selezione di tutti i dipendenti&#10;&#9;&#9;TypedQuery&lt;Dipendente&gt; queryDip = DBHandler.getEntityManager().createQuery(&quot;SELECT D FROM Dipendente D&quot;,Dipendente.class);&#10;&#9;&#9;// Per ogni dipendente e per ogni data, tra quella minima e quella massima, si compongono gli orari&#10;&#9;&#9;for(Object d:queryDip.getResultList().toArray()) {&#10;&#9;&#9;&#9;Date dateCur = new Date();&#10;&#9;&#9;&#9;dateCur=dataMin;&#10;&#9;&#9;&#9;while(dateCur.compareTo(dataMax)&lt;=0) {&#10;&#9;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().begin();&#10;&#9;&#9;&#9;&#9;// Selezione dell'orario relativo al dipendente selezionarto&#10;&#9;&#9;&#9;&#9;TypedQuery&lt;Orario&gt; queryOrario = DBHandler.getEntityManager().createQuery(&quot;SELECT O FROM Orario O JOIN O.dipendente D WHERE D.IDBadge='&quot; + &#10;&#9;&#9;&#9;&#9;&#9;&#9;((Dipendente)d).getIDBadge() + &quot;'&quot;,Orario.class);&#10;&#9;&#9;&#9;&#9;// Selezione dell'orario del dipendente selezionato e per la data considerata&#10;&#9;&#9;&#9;&#9;Orario tbMod = null;&#10;&#9;&#9;&#9;&#9;for(Object o: queryOrario.getResultList().toArray()) {&#10;&#9;&#9;&#9;&#9;&#9;Date dataOrario = addDays(((Orario)o).getData(),-1);&#10;&#9;&#9;&#9;&#9;&#9;dataOrario.setHours(0);&#10;&#9;&#9;&#9;&#9;&#9;dataOrario.setMinutes(0);&#10;&#9;&#9;&#9;&#9;&#9;dataOrario.setSeconds(0);&#10;&#9;&#9;&#9;&#9;&#9;dateCur.setHours(0);&#10;&#9;&#9;&#9;&#9;&#9;dateCur.setMinutes(0);&#10;&#9;&#9;&#9;&#9;&#9;dateCur.setSeconds(0);&#10;&#9;&#9;&#9;&#9;&#9;if(dataOrario.equals(dateCur)) {&#10;&#9;&#9;&#9;&#9;&#9;&#9;tbMod = (Orario)o;&#10;&#9;&#9;&#9;&#9;&#9;&#9;break;&#10;&#9;&#9;&#9;&#9;&#9;}&#10;&#9;&#9;&#9;&#9;}&#10;&#9;&#9;&#9;&#9;if (tbMod==null) throw new Exception(&quot;Errore nell'inserimento dei dati&quot;);&#10;&#9;&#9;&#9;&#9;// Selezione delle timbrature del dipendente selezionato&#10;&#9;&#9;&#9;&#9;TypedQuery&lt;Timbratura&gt; queryTimbratura = DBHandler.getEntityManager().createQuery(&quot;SELECT T FROM Timbratura T JOIN T.dipendente D WHERE &quot; +&#10;&#9;&#9;&#9;&#9;&#9;&#9;&quot;D.IDBadge='&quot; + &#9;((Dipendente)d).getIDBadge() + &quot;' ORDER BY T.IDTimbratura ASC&quot;,Timbratura.class);&#10;&#9;&#9;&#9;&#9;// Selezione delle sole timbrature della data selezionata&#10;&#9;&#9;&#9;&#9;ArrayList&lt;Timbratura&gt; orari = new ArrayList&lt;Timbratura&gt;();&#10;&#9;&#9;&#9;&#9;for(Object o: queryTimbratura.getResultList().toArray()) {&#10;&#9;&#9;&#9;&#9;&#9;Date DataTimbratura = addDays(((Timbratura)o).getData(),-1);&#10;&#9;&#9;&#9;&#9;&#9;DataTimbratura.setHours(0);&#10;&#9;&#9;&#9;&#9;&#9;DataTimbratura.setMinutes(0);&#10;&#9;&#9;&#9;&#9;&#9;DataTimbratura.setSeconds(0);&#10;&#9;&#9;&#9;&#9;&#9;dateCur.setHours(0);&#10;&#9;&#9;&#9;&#9;&#9;dateCur.setMinutes(0);&#10;&#9;&#9;&#9;&#9;&#9;dateCur.setSeconds(0);&#10;&#9;&#9;&#9;&#9;&#9;if(DataTimbratura.equals(dateCur)) {&#10;&#9;&#9;&#9;&#9;&#9;&#9;orari.add((Timbratura)o);&#10;&#9;&#9;&#9;&#9;&#9;}&#10;&#9;&#9;&#9;&#9;}&#9;&#9;&#9;&#9;&#10;&#9;&#9;&#9;&#9;// Impostazione degli orari&#10;&#9;&#9;&#9;&#9;if(orari.size()&gt;=1 &amp;&amp; orari.get(0).getOra()!=null)&#10;&#9;&#9;&#9;&#9;&#9;tbMod.setIngresso1(orari.get(0).getOra());&#10;&#9;&#9;&#9;&#9;if(orari.size()&gt;=2 &amp;&amp; orari.get(1).getOra()!=null)&#10;&#9;&#9;&#9;&#9;&#9;tbMod.setUscita1(orari.get(1).getOra());&#10;&#9;&#9;&#9;&#9;if(orari.size()&gt;=3 &amp;&amp; orari.get(2).getOra()!=null)&#10;&#9;&#9;&#9;&#9;&#9;tbMod.setIngresso2(orari.get(2).getOra());&#10;&#9;&#9;&#9;&#9;if(orari.size()&gt;=4 &amp;&amp; orari.get(3).getOra()!=null)&#10;&#9;&#9;&#9;&#9;&#9;tbMod.setUscita2(orari.get(3).getOra());&#10;&#9;&#9;&#9;&#9;// Salvataggio dei dati&#10;&#9;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().commit();&#9;&#9;&#9;&#9;&#10;&#9;&#9;&#9;&#9;// Passaggio al giorno successivo&#10;&#9;&#9;&#9;&#9;dateCur = addDays(dateCur,1);&#10;&#9;&#9;&#9;}&#10;&#9;&#9;}&#9;&#9;&#10;&#9;}&#10;&#9;&#10;&#9;/*&#10;&#9; * Funzione per l'arrotondamento al 0,5 più vicino&#10;&#9; */&#10;&#9;public static double roundToHalf(double d) {&#10;&#9;    return Math.round(d * 2) / 2.0;&#10;&#9;}&#10;&#10;&#9;/*&#10;&#9; * Funzione per l'elaborazione degli orari e calcolo di ordinari, straordinari, ferie e permessi&#10;&#9; */&#10;&#9;@SuppressWarnings(&quot;deprecation&quot;)&#10;&#9;public void elaboraOrari(Date dataMin, Date dataMax) {&#10;&#9;&#9;TypedQuery&lt;Orario&gt; queryOrario = DBHandler.getEntityManager().createQuery(&quot;SELECT O FROM Orario O&quot;,Orario.class);&#10;&#9;&#9;for(Object orari:queryOrario.getResultList().toArray()) {&#10;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().begin();&#10;&#9;&#9;&#9;// Scorrimento di tutti gli orari inseriti e selezione delle sole righe con la data compresa&#10;&#9;&#9;&#9;// tra quella minima e quella massima&#10;&#9;&#9;&#9;Date DataOrario = addDays(((Orario)orari).getData(),-1);&#10;&#9;&#9;&#9;if(DataOrario.compareTo(dataMax)&lt;=0 &amp;&amp; DataOrario.compareTo(dataMin)&gt;=0) {&#10;&#9;&#9;&#9;&#9;// Impostazione delle ore di ordinario&#10;&#9;&#9;&#9;&#9;double oreOrd = 0;&#10;&#9;&#9;&#9;&#9;if (((Orario)orari).getIngresso1()!=null &amp;&amp; ((Orario)orari).getUscita1()!=null) &#10;&#9;&#9;&#9;&#9;&#9;// Controllo se sono a cavallo della mezzanotte&#10;&#9;&#9;&#9;&#9;&#9;if ((((Orario)orari).getUscita1().getHours()-1 &lt; 0 ? 23 : ((Orario)orari).getUscita1().getHours()-1)&lt;(((Orario)orari).getIngresso1().getHours()-1 &lt; 0 ? 23 : ((Orario)orari).getIngresso1().getHours()-1)) &#10;&#9;&#9;&#9;&#9;&#9;&#9;oreOrd += (new Time(23,59,59).getTime() - ((Orario)orari).getIngresso1().getTime()) + (((Orario)orari).getUscita1().getTime()-new Time(0,0,0).getTime());&#10;&#9;&#9;&#9;&#9;&#9;else&#10;&#9;&#9;&#9;&#9;&#9;&#9;oreOrd += ((Orario)orari).getUscita1().getTime()-((Orario)orari).getIngresso1().getTime();&#10;&#9;&#9;&#9;&#9;if (((Orario)orari).getIngresso2()!=null &amp;&amp; ((Orario)orari).getUscita2()!=null) &#10;&#9;&#9;&#9;&#9;&#9;oreOrd += ((Orario)orari).getUscita2().getTime()-((Orario)orari).getIngresso2().getTime();&#10;&#9;&#9;&#9;&#9;oreOrd /= 3600000;&#9;&#9;&#9;&#9;// Espresso in ore&#10;&#9;&#9;&#9;&#9;((Orario)orari).setOre_Ordinario(roundToHalf(oreOrd) &gt; 8 ? 8 : roundToHalf(oreOrd));&#10;&#9;&#9;&#9;&#9;// Impostazione delle ore di straordinario&#10;&#9;&#9;&#9;&#9;((Orario)orari).setOre_Straordinario(roundToHalf(oreOrd)&lt;=8 ? 0 : roundToHalf(oreOrd) - 8);&#10;&#9;&#9;&#9;&#9;// Impostazione delle ore di malattia&#10;&#9;&#9;&#9;&#9;((Orario)orari).setOre_Malattia(0);&#10;&#9;&#9;&#9;&#9;// Impostazione delle ore di ferie/Permessi&#10;&#9;&#9;&#9;&#9;((Orario)orari).setOre_FeriePermessi(8-((Orario)orari).getOre_Ordinario());&#10;&#9;&#9;&#9;}&#10;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().commit();&#10;&#9;&#9;}&#10;&#9;}&#10;&#9;&#10;&#9;/*&#10;&#9; * Funzione che svuota la tabella temporanea delle timbrature, dopo aver elaborato tutti i dati&#10;&#9; */&#10;&#9;public void eliminaDatiTimbrature() {&#10;&#9;&#9;try {&#10;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().begin();&#10;&#9;&#9;&#9;DBHandler.getEntityManager().createQuery(&quot;DELETE FROM Timbratura&quot;).executeUpdate();&#10;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().commit();&#10;&#9;&#9;} catch (Exception e) {&#10;&#9;&#9;&#9;e.printStackTrace();&#10;&#9;&#9;}&#10;&#9;}&#10;}&#10;" Filename="RecordAggregator.java" Intrnl_Id="5"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;import java.io.FileReader;&#10;import java.util.List;&#10;&#10;import javax.swing.JOptionPane;&#10;import javax.xml.parsers.SAXParser;&#10;import javax.xml.parsers.SAXParserFactory;&#10;&#10;import org.xml.sax.InputSource;&#10;&#10;import gestioneOrariData.Timbratura;&#10;&#10;public class RecordParser implements XMLParser&lt;List&lt;Timbratura&gt;&gt; {&#10;&#10;&#9;@Override&#10;&#9;/* &#10;&#9; * Metodo che si occupa di fare il parsing del file XML passato dalla selezione dalla GUI.&#10;&#9; * &#10;&#9; * @param filePath è il percorso del file che si vuole caricare&#10;&#9; * @return ritorna la lista contenente tutte le timbrature parsate&#10;&#9; */&#10;&#9;public List&lt;Timbratura&gt; parserXML(String filePath) {&#10;&#9;&#9;try {&#10;&#9;&#9;&#9;SAXParserFactory factory = SAXParserFactory.newInstance();&#10;&#9;&#9;&#9;SAXParser saxParser = factory.newSAXParser();&#10;&#9;&#9;&#9;XMLHandler recordHandler = new XMLHandler();&#10;&#9;&#9;&#9;saxParser.parse(new InputSource(new FileReader(filePath)), recordHandler);&#10;&#9;&#9;&#9;return recordHandler.getRecordList();&#10;&#9;&#9;}&#10;&#9;&#9;catch (Exception e) {&#10;&#9;&#9;&#9;JOptionPane.showMessageDialog(null, &#10;                    &quot;Errore nel formato del file&quot;, &quot;Errore&quot;, JOptionPane.ERROR_MESSAGE);&#10;&#9;&#9;&#9;e.printStackTrace();&#10;&#9;&#9;&#9;return null;&#10;&#9;&#9;}&#10;&#9;}&#10;&#10;}&#10;" Filename="RecordParser.java" Intrnl_Id="6"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;import java.awt.event.ActionEvent;&#10;import java.awt.event.ActionListener;&#10;import java.sql.Date;&#10;import java.sql.Time;&#10;import javax.persistence.TypedQuery;&#10;import javax.swing.JFrame;&#10;import javax.swing.JOptionPane;&#10;import javax.swing.table.TableModel;&#10;import gestioneOrariData.Dipendente;&#10;import gestioneOrariData.Timbratura;&#10;&#10;/*&#10; * Listener che si occupa di gestire il click sul pulsante &quot;Salva&quot; nella maschera di visualizzazione &#10; * degli orari grezzi importati dall'XML&#10; */&#10;public class SalvaDatiGrezziActionListener implements ActionListener{&#10;&#10;&#9;JFrame parentFrame;&#10;&#9;TableModel tabella;&#10;&#9;&#10;&#9;public SalvaDatiGrezziActionListener(JFrame parentFrame, TableModel tabella) {&#10;&#9;&#9;this.parentFrame=parentFrame;&#10;&#9;&#9;this.tabella=tabella;&#10;&#9;}&#10;&#9;&#10;&#9;@SuppressWarnings(&quot;deprecation&quot;)&#10;&#9;@Override&#10;&#9;public void actionPerformed(ActionEvent e) {&#10;&#9;&#9;Timbratura tempTimb;&#10;&#9;&#9;RecordAggregator ra=new RecordAggregator();&#10;&#9;&#9;try {&#9;   &#10;&#9;&#9;&#9;// Creazione degli oggetti di classe Timbratura e implementazione della persistenza&#10;&#9;&#9;&#9;// delle modifiche&#10;&#9;&#9;&#9;for(int i=0;i&lt;tabella.getRowCount();i++) {&#10;&#9;&#9;&#9;&#9;// Check sulla compilazione di tutti i campi&#10;&#9;&#9;&#9;&#9;if (tabella.getValueAt(i, 0).toString().equals(&quot;&quot;) || tabella.getValueAt(i, 1).toString().equals(&quot;&quot;) ||&#10;&#9;&#9;&#9;&#9;&#9;&#9;tabella.getValueAt(i, 2).toString().equals(&quot;&quot;) || tabella.getValueAt(i, 3).toString().equals(&quot;&quot;))&#10;&#9;&#9;&#9;&#9;&#9;continue;&#10;&#9;&#9;&#9;&#9;&#10;&#9;&#9;&#9;&#9;tempTimb = new Timbratura();&#10;&#9;&#9;&#9;&#9;// Impostazione data, con controllo preventivo sul formato&#10;&#9;&#9;&#9;&#9;DateValidator.isThisDateValid(tabella.getValueAt(i, 2).toString(), &quot;dd/MM/yyyy&quot;);&#10;&#9;&#9;&#9;&#9;tempTimb.setData(new Date(Integer.parseInt(tabella.getValueAt(i, 2).toString().substring(6, 10))-1900,&#10;&#9;&#9;&#9;&#9;&#9;&#9;Integer.parseInt(tabella.getValueAt(i, 2).toString().substring(3, 5))-1,&#10;&#9;&#9;&#9;&#9;&#9;&#9;Integer.parseInt(tabella.getValueAt(i, 2).toString().substring(0, 2))+1));&#10;&#9;&#9;&#9;&#9;&#10;&#9;&#9;&#9;&#9;// Impostazione ora, con controllo preventivo sul formato&#10;&#9;&#9;&#9;&#9;TimeValidator.validate(tabella.getValueAt(i, 3).toString());&#10;&#9;&#9;&#9;&#9;tempTimb.setOra(new Time(Integer.parseInt(tabella.getValueAt(i, 3).toString().substring(0, 2))+1,&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;  Integer.parseInt(tabella.getValueAt(i, 3).toString().substring(3,5)),&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;  Integer.parseInt(tabella.getValueAt(i, 3).toString().substring(6,8))));&#10;&#9;&#9;&#9;&#9;&#10;&#9;&#9;&#9;&#9;// Impostazione tipo di timbratura&#10;&#9;&#9;&#9;&#9;tempTimb.setTipo(tabella.getValueAt(i,1).toString());&#10;&#9;&#9;&#9;&#9;&#10;&#9;&#9;&#9;&#9;// Impostazione del dipendente&#10;&#9;&#9;&#9;&#9;TypedQuery&lt;Dipendente&gt; query = DBHandler.getEntityManager().createQuery(&quot;SELECT d FROM Dipendente d WHERE d.IDBadge='&quot; + &#10;&#9;&#9;&#9;&#9;&#9;&#9;tabella.getValueAt(i,0).toString() + &quot;'&quot;,Dipendente.class);&#10;&#9;&#9;&#9;&#9;if (query.getResultList().isEmpty() || query.getResultList().size()&gt;1) throw new Exception(&quot;Nessun dipendente trovato corrispondente&quot;&#10;&#9;&#9;&#9;&#9;&#9;&#9;+ &quot;al badge inserito&quot;);&#10;&#9;&#9;&#9;&#9;tempTimb.setDipendente(query.getResultList().get(0));&#10;&#9;&#9;&#9;&#9;&#10;&#9;&#9;&#9;&#9;// Salvataggio delle modifiche nel database, per la persistenza&#10;&#9;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().begin();&#10;&#9;&#9;&#9;&#9;DBHandler.getEntityManager().persist(tempTimb);&#10;&#9;&#9;&#9;&#9;DBHandler.getEntityManager().getTransaction().commit();&#10;&#9;&#9;&#9;}&#10;&#9;&#9;&#9;// Aggregazione degli orari &#10;&#9;&#9;&#9;ra.aggregate();&#10;&#9;&#9;&#9;// Chiusura della maschera&#10;&#9;&#9;&#9;parentFrame.setVisible(false);&#10;&#9;&#9;&#9;parentFrame.dispose();&#10;&#9;&#9;} catch (Exception ex) {&#10;&#9;&#9;&#9;JOptionPane.showMessageDialog(null, &#10;                    &quot;Errore nell'importazione dei dati nel database! Controllare il formato di date ed orari&quot;, &#10;                    &quot;Errore operazione&quot;, JOptionPane.ERROR_MESSAGE);&#10;&#9;    }&#10;&#9;}&#10;&#10;}&#10;" Filename="SalvaDatiGrezziActionListener.java" Intrnl_Id="7"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;import java.util.regex.Matcher;&#10;import java.util.regex.Pattern;&#10; &#10;/*&#10; * Classe utilizzata per validare gli orari inseriti ed, in caso, permettere la modifica&#10; */&#10;public class TimeValidator{&#10;&#9;&#10;&#9;  private static Pattern pattern;&#10;&#9;  private static Matcher matcher;&#10;&#9;  // Espressione regolare che deve essere matchata&#10;&#9;  private static final String TIME24HOURS_PATTERN = &quot;(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]&quot;;&#10;&#9;  &#10;&#9;  /**&#10;&#9;   * Validate time in 24 hours format with regular expression&#10;&#9;   * @param time time address for validation&#10;&#9;   * @return true valid time fromat, false invalid time format&#10;&#9;   */&#10;&#9;  public static void validate(final String time) throws Exception{&#10;&#9;&#9;  pattern = Pattern.compile(TIME24HOURS_PATTERN);&#10;&#9;&#9;  matcher = pattern.matcher(time);&#10;&#9;&#9;  if (!matcher.matches()) throw new Exception(&quot;Formato orario errato&quot;);&#9;    &#9;    &#10;&#9;  }&#10;}&#10;" Filename="TimeValidator.java" Intrnl_Id="8"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;import java.sql.Time;&#10;import java.util.ArrayList;&#10;import java.util.Date;&#10;import java.util.List;&#10;import javax.persistence.TypedQuery;&#10;import org.xml.sax.Attributes;&#10;import org.xml.sax.SAXException;&#10;import org.xml.sax.helpers.DefaultHandler;&#10;&#10;import gestioneOrariData.Dipendente;&#10;import gestioneOrariData.Timbratura;&#10;&#10;public class XMLHandler extends DefaultHandler{&#10;&#10;&#9;private XMLTag tag = XMLTag.NOTAG; &#10;&#9;private Date dataXML;&#10;&#9;private List&lt;Timbratura&gt; listaTimbrature = new ArrayList&lt;Timbratura&gt;();&#10;&#9;private Timbratura tempRecord = new Timbratura();&#10;&#9;&#10;&#9;@SuppressWarnings(&quot;deprecation&quot;)&#10;&#9;@Override &#10;&#9;public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException { &#10;&#9;&#9;// Identificazione del nome del Tag incontrato&#10;&#9;&#9;switch (qName) {&#10;&#9;&#9;&#9;case &quot;records&quot;: &#10;&#9;&#9;&#9;&#9;tag = XMLTag.RECORDS; &#10;&#9;&#9;&#9;&#9;dataXML = new Date(Integer.parseInt(attributes.getValue(&quot;date&quot;).toString().substring(6, 10))-1900,&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;Integer.parseInt(attributes.getValue(&quot;date&quot;).toString().substring(3, 5))-1,&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;Integer.parseInt(attributes.getValue(&quot;date&quot;).toString().substring(0, 2)));&#9;&#10;&#9;&#9;&#9;&#9;break;&#10;&#9;&#9;&#9;case &quot;record&quot;: tag = XMLTag.RECORD; &#10;&#9;&#9;&#9;&#9;tempRecord = new Timbratura();&#10;&#9;&#9;&#9;&#9;tempRecord.setData(dataXML);&#10;&#9;&#9;&#9;&#9;tempRecord.setTipo(attributes.getValue(&quot;type&quot;));&#10;&#9;&#9;&#9;&#9;break;&#10;&#9;&#9;&#9;case &quot;badgeID&quot;: tag = XMLTag.BADGEID; break;&#10;&#9;&#9;&#9;case &quot;time&quot;: tag = XMLTag.TIME; break;&#10;&#9;&#9;&#9;default: break;&#10;&#9;&#9;}&#10;&#9;}&#10;&#9;&#9;&#9;    &#10;&#9;@SuppressWarnings(&quot;deprecation&quot;)&#10;&#9;@Override &#10;&#9;public void characters(char[] ch, int start, int length) throws SAXException { &#10;&#9;&#9;String content = new String(ch, start, length);&#10;&#9;&#9;// In base al tag letto, si imposta il valore corretto per il campo dell'oggetto&#10;&#9;&#9;switch (tag) {&#10;&#9;&#9;&#9;case BADGEID:&#10;&#9;&#9;&#9;&#9;TypedQuery&lt;Dipendente&gt; query = DBHandler.getEntityManager().createQuery(&quot;SELECT d FROM Dipendente d WHERE d.IDBadge='&quot; + content + &quot;'&quot;,Dipendente.class);&#10;&#9;&#9;&#9;&#9;if (query.getResultList().isEmpty() || query.getResultList().size()&gt;1) throw new SAXException();&#10;&#9;&#9;&#9;&#9;tempRecord.setDipendente(query.getResultList().get(0));&#10;&#9;&#9;&#9;&#9;break;&#10;&#9;&#9;&#9;case TIME:&#10;&#9;&#9;&#9;&#9;tempRecord.setOra(new Time(Integer.parseInt(content.substring(0, 2)),&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;  Integer.parseInt(content.substring(3,5)),&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;  Integer.parseInt(content.substring(6,8))));&#10;&#9;&#9;&#9;&#9;break;&#10;&#9;&#9;&#9;default: break;&#10;&#9;&#9;}&#10;&#9;}&#10;&#9;&#9;&#9;    &#10;&#9;@Override &#10;&#9;public void endElement(String uri, String localName, String qName) throws SAXException {&#10;&#9;&#9;switch (tag) {&#10;&#9;&#9;&#9;case TIME:&#10;&#9;&#9;&#9;&#9;// Aggiunta della timbratura generata alla lista&#10;&#9;&#9;&#9;&#9;listaTimbrature.add(tempRecord);&#10;&#9;&#9;&#9;default:&#10;&#9;&#9;&#9;&#9;tag=XMLTag.NOTAG;&#10;&#9;&#9;}&#9;&#9;&#9;&#10;&#9;}&#10;&#9;  &#10;&#9;public List&lt;Timbratura&gt; getRecordList() {&#10;&#9;&#9;  return listaTimbrature;&#10;&#9;}&#10;&#9;&#10;}&#10;" Filename="XMLHandler.java" Intrnl_Id="9"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;public interface XMLParser&lt;T&gt; {&#10;&#9;public T parserXML(String filePath);&#10;}&#10;" Filename="XMLParser.java" Intrnl_Id="10"/>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;public enum XMLTag {&#10;&#9;NOTAG, RECORDS, RECORD, BADGEID, TIME;&#10;}&#10;" Filename="XMLTag.java" Intrnl_Id="11"/>
+</SrcFileList>
+<CritList>
+<CritListEntry Name="org.codecover.model.utils.criteria.LoopCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.QMOCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.SynchronizedStatementCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+</CritList>
+<BoolOpList>
+<BoolOp Arity="2" Intrnl_Id="12" Name="conditional and (&amp;&amp;)">
+<BoolAssgnmntBoolMapList>
+<MapEntry BoolAssgnmnt="02" Value="false"/>
+<MapEntry BoolAssgnmnt="10" Value="false"/>
+<MapEntry BoolAssgnmnt="11" Value="true"/>
+</BoolAssgnmntBoolMapList>
+</BoolOp>
+<BoolOp Arity="2" Intrnl_Id="13" Name="conditional or (||)">
+<BoolAssgnmntBoolMapList>
+<MapEntry BoolAssgnmnt="00" Value="false"/>
+<MapEntry BoolAssgnmnt="01" Value="true"/>
+<MapEntry BoolAssgnmnt="12" Value="true"/>
+</BoolAssgnmntBoolMapList>
+</BoolOp>
+<BoolOp Arity="1" Intrnl_Id="14" Name="not (!)">
+<BoolAssgnmntBoolMapList>
+<MapEntry BoolAssgnmnt="1" Value="false"/>
+<MapEntry BoolAssgnmnt="0" Value="true"/>
+</BoolAssgnmntBoolMapList>
+</BoolOp>
+</BoolOpList>
+<HierarchyLvlTypeList>
+<HierarchyLvlType EnglishName="enumeration" IntrnlName="enum" Intrnl_Id="15"/>
+<HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="16"/>
+<HierarchyLvlType EnglishName="interface" IntrnlName="interface" Intrnl_Id="17"/>
+<HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="18"/>
+<HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="19"/>
+<HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="20"/>
+</HierarchyLvlTypeList>
+<MASTRoot>
+<HierarchyLvl HierarchyLvlId="4930" HierarchyLvlTypeId="20" Intrnl_Id="21" Name="default package">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="4929" HierarchyLvlTypeId="16" Intrnl_Id="22" Name="gestioneOrariApplication">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="4898" HierarchyLvlTypeId="17" Intrnl_Id="23" Name="Aggregator">
+<Header>
+<Loc EndOffset="196" SrcFileId="1" StartOffset="169"/>
+</Header>
+<LocList>
+<Loc EndOffset="226" SrcFileId="1" StartOffset="169"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="4897" HierarchyLvlTypeId="18" Intrnl_Id="24" Name="aggregate">
+<Header>
+<Loc EndOffset="223" SrcFileId="1" StartOffset="200"/>
+</Header>
+<LocList>
+<Loc EndOffset="224" SrcFileId="1" StartOffset="200"/>
+</LocList>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4900" HierarchyLvlTypeId="19" Intrnl_Id="25" Name="DBHandler">
+<Header>
+<Loc EndOffset="256" SrcFileId="2" StartOffset="234"/>
+</Header>
+<LocList>
+<Loc EndOffset="453" SrcFileId="2" StartOffset="234"/>
+</LocList>
+<StmntSeq Intrnl_Id="26">
+<LocList>
+<Loc EndOffset="383" SrcFileId="2" StartOffset="261"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="gestioneOrariApplication.DBHandler.java" Intrnl_Id="27">
+<LocList>
+<Loc EndOffset="383" SrcFileId="2" StartOffset="261"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<HierarchyLvl HierarchyLvlId="4899" HierarchyLvlTypeId="18" Intrnl_Id="28" Name="getEntityManager">
+<Header>
+<Loc EndOffset="432" SrcFileId="2" StartOffset="386"/>
+</Header>
+<LocList>
+<Loc EndOffset="450" SrcFileId="2" StartOffset="386"/>
+</LocList>
+<StmntSeq Intrnl_Id="29">
+<LocList>
+<Loc EndOffset="447" SrcFileId="2" StartOffset="437"/>
+</LocList>
+<BasicStmnt CovItemId="S2" CovItemPrefix="gestioneOrariApplication.DBHandler.java" Intrnl_Id="30">
+<LocList>
+<Loc EndOffset="447" SrcFileId="2" StartOffset="437"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4902" HierarchyLvlTypeId="19" Intrnl_Id="31" Name="DateValidator">
+<Header>
+<Loc EndOffset="247" SrcFileId="3" StartOffset="221"/>
+</Header>
+<LocList>
+<Loc EndOffset="720" SrcFileId="3" StartOffset="221"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="4901" HierarchyLvlTypeId="18" Intrnl_Id="32" Name="isThisDateValid">
+<Header>
+<Loc EndOffset="350" SrcFileId="3" StartOffset="252"/>
+</Header>
+<LocList>
+<Loc EndOffset="716" SrcFileId="3" StartOffset="252"/>
+</LocList>
+<StmntSeq Intrnl_Id="33">
+<LocList>
+<Loc EndOffset="431" SrcFileId="3" StartOffset="354"/>
+<Loc EndOffset="490" SrcFileId="3" StartOffset="434"/>
+<Loc EndOffset="515" SrcFileId="3" StartOffset="493"/>
+<Loc EndOffset="711" SrcFileId="3" StartOffset="643"/>
+</LocList>
+<CondStmnt CovItemId="S1" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="34">
+<Branch CovItemId="B1" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Implct="false" Intrnl_Id="35">
+<Cond/>
+<LocList>
+<Loc EndOffset="431" SrcFileId="3" StartOffset="380"/>
+</LocList>
+<StmntSeq Intrnl_Id="36">
+<LocList>
+<Loc EndOffset="427" SrcFileId="3" StartOffset="385"/>
+</LocList>
+<BasicStmnt CovItemId="S2" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="37">
+<LocList>
+<Loc EndOffset="427" SrcFileId="3" StartOffset="385"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Implct="true" Intrnl_Id="38">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="39">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="356" SrcFileId="3" StartOffset="354"/>
+<LocList>
+<Loc EndOffset="431" SrcFileId="3" StartOffset="354"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="40">
+<BasicBoolTerm Intrnl_Id="41">
+<LocList>
+<Loc EndOffset="379" SrcFileId="3" StartOffset="357"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S3" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="42">
+<LocList>
+<Loc EndOffset="490" SrcFileId="3" StartOffset="434"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S4" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="43">
+<LocList>
+<Loc EndOffset="515" SrcFileId="3" StartOffset="493"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S5" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="44">
+<LocList>
+<Loc EndOffset="711" SrcFileId="3" StartOffset="643"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4905" HierarchyLvlTypeId="19" Intrnl_Id="45" Name="ImportaXMLActionListener">
+<Header>
+<Loc EndOffset="458" SrcFileId="4" StartOffset="395"/>
+</Header>
+<LocList>
+<Loc EndOffset="2198" SrcFileId="4" StartOffset="395"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="4903" HierarchyLvlTypeId="18" Intrnl_Id="46" Name="ImportaXMLActionListener">
+<Header>
+<Loc EndOffset="536" SrcFileId="4" StartOffset="485"/>
+</Header>
+<LocList>
+<Loc EndOffset="573" SrcFileId="4" StartOffset="485"/>
+</LocList>
+<StmntSeq Intrnl_Id="47">
+<LocList>
+<Loc EndOffset="570" SrcFileId="4" StartOffset="541"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="48">
+<LocList>
+<Loc EndOffset="570" SrcFileId="4" StartOffset="541"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4904" HierarchyLvlTypeId="18" Intrnl_Id="49" Name="actionPerformed">
+<Header>
+<Loc EndOffset="664" SrcFileId="4" StartOffset="577"/>
+</Header>
+<LocList>
+<Loc EndOffset="2195" SrcFileId="4" StartOffset="577"/>
+</LocList>
+<StmntSeq Intrnl_Id="50">
+<LocList>
+<Loc EndOffset="778" SrcFileId="4" StartOffset="741"/>
+<Loc EndOffset="821" SrcFileId="4" StartOffset="782"/>
+<Loc EndOffset="862" SrcFileId="4" StartOffset="825"/>
+<Loc EndOffset="2133" SrcFileId="4" StartOffset="942"/>
+<Loc EndOffset="2192" SrcFileId="4" StartOffset="669"/>
+</LocList>
+<BasicStmnt CovItemId="S3" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="51">
+<LocList>
+<Loc EndOffset="778" SrcFileId="4" StartOffset="741"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S4" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="52">
+<LocList>
+<Loc EndOffset="821" SrcFileId="4" StartOffset="782"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S5" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="53">
+<LocList>
+<Loc EndOffset="862" SrcFileId="4" StartOffset="825"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S6" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="54">
+<Branch CovItemId="B2" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Implct="false" Intrnl_Id="55">
+<Cond/>
+<LocList>
+<Loc EndOffset="1938" SrcFileId="4" StartOffset="980"/>
+</LocList>
+<StmntSeq Intrnl_Id="56">
+<LocList>
+<Loc EndOffset="1208" SrcFileId="4" StartOffset="1130"/>
+<Loc EndOffset="1267" SrcFileId="4" StartOffset="1220"/>
+<Loc EndOffset="1781" SrcFileId="4" StartOffset="1279"/>
+<Loc EndOffset="1927" SrcFileId="4" StartOffset="1862"/>
+</LocList>
+<BasicStmnt CovItemId="S7" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="57">
+<LocList>
+<Loc EndOffset="1208" SrcFileId="4" StartOffset="1130"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S8" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="58">
+<LocList>
+<Loc EndOffset="1267" SrcFileId="4" StartOffset="1220"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S9" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="59" MltplExecId="L1-2" MltplExecPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" NvrExecId="L1-0" NvrExecPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" OnceExecutedId="L1-1" OnceExecutedPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="60">
+<LocList>
+<Loc EndOffset="1391" SrcFileId="4" StartOffset="1326"/>
+<Loc EndOffset="1450" SrcFileId="4" StartOffset="1404"/>
+<Loc EndOffset="1687" SrcFileId="4" StartOffset="1463"/>
+<Loc EndOffset="1756" SrcFileId="4" StartOffset="1700"/>
+</LocList>
+<BasicStmnt CovItemId="S10" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="61">
+<LocList>
+<Loc EndOffset="1391" SrcFileId="4" StartOffset="1326"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S11" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="62">
+<LocList>
+<Loc EndOffset="1450" SrcFileId="4" StartOffset="1404"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S12" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="63">
+<LocList>
+<Loc EndOffset="1687" SrcFileId="4" StartOffset="1463"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S13" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="64">
+<LocList>
+<Loc EndOffset="1756" SrcFileId="4" StartOffset="1700"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="1282" SrcFileId="4" StartOffset="1279"/>
+<LocList>
+<Loc EndOffset="1781" SrcFileId="4" StartOffset="1279"/>
+</LocList>
+<RootTerm CovItemId="C2" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="65">
+<BasicBoolTerm Intrnl_Id="66">
+<LocList>
+<Loc EndOffset="1306" SrcFileId="4" StartOffset="1292"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</LoopStmnt>
+<BasicStmnt CovItemId="S14" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="67">
+<LocList>
+<Loc EndOffset="1927" SrcFileId="4" StartOffset="1862"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B3" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Implct="false" Intrnl_Id="68">
+<Cond>
+<Loc EndOffset="1952" SrcFileId="4" StartOffset="1948"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2133" SrcFileId="4" StartOffset="1953"/>
+</LocList>
+<StmntSeq Intrnl_Id="69">
+<LocList>
+<Loc EndOffset="2122" SrcFileId="4" StartOffset="1966"/>
+</LocList>
+<BasicStmnt CovItemId="S15" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="70">
+<LocList>
+<Loc EndOffset="2122" SrcFileId="4" StartOffset="1966"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="944" SrcFileId="4" StartOffset="942"/>
+<LocList>
+<Loc EndOffset="2133" SrcFileId="4" StartOffset="942"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="71">
+<BasicBoolTerm Intrnl_Id="72">
+<LocList>
+<Loc EndOffset="978" SrcFileId="4" StartOffset="946"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<CondStmnt CovItemId="S2" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="73">
+<Branch CovItemId="B1" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Implct="true" Intrnl_Id="74">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="75">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B4" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Implct="false" Intrnl_Id="76">
+<Cond>
+<Loc EndOffset="2158" SrcFileId="4" StartOffset="2138"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2192" SrcFileId="4" StartOffset="2159"/>
+</LocList>
+<StmntSeq Intrnl_Id="77">
+<LocList>
+<Loc EndOffset="2185" SrcFileId="4" StartOffset="2164"/>
+</LocList>
+<BasicStmnt CovItemId="S16" CovItemPrefix="gestioneOrariApplication.ImportaXMLActionListener.java" Intrnl_Id="78">
+<LocList>
+<Loc EndOffset="2185" SrcFileId="4" StartOffset="2164"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="672" SrcFileId="4" StartOffset="669"/>
+<LocList>
+<Loc EndOffset="2192" SrcFileId="4" StartOffset="669"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4913" HierarchyLvlTypeId="19" Intrnl_Id="79" Name="RecordAggregator">
+<Header>
+<Loc EndOffset="363" SrcFileId="5" StartOffset="312"/>
+</Header>
+<LocList>
+<Loc EndOffset="8793" SrcFileId="5" StartOffset="312"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="4906" HierarchyLvlTypeId="18" Intrnl_Id="80" Name="aggregate">
+<Header>
+<Loc EndOffset="626" SrcFileId="5" StartOffset="592"/>
+</Header>
+<LocList>
+<Loc EndOffset="1764" SrcFileId="5" StartOffset="592"/>
+</LocList>
+<StmntSeq Intrnl_Id="81">
+<LocList>
+<Loc EndOffset="810" SrcFileId="5" StartOffset="690"/>
+<Loc EndOffset="934" SrcFileId="5" StartOffset="814"/>
+<Loc EndOffset="1047" SrcFileId="5" StartOffset="972"/>
+<Loc EndOffset="1195" SrcFileId="5" StartOffset="1125"/>
+<Loc EndOffset="1357" SrcFileId="5" StartOffset="1289"/>
+<Loc EndOffset="1451" SrcFileId="5" StartOffset="1427"/>
+<Loc EndOffset="1707" SrcFileId="5" StartOffset="1485"/>
+<Loc EndOffset="1761" SrcFileId="5" StartOffset="631"/>
+</LocList>
+<BasicStmnt CovItemId="S2" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="82">
+<LocList>
+<Loc EndOffset="810" SrcFileId="5" StartOffset="690"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S3" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="83">
+<LocList>
+<Loc EndOffset="934" SrcFileId="5" StartOffset="814"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S4" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="84">
+<LocList>
+<Loc EndOffset="1047" SrcFileId="5" StartOffset="972"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S5" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="85">
+<LocList>
+<Loc EndOffset="1195" SrcFileId="5" StartOffset="1125"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S6" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="86">
+<LocList>
+<Loc EndOffset="1357" SrcFileId="5" StartOffset="1289"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S7" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="87">
+<LocList>
+<Loc EndOffset="1451" SrcFileId="5" StartOffset="1427"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S8" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="88">
+<LocList>
+<Loc EndOffset="1707" SrcFileId="5" StartOffset="1485"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S1" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="89">
+<Branch CovItemId="B1" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="90">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="91">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="92">
+<Cond>
+<Loc EndOffset="1731" SrcFileId="5" StartOffset="1712"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1761" SrcFileId="5" StartOffset="1732"/>
+</LocList>
+<StmntSeq Intrnl_Id="93">
+<LocList>
+<Loc EndOffset="1757" SrcFileId="5" StartOffset="1737"/>
+</LocList>
+<BasicStmnt CovItemId="S9" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="94">
+<LocList>
+<Loc EndOffset="1757" SrcFileId="5" StartOffset="1737"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="634" SrcFileId="5" StartOffset="631"/>
+<LocList>
+<Loc EndOffset="1761" SrcFileId="5" StartOffset="631"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4907" HierarchyLvlTypeId="18" Intrnl_Id="95" Name="creaRigheVuoteOrari">
+<Header>
+<Loc EndOffset="1981" SrcFileId="5" StartOffset="1922"/>
+</Header>
+<LocList>
+<Loc EndOffset="2737" SrcFileId="5" StartOffset="1922"/>
+</LocList>
+<StmntSeq Intrnl_Id="96">
+<LocList>
+<Loc EndOffset="2145" SrcFileId="5" StartOffset="2023"/>
+<Loc EndOffset="2734" SrcFileId="5" StartOffset="2285"/>
+</LocList>
+<BasicStmnt CovItemId="S10" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="97">
+<LocList>
+<Loc EndOffset="2145" SrcFileId="5" StartOffset="2023"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S11" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="98" MltplExecId="L1-2" MltplExecPrefix="gestioneOrariApplication.RecordAggregator.java" NvrExecId="L1-0" NvrExecPrefix="gestioneOrariApplication.RecordAggregator.java" OnceExecutedId="L1-1" OnceExecutedPrefix="gestioneOrariApplication.RecordAggregator.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="99">
+<LocList>
+<Loc EndOffset="2365" SrcFileId="5" StartOffset="2339"/>
+<Loc EndOffset="2385" SrcFileId="5" StartOffset="2369"/>
+<Loc EndOffset="2730" SrcFileId="5" StartOffset="2389"/>
+</LocList>
+<BasicStmnt CovItemId="S12" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="100">
+<LocList>
+<Loc EndOffset="2365" SrcFileId="5" StartOffset="2339"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S13" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="101">
+<LocList>
+<Loc EndOffset="2385" SrcFileId="5" StartOffset="2369"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S14" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="102" MltplExecId="L2-2" MltplExecPrefix="gestioneOrariApplication.RecordAggregator.java" NvrExecId="L2-0" NvrExecPrefix="gestioneOrariApplication.RecordAggregator.java" OnceExecutedId="L2-1" OnceExecutedPrefix="gestioneOrariApplication.RecordAggregator.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="103">
+<LocList>
+<Loc EndOffset="2456" SrcFileId="5" StartOffset="2432"/>
+<Loc EndOffset="2492" SrcFileId="5" StartOffset="2461"/>
+<Loc EndOffset="2527" SrcFileId="5" StartOffset="2497"/>
+<Loc EndOffset="2586" SrcFileId="5" StartOffset="2532"/>
+<Loc EndOffset="2631" SrcFileId="5" StartOffset="2591"/>
+<Loc EndOffset="2691" SrcFileId="5" StartOffset="2636"/>
+<Loc EndOffset="2725" SrcFileId="5" StartOffset="2696"/>
+</LocList>
+<BasicStmnt CovItemId="S15" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="104">
+<LocList>
+<Loc EndOffset="2456" SrcFileId="5" StartOffset="2432"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S16" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="105">
+<LocList>
+<Loc EndOffset="2492" SrcFileId="5" StartOffset="2461"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S17" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="106">
+<LocList>
+<Loc EndOffset="2527" SrcFileId="5" StartOffset="2497"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S18" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="107">
+<LocList>
+<Loc EndOffset="2586" SrcFileId="5" StartOffset="2532"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S19" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="108">
+<LocList>
+<Loc EndOffset="2631" SrcFileId="5" StartOffset="2591"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S20" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="109">
+<LocList>
+<Loc EndOffset="2691" SrcFileId="5" StartOffset="2636"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S21" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="110">
+<LocList>
+<Loc EndOffset="2725" SrcFileId="5" StartOffset="2696"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="2394" SrcFileId="5" StartOffset="2389"/>
+<LocList>
+<Loc EndOffset="2730" SrcFileId="5" StartOffset="2389"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="111">
+<BasicBoolTerm Intrnl_Id="112">
+<LocList>
+<Loc EndOffset="2424" SrcFileId="5" StartOffset="2395"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</LoopStmnt>
+</StmntSeq>
+<Keyword EndOffset="2288" SrcFileId="5" StartOffset="2285"/>
+<LocList>
+<Loc EndOffset="2734" SrcFileId="5" StartOffset="2285"/>
+</LocList>
+</LoopStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4908" HierarchyLvlTypeId="18" Intrnl_Id="113" Name="addDays">
+<Header>
+<Loc EndOffset="2879" SrcFileId="5" StartOffset="2832"/>
+</Header>
+<LocList>
+<Loc EndOffset="3073" SrcFileId="5" StartOffset="2832"/>
+</LocList>
+<StmntSeq Intrnl_Id="114">
+<LocList>
+<Loc EndOffset="2932" SrcFileId="5" StartOffset="2894"/>
+<Loc EndOffset="2959" SrcFileId="5" StartOffset="2941"/>
+<Loc EndOffset="2997" SrcFileId="5" StartOffset="2968"/>
+<Loc EndOffset="3067" SrcFileId="5" StartOffset="3046"/>
+</LocList>
+<BasicStmnt CovItemId="S22" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="115">
+<LocList>
+<Loc EndOffset="2932" SrcFileId="5" StartOffset="2894"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S23" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="116">
+<LocList>
+<Loc EndOffset="2959" SrcFileId="5" StartOffset="2941"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S24" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="117">
+<LocList>
+<Loc EndOffset="2997" SrcFileId="5" StartOffset="2968"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S25" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="118">
+<LocList>
+<Loc EndOffset="3067" SrcFileId="5" StartOffset="3046"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4909" HierarchyLvlTypeId="18" Intrnl_Id="119" Name="posizionaOrari">
+<Header>
+<Loc EndOffset="3343" SrcFileId="5" StartOffset="3238"/>
+</Header>
+<LocList>
+<Loc EndOffset="6100" SrcFileId="5" StartOffset="3238"/>
+</LocList>
+<StmntSeq Intrnl_Id="120">
+<LocList>
+<Loc EndOffset="3507" SrcFileId="5" StartOffset="3385"/>
+<Loc EndOffset="6095" SrcFileId="5" StartOffset="3612"/>
+</LocList>
+<BasicStmnt CovItemId="S26" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="121">
+<LocList>
+<Loc EndOffset="3507" SrcFileId="5" StartOffset="3385"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S27" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="122" MltplExecId="L3-2" MltplExecPrefix="gestioneOrariApplication.RecordAggregator.java" NvrExecId="L3-0" NvrExecPrefix="gestioneOrariApplication.RecordAggregator.java" OnceExecutedId="L3-1" OnceExecutedPrefix="gestioneOrariApplication.RecordAggregator.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="123">
+<LocList>
+<Loc EndOffset="3692" SrcFileId="5" StartOffset="3666"/>
+<Loc EndOffset="3712" SrcFileId="5" StartOffset="3696"/>
+<Loc EndOffset="6091" SrcFileId="5" StartOffset="3716"/>
+</LocList>
+<BasicStmnt CovItemId="S28" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="124">
+<LocList>
+<Loc EndOffset="3692" SrcFileId="5" StartOffset="3666"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S29" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="125">
+<LocList>
+<Loc EndOffset="3712" SrcFileId="5" StartOffset="3696"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S30" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="126" MltplExecId="L4-2" MltplExecPrefix="gestioneOrariApplication.RecordAggregator.java" NvrExecId="L4-0" NvrExecPrefix="gestioneOrariApplication.RecordAggregator.java" OnceExecutedId="L4-1" OnceExecutedPrefix="gestioneOrariApplication.RecordAggregator.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="127">
+<LocList>
+<Loc EndOffset="3813" SrcFileId="5" StartOffset="3759"/>
+<Loc EndOffset="4078" SrcFileId="5" StartOffset="3883"/>
+<Loc EndOffset="4185" SrcFileId="5" StartOffset="4165"/>
+<Loc EndOffset="4564" SrcFileId="5" StartOffset="4190"/>
+<Loc EndOffset="4642" SrcFileId="5" StartOffset="4569"/>
+<Loc EndOffset="4952" SrcFileId="5" StartOffset="4708"/>
+<Loc EndOffset="5077" SrcFileId="5" StartOffset="5019"/>
+<Loc EndOffset="5478" SrcFileId="5" StartOffset="5082"/>
+<Loc EndOffset="5617" SrcFileId="5" StartOffset="5519"/>
+<Loc EndOffset="5718" SrcFileId="5" StartOffset="5622"/>
+<Loc EndOffset="5821" SrcFileId="5" StartOffset="5723"/>
+<Loc EndOffset="5922" SrcFileId="5" StartOffset="5826"/>
+<Loc EndOffset="6010" SrcFileId="5" StartOffset="5955"/>
+<Loc EndOffset="6086" SrcFileId="5" StartOffset="6057"/>
+</LocList>
+<BasicStmnt CovItemId="S31" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="128">
+<LocList>
+<Loc EndOffset="3813" SrcFileId="5" StartOffset="3759"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S32" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="129">
+<LocList>
+<Loc EndOffset="4078" SrcFileId="5" StartOffset="3883"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S33" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="130">
+<LocList>
+<Loc EndOffset="4185" SrcFileId="5" StartOffset="4165"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S34" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="131" MltplExecId="L5-2" MltplExecPrefix="gestioneOrariApplication.RecordAggregator.java" NvrExecId="L5-0" NvrExecPrefix="gestioneOrariApplication.RecordAggregator.java" OnceExecutedId="L5-1" OnceExecutedPrefix="gestioneOrariApplication.RecordAggregator.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="132">
+<LocList>
+<Loc EndOffset="4302" SrcFileId="5" StartOffset="4250"/>
+<Loc EndOffset="4331" SrcFileId="5" StartOffset="4308"/>
+<Loc EndOffset="4362" SrcFileId="5" StartOffset="4337"/>
+<Loc EndOffset="4393" SrcFileId="5" StartOffset="4368"/>
+<Loc EndOffset="4419" SrcFileId="5" StartOffset="4399"/>
+<Loc EndOffset="4447" SrcFileId="5" StartOffset="4425"/>
+<Loc EndOffset="4475" SrcFileId="5" StartOffset="4453"/>
+<Loc EndOffset="4558" SrcFileId="5" StartOffset="4481"/>
+</LocList>
+<BasicStmnt CovItemId="S35" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="133">
+<LocList>
+<Loc EndOffset="4302" SrcFileId="5" StartOffset="4250"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S36" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="134">
+<LocList>
+<Loc EndOffset="4331" SrcFileId="5" StartOffset="4308"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S37" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="135">
+<LocList>
+<Loc EndOffset="4362" SrcFileId="5" StartOffset="4337"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S38" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="136">
+<LocList>
+<Loc EndOffset="4393" SrcFileId="5" StartOffset="4368"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S39" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="137">
+<LocList>
+<Loc EndOffset="4419" SrcFileId="5" StartOffset="4399"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S40" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="138">
+<LocList>
+<Loc EndOffset="4447" SrcFileId="5" StartOffset="4425"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S41" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="139">
+<LocList>
+<Loc EndOffset="4475" SrcFileId="5" StartOffset="4453"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S42" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="140">
+<Branch CovItemId="B3" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="141">
+<Cond/>
+<LocList>
+<Loc EndOffset="4558" SrcFileId="5" StartOffset="4512"/>
+</LocList>
+<StmntSeq Intrnl_Id="142">
+<LocList>
+<Loc EndOffset="4538" SrcFileId="5" StartOffset="4520"/>
+<Loc EndOffset="4551" SrcFileId="5" StartOffset="4545"/>
+</LocList>
+<BasicStmnt CovItemId="S43" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="143">
+<LocList>
+<Loc EndOffset="4538" SrcFileId="5" StartOffset="4520"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S44" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="144">
+<LocList>
+<Loc EndOffset="4551" SrcFileId="5" StartOffset="4545"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B4" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="145">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="146">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="4483" SrcFileId="5" StartOffset="4481"/>
+<LocList>
+<Loc EndOffset="4558" SrcFileId="5" StartOffset="4481"/>
+</LocList>
+<RootTerm CovItemId="C3" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="147">
+<BasicBoolTerm Intrnl_Id="148">
+<LocList>
+<Loc EndOffset="4510" SrcFileId="5" StartOffset="4484"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+</StmntSeq>
+<Keyword EndOffset="4193" SrcFileId="5" StartOffset="4190"/>
+<LocList>
+<Loc EndOffset="4564" SrcFileId="5" StartOffset="4190"/>
+</LocList>
+</LoopStmnt>
+<CondStmnt CovItemId="S45" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="149">
+<Branch CovItemId="B5" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="150">
+<Cond/>
+<LocList>
+<Loc EndOffset="4642" SrcFileId="5" StartOffset="4586"/>
+</LocList>
+<StmntSeq Intrnl_Id="151">
+<LocList>
+<Loc EndOffset="4642" SrcFileId="5" StartOffset="4586"/>
+</LocList>
+<BasicStmnt CovItemId="S46" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="152">
+<LocList>
+<Loc EndOffset="4642" SrcFileId="5" StartOffset="4586"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B6" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="153">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="154">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="4571" SrcFileId="5" StartOffset="4569"/>
+<LocList>
+<Loc EndOffset="4642" SrcFileId="5" StartOffset="4569"/>
+</LocList>
+<RootTerm CovItemId="C4" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="155">
+<BasicBoolTerm Intrnl_Id="156">
+<LocList>
+<Loc EndOffset="4584" SrcFileId="5" StartOffset="4573"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S47" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="157">
+<LocList>
+<Loc EndOffset="4952" SrcFileId="5" StartOffset="4708"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S48" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="158">
+<LocList>
+<Loc EndOffset="5077" SrcFileId="5" StartOffset="5019"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S49" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="159" MltplExecId="L6-2" MltplExecPrefix="gestioneOrariApplication.RecordAggregator.java" NvrExecId="L6-0" NvrExecPrefix="gestioneOrariApplication.RecordAggregator.java" OnceExecutedId="L6-1" OnceExecutedPrefix="gestioneOrariApplication.RecordAggregator.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="160">
+<LocList>
+<Loc EndOffset="5206" SrcFileId="5" StartOffset="5146"/>
+<Loc EndOffset="5239" SrcFileId="5" StartOffset="5212"/>
+<Loc EndOffset="5274" SrcFileId="5" StartOffset="5245"/>
+<Loc EndOffset="5309" SrcFileId="5" StartOffset="5280"/>
+<Loc EndOffset="5335" SrcFileId="5" StartOffset="5315"/>
+<Loc EndOffset="5363" SrcFileId="5" StartOffset="5341"/>
+<Loc EndOffset="5391" SrcFileId="5" StartOffset="5369"/>
+<Loc EndOffset="5472" SrcFileId="5" StartOffset="5397"/>
+</LocList>
+<BasicStmnt CovItemId="S50" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="161">
+<LocList>
+<Loc EndOffset="5206" SrcFileId="5" StartOffset="5146"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S51" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="162">
+<LocList>
+<Loc EndOffset="5239" SrcFileId="5" StartOffset="5212"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S52" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="163">
+<LocList>
+<Loc EndOffset="5274" SrcFileId="5" StartOffset="5245"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S53" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="164">
+<LocList>
+<Loc EndOffset="5309" SrcFileId="5" StartOffset="5280"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S54" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="165">
+<LocList>
+<Loc EndOffset="5335" SrcFileId="5" StartOffset="5315"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S55" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="166">
+<LocList>
+<Loc EndOffset="5363" SrcFileId="5" StartOffset="5341"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S56" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="167">
+<LocList>
+<Loc EndOffset="5391" SrcFileId="5" StartOffset="5369"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S57" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="168">
+<Branch CovItemId="B7" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="169">
+<Cond/>
+<LocList>
+<Loc EndOffset="5472" SrcFileId="5" StartOffset="5432"/>
+</LocList>
+<StmntSeq Intrnl_Id="170">
+<LocList>
+<Loc EndOffset="5465" SrcFileId="5" StartOffset="5440"/>
+</LocList>
+<BasicStmnt CovItemId="S58" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="171">
+<LocList>
+<Loc EndOffset="5465" SrcFileId="5" StartOffset="5440"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B8" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="172">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="173">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="5399" SrcFileId="5" StartOffset="5397"/>
+<LocList>
+<Loc EndOffset="5472" SrcFileId="5" StartOffset="5397"/>
+</LocList>
+<RootTerm CovItemId="C5" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="174">
+<BasicBoolTerm Intrnl_Id="175">
+<LocList>
+<Loc EndOffset="5430" SrcFileId="5" StartOffset="5400"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+</StmntSeq>
+<Keyword EndOffset="5085" SrcFileId="5" StartOffset="5082"/>
+<LocList>
+<Loc EndOffset="5478" SrcFileId="5" StartOffset="5082"/>
+</LocList>
+</LoopStmnt>
+<CondStmnt CovItemId="S59" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="176">
+<Branch CovItemId="B9" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="177">
+<Cond/>
+<LocList>
+<Loc EndOffset="5617" SrcFileId="5" StartOffset="5575"/>
+</LocList>
+<StmntSeq Intrnl_Id="178">
+<LocList>
+<Loc EndOffset="5617" SrcFileId="5" StartOffset="5575"/>
+</LocList>
+<BasicStmnt CovItemId="S60" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="179">
+<LocList>
+<Loc EndOffset="5617" SrcFileId="5" StartOffset="5575"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B10" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="180">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="181">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="5521" SrcFileId="5" StartOffset="5519"/>
+<LocList>
+<Loc EndOffset="5617" SrcFileId="5" StartOffset="5519"/>
+</LocList>
+<RootTerm CovItemId="C6" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="182">
+<OpTerm BooleanOpId="12" Intrnl_Id="183">
+<BasicBoolTerm Intrnl_Id="184">
+<LocList>
+<Loc EndOffset="5537" SrcFileId="5" StartOffset="5522"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="185">
+<LocList>
+<Loc EndOffset="5568" SrcFileId="5" StartOffset="5541"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="5540" SrcFileId="5" StartOffset="5538"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<CondStmnt CovItemId="S61" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="186">
+<Branch CovItemId="B11" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="187">
+<Cond/>
+<LocList>
+<Loc EndOffset="5718" SrcFileId="5" StartOffset="5678"/>
+</LocList>
+<StmntSeq Intrnl_Id="188">
+<LocList>
+<Loc EndOffset="5718" SrcFileId="5" StartOffset="5678"/>
+</LocList>
+<BasicStmnt CovItemId="S62" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="189">
+<LocList>
+<Loc EndOffset="5718" SrcFileId="5" StartOffset="5678"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B12" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="190">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="191">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="5624" SrcFileId="5" StartOffset="5622"/>
+<LocList>
+<Loc EndOffset="5718" SrcFileId="5" StartOffset="5622"/>
+</LocList>
+<RootTerm CovItemId="C7" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="192">
+<OpTerm BooleanOpId="12" Intrnl_Id="193">
+<BasicBoolTerm Intrnl_Id="194">
+<LocList>
+<Loc EndOffset="5640" SrcFileId="5" StartOffset="5625"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="195">
+<LocList>
+<Loc EndOffset="5671" SrcFileId="5" StartOffset="5644"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="5643" SrcFileId="5" StartOffset="5641"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<CondStmnt CovItemId="S63" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="196">
+<Branch CovItemId="B13" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="197">
+<Cond/>
+<LocList>
+<Loc EndOffset="5821" SrcFileId="5" StartOffset="5779"/>
+</LocList>
+<StmntSeq Intrnl_Id="198">
+<LocList>
+<Loc EndOffset="5821" SrcFileId="5" StartOffset="5779"/>
+</LocList>
+<BasicStmnt CovItemId="S64" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="199">
+<LocList>
+<Loc EndOffset="5821" SrcFileId="5" StartOffset="5779"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B14" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="200">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="201">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="5725" SrcFileId="5" StartOffset="5723"/>
+<LocList>
+<Loc EndOffset="5821" SrcFileId="5" StartOffset="5723"/>
+</LocList>
+<RootTerm CovItemId="C8" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="202">
+<OpTerm BooleanOpId="12" Intrnl_Id="203">
+<BasicBoolTerm Intrnl_Id="204">
+<LocList>
+<Loc EndOffset="5741" SrcFileId="5" StartOffset="5726"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="205">
+<LocList>
+<Loc EndOffset="5772" SrcFileId="5" StartOffset="5745"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="5744" SrcFileId="5" StartOffset="5742"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<CondStmnt CovItemId="S65" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="206">
+<Branch CovItemId="B15" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="207">
+<Cond/>
+<LocList>
+<Loc EndOffset="5922" SrcFileId="5" StartOffset="5882"/>
+</LocList>
+<StmntSeq Intrnl_Id="208">
+<LocList>
+<Loc EndOffset="5922" SrcFileId="5" StartOffset="5882"/>
+</LocList>
+<BasicStmnt CovItemId="S66" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="209">
+<LocList>
+<Loc EndOffset="5922" SrcFileId="5" StartOffset="5882"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B16" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="210">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="211">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="5828" SrcFileId="5" StartOffset="5826"/>
+<LocList>
+<Loc EndOffset="5922" SrcFileId="5" StartOffset="5826"/>
+</LocList>
+<RootTerm CovItemId="C9" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="212">
+<OpTerm BooleanOpId="12" Intrnl_Id="213">
+<BasicBoolTerm Intrnl_Id="214">
+<LocList>
+<Loc EndOffset="5844" SrcFileId="5" StartOffset="5829"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="215">
+<LocList>
+<Loc EndOffset="5875" SrcFileId="5" StartOffset="5848"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="5847" SrcFileId="5" StartOffset="5845"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S67" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="216">
+<LocList>
+<Loc EndOffset="6010" SrcFileId="5" StartOffset="5955"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S68" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="217">
+<LocList>
+<Loc EndOffset="6086" SrcFileId="5" StartOffset="6057"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="3721" SrcFileId="5" StartOffset="3716"/>
+<LocList>
+<Loc EndOffset="6091" SrcFileId="5" StartOffset="3716"/>
+</LocList>
+<RootTerm CovItemId="C2" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="218">
+<BasicBoolTerm Intrnl_Id="219">
+<LocList>
+<Loc EndOffset="3751" SrcFileId="5" StartOffset="3722"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</LoopStmnt>
+</StmntSeq>
+<Keyword EndOffset="3615" SrcFileId="5" StartOffset="3612"/>
+<LocList>
+<Loc EndOffset="6095" SrcFileId="5" StartOffset="3612"/>
+</LocList>
+</LoopStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4910" HierarchyLvlTypeId="18" Intrnl_Id="220" Name="roundToHalf">
+<Header>
+<Loc EndOffset="6207" SrcFileId="5" StartOffset="6165"/>
+</Header>
+<LocList>
+<Loc EndOffset="6249" SrcFileId="5" StartOffset="6165"/>
+</LocList>
+<StmntSeq Intrnl_Id="221">
+<LocList>
+<Loc EndOffset="6246" SrcFileId="5" StartOffset="6215"/>
+</LocList>
+<BasicStmnt CovItemId="S69" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="222">
+<LocList>
+<Loc EndOffset="6246" SrcFileId="5" StartOffset="6215"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4911" HierarchyLvlTypeId="18" Intrnl_Id="223" Name="elaboraOrari">
+<Header>
+<Loc EndOffset="6445" SrcFileId="5" StartOffset="6359"/>
+</Header>
+<LocList>
+<Loc EndOffset="8375" SrcFileId="5" StartOffset="6359"/>
+</LocList>
+<StmntSeq Intrnl_Id="224">
+<LocList>
+<Loc EndOffset="6563" SrcFileId="5" StartOffset="6450"/>
+<Loc EndOffset="8372" SrcFileId="5" StartOffset="6566"/>
+</LocList>
+<BasicStmnt CovItemId="S70" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="225">
+<LocList>
+<Loc EndOffset="6563" SrcFileId="5" StartOffset="6450"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S71" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="226" MltplExecId="L7-2" MltplExecPrefix="gestioneOrariApplication.RecordAggregator.java" NvrExecId="L7-0" NvrExecPrefix="gestioneOrariApplication.RecordAggregator.java" OnceExecutedId="L7-1" OnceExecutedPrefix="gestioneOrariApplication.RecordAggregator.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="227">
+<LocList>
+<Loc EndOffset="6681" SrcFileId="5" StartOffset="6627"/>
+<Loc EndOffset="6878" SrcFileId="5" StartOffset="6822"/>
+<Loc EndOffset="8309" SrcFileId="5" StartOffset="6882"/>
+<Loc EndOffset="8368" SrcFileId="5" StartOffset="8313"/>
+</LocList>
+<BasicStmnt CovItemId="S72" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="228">
+<LocList>
+<Loc EndOffset="6681" SrcFileId="5" StartOffset="6627"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S73" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="229">
+<LocList>
+<Loc EndOffset="6878" SrcFileId="5" StartOffset="6822"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S74" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="230">
+<Branch CovItemId="B17" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="231">
+<Cond/>
+<LocList>
+<Loc EndOffset="8309" SrcFileId="5" StartOffset="6955"/>
+</LocList>
+<StmntSeq Intrnl_Id="232">
+<LocList>
+<Loc EndOffset="7022" SrcFileId="5" StartOffset="7004"/>
+<Loc EndOffset="7636" SrcFileId="5" StartOffset="7027"/>
+<Loc EndOffset="7817" SrcFileId="5" StartOffset="7641"/>
+<Loc EndOffset="7840" SrcFileId="5" StartOffset="7822"/>
+<Loc EndOffset="7951" SrcFileId="5" StartOffset="7867"/>
+<Loc EndOffset="8094" SrcFileId="5" StartOffset="8003"/>
+<Loc EndOffset="8176" SrcFileId="5" StartOffset="8141"/>
+<Loc EndOffset="8304" SrcFileId="5" StartOffset="8229"/>
+</LocList>
+<BasicStmnt CovItemId="S75" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="233">
+<LocList>
+<Loc EndOffset="7022" SrcFileId="5" StartOffset="7004"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S76" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="234">
+<Branch CovItemId="B19" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="235">
+<Cond/>
+<LocList>
+<Loc EndOffset="7636" SrcFileId="5" StartOffset="7166"/>
+</LocList>
+<StmntSeq Intrnl_Id="236">
+<LocList>
+<Loc EndOffset="7636" SrcFileId="5" StartOffset="7166"/>
+</LocList>
+<CondStmnt CovItemId="S77" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="237">
+<Branch CovItemId="B21" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="238">
+<Cond/>
+<LocList>
+<Loc EndOffset="7529" SrcFileId="5" StartOffset="7376"/>
+</LocList>
+<StmntSeq Intrnl_Id="239">
+<LocList>
+<Loc EndOffset="7529" SrcFileId="5" StartOffset="7376"/>
+</LocList>
+<BasicStmnt CovItemId="S78" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="240">
+<LocList>
+<Loc EndOffset="7529" SrcFileId="5" StartOffset="7376"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B22" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="241">
+<Cond>
+<Loc EndOffset="7539" SrcFileId="5" StartOffset="7535"/>
+</Cond>
+<LocList>
+<Loc EndOffset="7636" SrcFileId="5" StartOffset="7546"/>
+</LocList>
+<StmntSeq Intrnl_Id="242">
+<LocList>
+<Loc EndOffset="7636" SrcFileId="5" StartOffset="7546"/>
+</LocList>
+<BasicStmnt CovItemId="S79" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="243">
+<LocList>
+<Loc EndOffset="7636" SrcFileId="5" StartOffset="7546"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="7168" SrcFileId="5" StartOffset="7166"/>
+<LocList>
+<Loc EndOffset="7636" SrcFileId="5" StartOffset="7166"/>
+</LocList>
+<RootTerm CovItemId="C12" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="244">
+<BasicBoolTerm Intrnl_Id="245">
+<LocList>
+<Loc EndOffset="7367" SrcFileId="5" StartOffset="7170"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B20" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="246">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="247">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="7029" SrcFileId="5" StartOffset="7027"/>
+<LocList>
+<Loc EndOffset="7636" SrcFileId="5" StartOffset="7027"/>
+</LocList>
+<RootTerm CovItemId="C11" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="248">
+<OpTerm BooleanOpId="12" Intrnl_Id="249">
+<BasicBoolTerm Intrnl_Id="250">
+<LocList>
+<Loc EndOffset="7067" SrcFileId="5" StartOffset="7031"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="251">
+<LocList>
+<Loc EndOffset="7105" SrcFileId="5" StartOffset="7071"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="7070" SrcFileId="5" StartOffset="7068"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<CondStmnt CovItemId="S80" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="252">
+<Branch CovItemId="B23" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="253">
+<Cond/>
+<LocList>
+<Loc EndOffset="7817" SrcFileId="5" StartOffset="7727"/>
+</LocList>
+<StmntSeq Intrnl_Id="254">
+<LocList>
+<Loc EndOffset="7817" SrcFileId="5" StartOffset="7727"/>
+</LocList>
+<BasicStmnt CovItemId="S81" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="255">
+<LocList>
+<Loc EndOffset="7817" SrcFileId="5" StartOffset="7727"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B24" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="256">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="257">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="7643" SrcFileId="5" StartOffset="7641"/>
+<LocList>
+<Loc EndOffset="7817" SrcFileId="5" StartOffset="7641"/>
+</LocList>
+<RootTerm CovItemId="C13" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="258">
+<OpTerm BooleanOpId="12" Intrnl_Id="259">
+<BasicBoolTerm Intrnl_Id="260">
+<LocList>
+<Loc EndOffset="7681" SrcFileId="5" StartOffset="7645"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="261">
+<LocList>
+<Loc EndOffset="7719" SrcFileId="5" StartOffset="7685"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="7684" SrcFileId="5" StartOffset="7682"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S82" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="262">
+<LocList>
+<Loc EndOffset="7840" SrcFileId="5" StartOffset="7822"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S83" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="263">
+<LocList>
+<Loc EndOffset="7951" SrcFileId="5" StartOffset="7867"/>
+</LocList>
+<QMO CovItemId="Q0" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="264">
+<LocList>
+<Loc EndOffset="7923" SrcFileId="5" StartOffset="7900"/>
+</LocList>
+<QMO_E CovItemId="Q0-0" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="265">
+<LocList>
+<Loc EndOffset="7927" SrcFileId="5" StartOffset="7926"/>
+</LocList>
+</QMO_E>
+<QMO_E CovItemId="Q0-1" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="266">
+<LocList>
+<Loc EndOffset="7949" SrcFileId="5" StartOffset="7930"/>
+</LocList>
+</QMO_E>
+</QMO>
+</BasicStmnt>
+<BasicStmnt CovItemId="S84" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="267">
+<LocList>
+<Loc EndOffset="8094" SrcFileId="5" StartOffset="8003"/>
+</LocList>
+<QMO CovItemId="Q1" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="268">
+<LocList>
+<Loc EndOffset="8062" SrcFileId="5" StartOffset="8040"/>
+</LocList>
+<QMO_E CovItemId="Q1-0" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="269">
+<LocList>
+<Loc EndOffset="8066" SrcFileId="5" StartOffset="8065"/>
+</LocList>
+</QMO_E>
+<QMO_E CovItemId="Q1-1" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="270">
+<LocList>
+<Loc EndOffset="8092" SrcFileId="5" StartOffset="8069"/>
+</LocList>
+</QMO_E>
+</QMO>
+</BasicStmnt>
+<BasicStmnt CovItemId="S85" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="271">
+<LocList>
+<Loc EndOffset="8176" SrcFileId="5" StartOffset="8141"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S86" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="272">
+<LocList>
+<Loc EndOffset="8304" SrcFileId="5" StartOffset="8229"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B18" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="273">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="274">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="6884" SrcFileId="5" StartOffset="6882"/>
+<LocList>
+<Loc EndOffset="8309" SrcFileId="5" StartOffset="6882"/>
+</LocList>
+<RootTerm CovItemId="C10" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="275">
+<OpTerm BooleanOpId="12" Intrnl_Id="276">
+<BasicBoolTerm Intrnl_Id="277">
+<LocList>
+<Loc EndOffset="6917" SrcFileId="5" StartOffset="6885"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="278">
+<LocList>
+<Loc EndOffset="6953" SrcFileId="5" StartOffset="6921"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="6920" SrcFileId="5" StartOffset="6918"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S87" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="279">
+<LocList>
+<Loc EndOffset="8368" SrcFileId="5" StartOffset="8313"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="6569" SrcFileId="5" StartOffset="6566"/>
+<LocList>
+<Loc EndOffset="8372" SrcFileId="5" StartOffset="6566"/>
+</LocList>
+</LoopStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4912" HierarchyLvlTypeId="18" Intrnl_Id="280" Name="eliminaDatiTimbrature">
+<Header>
+<Loc EndOffset="8520" SrcFileId="5" StartOffset="8485"/>
+</Header>
+<LocList>
+<Loc EndOffset="8791" SrcFileId="5" StartOffset="8485"/>
+</LocList>
+<StmntSeq Intrnl_Id="281">
+<LocList>
+<Loc EndOffset="8588" SrcFileId="5" StartOffset="8534"/>
+<Loc EndOffset="8675" SrcFileId="5" StartOffset="8592"/>
+<Loc EndOffset="8734" SrcFileId="5" StartOffset="8679"/>
+<Loc EndOffset="8788" SrcFileId="5" StartOffset="8525"/>
+</LocList>
+<BasicStmnt CovItemId="S89" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="282">
+<LocList>
+<Loc EndOffset="8588" SrcFileId="5" StartOffset="8534"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S90" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="283">
+<LocList>
+<Loc EndOffset="8675" SrcFileId="5" StartOffset="8592"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S91" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="284">
+<LocList>
+<Loc EndOffset="8734" SrcFileId="5" StartOffset="8679"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S88" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="285">
+<Branch CovItemId="B25" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="true" Intrnl_Id="286">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="287">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B26" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Implct="false" Intrnl_Id="288">
+<Cond>
+<Loc EndOffset="8758" SrcFileId="5" StartOffset="8739"/>
+</Cond>
+<LocList>
+<Loc EndOffset="8788" SrcFileId="5" StartOffset="8759"/>
+</LocList>
+<StmntSeq Intrnl_Id="289">
+<LocList>
+<Loc EndOffset="8784" SrcFileId="5" StartOffset="8764"/>
+</LocList>
+<BasicStmnt CovItemId="S92" CovItemPrefix="gestioneOrariApplication.RecordAggregator.java" Intrnl_Id="290">
+<LocList>
+<Loc EndOffset="8784" SrcFileId="5" StartOffset="8764"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="8528" SrcFileId="5" StartOffset="8525"/>
+<LocList>
+<Loc EndOffset="8788" SrcFileId="5" StartOffset="8525"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4915" HierarchyLvlTypeId="19" Intrnl_Id="291" Name="RecordParser">
+<Header>
+<Loc EndOffset="333" SrcFileId="6" StartOffset="269"/>
+</Header>
+<LocList>
+<Loc EndOffset="1134" SrcFileId="6" StartOffset="269"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="4914" HierarchyLvlTypeId="18" Intrnl_Id="292" Name="parserXML">
+<Header>
+<Loc EndOffset="639" SrcFileId="6" StartOffset="338"/>
+</Header>
+<LocList>
+<Loc EndOffset="1131" SrcFileId="6" StartOffset="338"/>
+</LocList>
+<StmntSeq Intrnl_Id="293">
+<LocList>
+<Loc EndOffset="711" SrcFileId="6" StartOffset="653"/>
+<Loc EndOffset="760" SrcFileId="6" StartOffset="715"/>
+<Loc EndOffset="808" SrcFileId="6" StartOffset="764"/>
+<Loc EndOffset="886" SrcFileId="6" StartOffset="812"/>
+<Loc EndOffset="927" SrcFileId="6" StartOffset="890"/>
+<Loc EndOffset="1128" SrcFileId="6" StartOffset="644"/>
+</LocList>
+<BasicStmnt CovItemId="S2" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Intrnl_Id="294">
+<LocList>
+<Loc EndOffset="711" SrcFileId="6" StartOffset="653"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S3" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Intrnl_Id="295">
+<LocList>
+<Loc EndOffset="760" SrcFileId="6" StartOffset="715"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S4" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Intrnl_Id="296">
+<LocList>
+<Loc EndOffset="808" SrcFileId="6" StartOffset="764"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S5" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Intrnl_Id="297">
+<LocList>
+<Loc EndOffset="886" SrcFileId="6" StartOffset="812"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S6" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Intrnl_Id="298">
+<LocList>
+<Loc EndOffset="927" SrcFileId="6" StartOffset="890"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S1" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Intrnl_Id="299">
+<Branch CovItemId="B1" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Implct="true" Intrnl_Id="300">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="301">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Implct="false" Intrnl_Id="302">
+<Cond>
+<Loc EndOffset="953" SrcFileId="6" StartOffset="934"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1128" SrcFileId="6" StartOffset="954"/>
+</LocList>
+<StmntSeq Intrnl_Id="303">
+<LocList>
+<Loc EndOffset="1084" SrcFileId="6" StartOffset="959"/>
+<Loc EndOffset="1108" SrcFileId="6" StartOffset="1088"/>
+<Loc EndOffset="1124" SrcFileId="6" StartOffset="1112"/>
+</LocList>
+<BasicStmnt CovItemId="S7" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Intrnl_Id="304">
+<LocList>
+<Loc EndOffset="1084" SrcFileId="6" StartOffset="959"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S8" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Intrnl_Id="305">
+<LocList>
+<Loc EndOffset="1108" SrcFileId="6" StartOffset="1088"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S9" CovItemPrefix="gestioneOrariApplication.RecordParser.java" Intrnl_Id="306">
+<LocList>
+<Loc EndOffset="1124" SrcFileId="6" StartOffset="1112"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="647" SrcFileId="6" StartOffset="644"/>
+<LocList>
+<Loc EndOffset="1128" SrcFileId="6" StartOffset="644"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4918" HierarchyLvlTypeId="19" Intrnl_Id="307" Name="SalvaDatiGrezziActionListener">
+<Header>
+<Loc EndOffset="578" SrcFileId="7" StartOffset="510"/>
+</Header>
+<LocList>
+<Loc EndOffset="3433" SrcFileId="7" StartOffset="510"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="4916" HierarchyLvlTypeId="18" Intrnl_Id="308" Name="SalvaDatiGrezziActionListener">
+<Header>
+<Loc EndOffset="702" SrcFileId="7" StartOffset="626"/>
+</Header>
+<LocList>
+<Loc EndOffset="763" SrcFileId="7" StartOffset="626"/>
+</LocList>
+<StmntSeq Intrnl_Id="309">
+<LocList>
+<Loc EndOffset="736" SrcFileId="7" StartOffset="707"/>
+<Loc EndOffset="760" SrcFileId="7" StartOffset="739"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="310">
+<LocList>
+<Loc EndOffset="736" SrcFileId="7" StartOffset="707"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S2" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="311">
+<LocList>
+<Loc EndOffset="760" SrcFileId="7" StartOffset="739"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4917" HierarchyLvlTypeId="18" Intrnl_Id="312" Name="actionPerformed">
+<Header>
+<Loc EndOffset="854" SrcFileId="7" StartOffset="767"/>
+</Header>
+<LocList>
+<Loc EndOffset="3430" SrcFileId="7" StartOffset="767"/>
+</LocList>
+<StmntSeq Intrnl_Id="313">
+<LocList>
+<Loc EndOffset="925" SrcFileId="7" StartOffset="882"/>
+<Loc EndOffset="3031" SrcFileId="7" StartOffset="1050"/>
+<Loc EndOffset="3082" SrcFileId="7" StartOffset="3067"/>
+<Loc EndOffset="3146" SrcFileId="7" StartOffset="3116"/>
+<Loc EndOffset="3172" SrcFileId="7" StartOffset="3150"/>
+<Loc EndOffset="3427" SrcFileId="7" StartOffset="928"/>
+</LocList>
+<BasicStmnt CovItemId="S3" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="314">
+<LocList>
+<Loc EndOffset="925" SrcFileId="7" StartOffset="882"/>
+</LocList>
+</BasicStmnt>
+<LoopStmnt CovItemId="S5" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="315" MltplExecId="L1-2" MltplExecPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" NvrExecId="L1-0" NvrExecPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" OnceExecutedId="L1-1" OnceExecutedPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="316">
+<LocList>
+<Loc EndOffset="1368" SrcFileId="7" StartOffset="1146"/>
+<Loc EndOffset="1406" SrcFileId="7" StartOffset="1378"/>
+<Loc EndOffset="1555" SrcFileId="7" StartOffset="1474"/>
+<Loc EndOffset="1822" SrcFileId="7" StartOffset="1560"/>
+<Loc EndOffset="1954" SrcFileId="7" StartOffset="1894"/>
+<Loc EndOffset="2222" SrcFileId="7" StartOffset="1959"/>
+<Loc EndOffset="2324" SrcFileId="7" StartOffset="2271"/>
+<Loc EndOffset="2556" SrcFileId="7" StartOffset="2369"/>
+<Loc EndOffset="2724" SrcFileId="7" StartOffset="2561"/>
+<Loc EndOffset="2782" SrcFileId="7" StartOffset="2729"/>
+<Loc EndOffset="2914" SrcFileId="7" StartOffset="2860"/>
+<Loc EndOffset="2966" SrcFileId="7" StartOffset="2919"/>
+<Loc EndOffset="3026" SrcFileId="7" StartOffset="2971"/>
+</LocList>
+<CondStmnt CovItemId="S6" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="317">
+<Branch CovItemId="B2" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Implct="false" Intrnl_Id="318">
+<Cond/>
+<LocList>
+<Loc EndOffset="1368" SrcFileId="7" StartOffset="1359"/>
+</LocList>
+<StmntSeq Intrnl_Id="319">
+<LocList>
+<Loc EndOffset="1368" SrcFileId="7" StartOffset="1359"/>
+</LocList>
+<BasicStmnt CovItemId="S7" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="320">
+<LocList>
+<Loc EndOffset="1368" SrcFileId="7" StartOffset="1359"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B3" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Implct="true" Intrnl_Id="321">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="322">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1148" SrcFileId="7" StartOffset="1146"/>
+<LocList>
+<Loc EndOffset="1368" SrcFileId="7" StartOffset="1146"/>
+</LocList>
+<RootTerm CovItemId="C2" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="323">
+<OpTerm BooleanOpId="13" Intrnl_Id="324">
+<OpTerm BooleanOpId="13" Intrnl_Id="325">
+<OpTerm BooleanOpId="13" Intrnl_Id="326">
+<BasicBoolTerm Intrnl_Id="327">
+<LocList>
+<Loc EndOffset="1196" SrcFileId="7" StartOffset="1150"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="328">
+<LocList>
+<Loc EndOffset="1246" SrcFileId="7" StartOffset="1200"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="1199" SrcFileId="7" StartOffset="1197"/>
+</LocList>
+</OpTerm>
+<BasicBoolTerm Intrnl_Id="329">
+<LocList>
+<Loc EndOffset="1302" SrcFileId="7" StartOffset="1256"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="1249" SrcFileId="7" StartOffset="1247"/>
+</LocList>
+</OpTerm>
+<BasicBoolTerm Intrnl_Id="330">
+<LocList>
+<Loc EndOffset="1352" SrcFileId="7" StartOffset="1306"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="1305" SrcFileId="7" StartOffset="1303"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S8" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="331">
+<LocList>
+<Loc EndOffset="1406" SrcFileId="7" StartOffset="1378"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S9" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="332">
+<LocList>
+<Loc EndOffset="1555" SrcFileId="7" StartOffset="1474"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S10" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="333">
+<LocList>
+<Loc EndOffset="1822" SrcFileId="7" StartOffset="1560"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S11" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="334">
+<LocList>
+<Loc EndOffset="1954" SrcFileId="7" StartOffset="1894"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S12" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="335">
+<LocList>
+<Loc EndOffset="2222" SrcFileId="7" StartOffset="1959"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S13" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="336">
+<LocList>
+<Loc EndOffset="2324" SrcFileId="7" StartOffset="2271"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S14" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="337">
+<LocList>
+<Loc EndOffset="2556" SrcFileId="7" StartOffset="2369"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S15" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="338">
+<Branch CovItemId="B4" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Implct="false" Intrnl_Id="339">
+<Cond/>
+<LocList>
+<Loc EndOffset="2724" SrcFileId="7" StartOffset="2632"/>
+</LocList>
+<StmntSeq Intrnl_Id="340">
+<LocList>
+<Loc EndOffset="2724" SrcFileId="7" StartOffset="2632"/>
+</LocList>
+<BasicStmnt CovItemId="S16" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="341">
+<LocList>
+<Loc EndOffset="2724" SrcFileId="7" StartOffset="2632"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B5" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Implct="true" Intrnl_Id="342">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="343">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="2563" SrcFileId="7" StartOffset="2561"/>
+<LocList>
+<Loc EndOffset="2724" SrcFileId="7" StartOffset="2561"/>
+</LocList>
+<RootTerm CovItemId="C3" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="344">
+<OpTerm BooleanOpId="13" Intrnl_Id="345">
+<BasicBoolTerm Intrnl_Id="346">
+<LocList>
+<Loc EndOffset="2596" SrcFileId="7" StartOffset="2565"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="347">
+<LocList>
+<Loc EndOffset="2630" SrcFileId="7" StartOffset="2600"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="2599" SrcFileId="7" StartOffset="2597"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S17" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="348">
+<LocList>
+<Loc EndOffset="2782" SrcFileId="7" StartOffset="2729"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S18" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="349">
+<LocList>
+<Loc EndOffset="2914" SrcFileId="7" StartOffset="2860"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S19" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="350">
+<LocList>
+<Loc EndOffset="2966" SrcFileId="7" StartOffset="2919"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S20" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="351">
+<LocList>
+<Loc EndOffset="3026" SrcFileId="7" StartOffset="2971"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="1053" SrcFileId="7" StartOffset="1050"/>
+<LocList>
+<Loc EndOffset="3031" SrcFileId="7" StartOffset="1050"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="352">
+<BasicBoolTerm Intrnl_Id="353">
+<LocList>
+<Loc EndOffset="1085" SrcFileId="7" StartOffset="1062"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</LoopStmnt>
+<BasicStmnt CovItemId="S21" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="354">
+<LocList>
+<Loc EndOffset="3082" SrcFileId="7" StartOffset="3067"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S22" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="355">
+<LocList>
+<Loc EndOffset="3146" SrcFileId="7" StartOffset="3116"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S23" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="356">
+<LocList>
+<Loc EndOffset="3172" SrcFileId="7" StartOffset="3150"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S4" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="357">
+<Branch CovItemId="B1" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Implct="true" Intrnl_Id="358">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="359">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B6" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Implct="false" Intrnl_Id="360">
+<Cond>
+<Loc EndOffset="3197" SrcFileId="7" StartOffset="3177"/>
+</Cond>
+<LocList>
+<Loc EndOffset="3427" SrcFileId="7" StartOffset="3198"/>
+</LocList>
+<StmntSeq Intrnl_Id="361">
+<LocList>
+<Loc EndOffset="3420" SrcFileId="7" StartOffset="3203"/>
+</LocList>
+<BasicStmnt CovItemId="S24" CovItemPrefix="gestioneOrariApplication.SalvaDatiGrezziActionListener.java" Intrnl_Id="362">
+<LocList>
+<Loc EndOffset="3420" SrcFileId="7" StartOffset="3203"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="931" SrcFileId="7" StartOffset="928"/>
+<LocList>
+<Loc EndOffset="3427" SrcFileId="7" StartOffset="928"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4920" HierarchyLvlTypeId="19" Intrnl_Id="363" Name="TimeValidator">
+<Header>
+<Loc EndOffset="223" SrcFileId="8" StartOffset="197"/>
+</Header>
+<LocList>
+<Loc EndOffset="888" SrcFileId="8" StartOffset="197"/>
+</LocList>
+<StmntSeq Intrnl_Id="364">
+<LocList>
+<Loc EndOffset="449" SrcFileId="8" StartOffset="352"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="gestioneOrariApplication.TimeValidator.java" Intrnl_Id="365">
+<LocList>
+<Loc EndOffset="449" SrcFileId="8" StartOffset="352"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<HierarchyLvl HierarchyLvlId="4919" HierarchyLvlTypeId="18" Intrnl_Id="366" Name="validate">
+<Header>
+<Loc EndOffset="707" SrcFileId="8" StartOffset="644"/>
+</Header>
+<LocList>
+<Loc EndOffset="886" SrcFileId="8" StartOffset="644"/>
+</LocList>
+<StmntSeq Intrnl_Id="367">
+<LocList>
+<Loc EndOffset="760" SrcFileId="8" StartOffset="713"/>
+<Loc EndOffset="797" SrcFileId="8" StartOffset="765"/>
+<Loc EndOffset="871" SrcFileId="8" StartOffset="802"/>
+</LocList>
+<BasicStmnt CovItemId="S2" CovItemPrefix="gestioneOrariApplication.TimeValidator.java" Intrnl_Id="368">
+<LocList>
+<Loc EndOffset="760" SrcFileId="8" StartOffset="713"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S3" CovItemPrefix="gestioneOrariApplication.TimeValidator.java" Intrnl_Id="369">
+<LocList>
+<Loc EndOffset="797" SrcFileId="8" StartOffset="765"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S4" CovItemPrefix="gestioneOrariApplication.TimeValidator.java" Intrnl_Id="370">
+<Branch CovItemId="B1" CovItemPrefix="gestioneOrariApplication.TimeValidator.java" Implct="false" Intrnl_Id="371">
+<Cond/>
+<LocList>
+<Loc EndOffset="871" SrcFileId="8" StartOffset="826"/>
+</LocList>
+<StmntSeq Intrnl_Id="372">
+<LocList>
+<Loc EndOffset="871" SrcFileId="8" StartOffset="826"/>
+</LocList>
+<BasicStmnt CovItemId="S5" CovItemPrefix="gestioneOrariApplication.TimeValidator.java" Intrnl_Id="373">
+<LocList>
+<Loc EndOffset="871" SrcFileId="8" StartOffset="826"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="gestioneOrariApplication.TimeValidator.java" Implct="true" Intrnl_Id="374">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="375">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="804" SrcFileId="8" StartOffset="802"/>
+<LocList>
+<Loc EndOffset="871" SrcFileId="8" StartOffset="802"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="gestioneOrariApplication.TimeValidator.java" Intrnl_Id="376">
+<OpTerm BooleanOpId="14" Intrnl_Id="377">
+<BasicBoolTerm Intrnl_Id="378">
+<LocList>
+<Loc EndOffset="824" SrcFileId="8" StartOffset="807"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="807" SrcFileId="8" StartOffset="806"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4925" HierarchyLvlTypeId="19" Intrnl_Id="379" Name="XMLHandler">
+<Header>
+<Loc EndOffset="397" SrcFileId="9" StartOffset="351"/>
+</Header>
+<LocList>
+<Loc EndOffset="2656" SrcFileId="9" StartOffset="351"/>
+</LocList>
+<StmntSeq Intrnl_Id="380">
+<LocList>
+<Loc EndOffset="435" SrcFileId="9" StartOffset="401"/>
+<Loc EndOffset="532" SrcFileId="9" StartOffset="461"/>
+<Loc EndOffset="583" SrcFileId="9" StartOffset="534"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="381">
+<LocList>
+<Loc EndOffset="435" SrcFileId="9" StartOffset="401"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S2" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="382">
+<LocList>
+<Loc EndOffset="532" SrcFileId="9" StartOffset="461"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S3" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="383">
+<LocList>
+<Loc EndOffset="583" SrcFileId="9" StartOffset="534"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<HierarchyLvl HierarchyLvlId="4921" HierarchyLvlTypeId="18" Intrnl_Id="384" Name="startElement">
+<Header>
+<Loc EndOffset="744" SrcFileId="9" StartOffset="587"/>
+</Header>
+<LocList>
+<Loc EndOffset="1432" SrcFileId="9" StartOffset="587"/>
+</LocList>
+<StmntSeq Intrnl_Id="385">
+<LocList>
+<Loc EndOffset="1429" SrcFileId="9" StartOffset="799"/>
+</LocList>
+<CondStmnt CovItemId="S4" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="386">
+<Branch CovItemId="B1" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="387">
+<Cond>
+<Loc EndOffset="833" SrcFileId="9" StartOffset="819"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1144" SrcFileId="9" StartOffset="840"/>
+</LocList>
+<StmntSeq Intrnl_Id="388">
+<LocList>
+<Loc EndOffset="861" SrcFileId="9" StartOffset="840"/>
+<Loc EndOffset="1132" SrcFileId="9" StartOffset="867"/>
+<Loc EndOffset="1144" SrcFileId="9" StartOffset="1138"/>
+</LocList>
+<BasicStmnt CovItemId="S5" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="389">
+<LocList>
+<Loc EndOffset="861" SrcFileId="9" StartOffset="840"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S6" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="390">
+<LocList>
+<Loc EndOffset="1132" SrcFileId="9" StartOffset="867"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S7" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="391">
+<LocList>
+<Loc EndOffset="1144" SrcFileId="9" StartOffset="1138"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="392">
+<Cond>
+<Loc EndOffset="1161" SrcFileId="9" StartOffset="1148"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1316" SrcFileId="9" StartOffset="1163"/>
+</LocList>
+<StmntSeq Intrnl_Id="393">
+<LocList>
+<Loc EndOffset="1183" SrcFileId="9" StartOffset="1163"/>
+<Loc EndOffset="1219" SrcFileId="9" StartOffset="1189"/>
+<Loc EndOffset="1252" SrcFileId="9" StartOffset="1224"/>
+<Loc EndOffset="1305" SrcFileId="9" StartOffset="1257"/>
+<Loc EndOffset="1316" SrcFileId="9" StartOffset="1310"/>
+</LocList>
+<BasicStmnt CovItemId="S8" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="394">
+<LocList>
+<Loc EndOffset="1183" SrcFileId="9" StartOffset="1163"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S9" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="395">
+<LocList>
+<Loc EndOffset="1219" SrcFileId="9" StartOffset="1189"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S10" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="396">
+<LocList>
+<Loc EndOffset="1252" SrcFileId="9" StartOffset="1224"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S11" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="397">
+<LocList>
+<Loc EndOffset="1305" SrcFileId="9" StartOffset="1257"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S12" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="398">
+<LocList>
+<Loc EndOffset="1316" SrcFileId="9" StartOffset="1310"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B3" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="399">
+<Cond>
+<Loc EndOffset="1334" SrcFileId="9" StartOffset="1320"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1364" SrcFileId="9" StartOffset="1336"/>
+</LocList>
+<StmntSeq Intrnl_Id="400">
+<LocList>
+<Loc EndOffset="1357" SrcFileId="9" StartOffset="1336"/>
+<Loc EndOffset="1364" SrcFileId="9" StartOffset="1358"/>
+</LocList>
+<BasicStmnt CovItemId="S13" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="401">
+<LocList>
+<Loc EndOffset="1357" SrcFileId="9" StartOffset="1336"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S14" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="402">
+<LocList>
+<Loc EndOffset="1364" SrcFileId="9" StartOffset="1358"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B4" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="403">
+<Cond>
+<Loc EndOffset="1379" SrcFileId="9" StartOffset="1368"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1406" SrcFileId="9" StartOffset="1381"/>
+</LocList>
+<StmntSeq Intrnl_Id="404">
+<LocList>
+<Loc EndOffset="1399" SrcFileId="9" StartOffset="1381"/>
+<Loc EndOffset="1406" SrcFileId="9" StartOffset="1400"/>
+</LocList>
+<BasicStmnt CovItemId="S15" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="405">
+<LocList>
+<Loc EndOffset="1399" SrcFileId="9" StartOffset="1381"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S16" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="406">
+<LocList>
+<Loc EndOffset="1406" SrcFileId="9" StartOffset="1400"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B5" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="407">
+<Cond>
+<Loc EndOffset="1417" SrcFileId="9" StartOffset="1410"/>
+</Cond>
+<LocList>
+<Loc EndOffset="1425" SrcFileId="9" StartOffset="1419"/>
+</LocList>
+<StmntSeq Intrnl_Id="408">
+<LocList>
+<Loc EndOffset="1425" SrcFileId="9" StartOffset="1419"/>
+</LocList>
+<BasicStmnt CovItemId="S17" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="409">
+<LocList>
+<Loc EndOffset="1425" SrcFileId="9" StartOffset="1419"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="805" SrcFileId="9" StartOffset="799"/>
+<LocList>
+<Loc EndOffset="1429" SrcFileId="9" StartOffset="799"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4922" HierarchyLvlTypeId="18" Intrnl_Id="410" Name="characters">
+<Header>
+<Loc EndOffset="1564" SrcFileId="9" StartOffset="1442"/>
+</Header>
+<LocList>
+<Loc EndOffset="2299" SrcFileId="9" StartOffset="1442"/>
+</LocList>
+<StmntSeq Intrnl_Id="411">
+<LocList>
+<Loc EndOffset="1617" SrcFileId="9" StartOffset="1570"/>
+<Loc EndOffset="2296" SrcFileId="9" StartOffset="1703"/>
+</LocList>
+<BasicStmnt CovItemId="S18" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="412">
+<LocList>
+<Loc EndOffset="1617" SrcFileId="9" StartOffset="1570"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S19" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="413">
+<Branch CovItemId="B6" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="414">
+<Cond>
+<Loc EndOffset="1733" SrcFileId="9" StartOffset="1721"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2064" SrcFileId="9" StartOffset="1739"/>
+</LocList>
+<StmntSeq Intrnl_Id="415">
+<LocList>
+<Loc EndOffset="1892" SrcFileId="9" StartOffset="1739"/>
+<Loc EndOffset="1993" SrcFileId="9" StartOffset="1897"/>
+<Loc EndOffset="2053" SrcFileId="9" StartOffset="1998"/>
+<Loc EndOffset="2064" SrcFileId="9" StartOffset="2058"/>
+</LocList>
+<BasicStmnt CovItemId="S20" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="416">
+<LocList>
+<Loc EndOffset="1892" SrcFileId="9" StartOffset="1739"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S21" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="417">
+<Branch CovItemId="B7" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="418">
+<Cond/>
+<LocList>
+<Loc EndOffset="1993" SrcFileId="9" StartOffset="1968"/>
+</LocList>
+<StmntSeq Intrnl_Id="419">
+<LocList>
+<Loc EndOffset="1993" SrcFileId="9" StartOffset="1968"/>
+</LocList>
+<BasicStmnt CovItemId="S22" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="420">
+<LocList>
+<Loc EndOffset="1993" SrcFileId="9" StartOffset="1968"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B8" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="true" Intrnl_Id="421">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="422">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1899" SrcFileId="9" StartOffset="1897"/>
+<LocList>
+<Loc EndOffset="1993" SrcFileId="9" StartOffset="1897"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="423">
+<OpTerm BooleanOpId="13" Intrnl_Id="424">
+<BasicBoolTerm Intrnl_Id="425">
+<LocList>
+<Loc EndOffset="1932" SrcFileId="9" StartOffset="1901"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="426">
+<LocList>
+<Loc EndOffset="1966" SrcFileId="9" StartOffset="1936"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="1935" SrcFileId="9" StartOffset="1933"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S23" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="427">
+<LocList>
+<Loc EndOffset="2053" SrcFileId="9" StartOffset="1998"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S24" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="428">
+<LocList>
+<Loc EndOffset="2064" SrcFileId="9" StartOffset="2058"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B9" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="429">
+<Cond>
+<Loc EndOffset="2077" SrcFileId="9" StartOffset="2068"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2273" SrcFileId="9" StartOffset="2083"/>
+</LocList>
+<StmntSeq Intrnl_Id="430">
+<LocList>
+<Loc EndOffset="2262" SrcFileId="9" StartOffset="2083"/>
+<Loc EndOffset="2273" SrcFileId="9" StartOffset="2267"/>
+</LocList>
+<BasicStmnt CovItemId="S25" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="431">
+<LocList>
+<Loc EndOffset="2262" SrcFileId="9" StartOffset="2083"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S26" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="432">
+<LocList>
+<Loc EndOffset="2273" SrcFileId="9" StartOffset="2267"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B10" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="433">
+<Cond>
+<Loc EndOffset="2284" SrcFileId="9" StartOffset="2277"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2292" SrcFileId="9" StartOffset="2286"/>
+</LocList>
+<StmntSeq Intrnl_Id="434">
+<LocList>
+<Loc EndOffset="2292" SrcFileId="9" StartOffset="2286"/>
+</LocList>
+<BasicStmnt CovItemId="S27" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="435">
+<LocList>
+<Loc EndOffset="2292" SrcFileId="9" StartOffset="2286"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1709" SrcFileId="9" StartOffset="1703"/>
+<LocList>
+<Loc EndOffset="2296" SrcFileId="9" StartOffset="1703"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4923" HierarchyLvlTypeId="18" Intrnl_Id="436" Name="endElement">
+<Header>
+<Loc EndOffset="2407" SrcFileId="9" StartOffset="2309"/>
+</Header>
+<LocList>
+<Loc EndOffset="2574" SrcFileId="9" StartOffset="2309"/>
+</LocList>
+<StmntSeq Intrnl_Id="437">
+<LocList>
+<Loc EndOffset="2568" SrcFileId="9" StartOffset="2412"/>
+</LocList>
+<CondStmnt CovItemId="S28" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="438">
+<Branch CovItemId="B11" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="439">
+<Cond>
+<Loc EndOffset="2439" SrcFileId="9" StartOffset="2430"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2530" SrcFileId="9" StartOffset="2498"/>
+</LocList>
+<StmntSeq Intrnl_Id="440">
+<LocList>
+<Loc EndOffset="2530" SrcFileId="9" StartOffset="2498"/>
+</LocList>
+<BasicStmnt CovItemId="S29" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="441">
+<LocList>
+<Loc EndOffset="2530" SrcFileId="9" StartOffset="2498"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B12" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Implct="false" Intrnl_Id="442">
+<Cond>
+<Loc EndOffset="2541" SrcFileId="9" StartOffset="2534"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2564" SrcFileId="9" StartOffset="2547"/>
+</LocList>
+<StmntSeq Intrnl_Id="443">
+<LocList>
+<Loc EndOffset="2564" SrcFileId="9" StartOffset="2547"/>
+</LocList>
+<BasicStmnt CovItemId="S30" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="444">
+<LocList>
+<Loc EndOffset="2564" SrcFileId="9" StartOffset="2547"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="2418" SrcFileId="9" StartOffset="2412"/>
+<LocList>
+<Loc EndOffset="2568" SrcFileId="9" StartOffset="2412"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4924" HierarchyLvlTypeId="18" Intrnl_Id="445" Name="getRecordList">
+<Header>
+<Loc EndOffset="2619" SrcFileId="9" StartOffset="2580"/>
+</Header>
+<LocList>
+<Loc EndOffset="2652" SrcFileId="9" StartOffset="2580"/>
+</LocList>
+<StmntSeq Intrnl_Id="446">
+<LocList>
+<Loc EndOffset="2649" SrcFileId="9" StartOffset="2626"/>
+</LocList>
+<BasicStmnt CovItemId="S31" CovItemPrefix="gestioneOrariApplication.XMLHandler.java" Intrnl_Id="447">
+<LocList>
+<Loc EndOffset="2649" SrcFileId="9" StartOffset="2626"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4927" HierarchyLvlTypeId="17" Intrnl_Id="448" Name="XMLParser">
+<Header>
+<Loc EndOffset="64" SrcFileId="10" StartOffset="35"/>
+</Header>
+<LocList>
+<Loc EndOffset="106" SrcFileId="10" StartOffset="35"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="4926" HierarchyLvlTypeId="18" Intrnl_Id="449" Name="parserXML">
+<Header>
+<Loc EndOffset="103" SrcFileId="10" StartOffset="68"/>
+</Header>
+<LocList>
+<Loc EndOffset="104" SrcFileId="10" StartOffset="68"/>
+</LocList>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="4928" HierarchyLvlTypeId="15" Intrnl_Id="450" Name="XMLTag">
+<Header>
+<Loc EndOffset="53" SrcFileId="11" StartOffset="35"/>
+</Header>
+<LocList>
+<Loc EndOffset="97" SrcFileId="11" StartOffset="35"/>
+</LocList>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</MASTRoot>
+</TestSessionContainer>

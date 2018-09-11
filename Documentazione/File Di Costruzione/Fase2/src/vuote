@@ -1,0 +1,9 @@
+funzione creaRigheVuoteOrari(dataMax, dataMin)
+	Listadipendenti <- elenco di tutti i dipendenti in database
+	for each dipendente in Listadipendenti
+		for each data between dataMin and dataMax
+			inserimento di una riga vuota per [dipendente] nella data 
+			[data] nella tabella degli orari aggregati
+		end for
+	end for
+fine funzione

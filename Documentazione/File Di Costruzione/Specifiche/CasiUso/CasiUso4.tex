@@ -1,0 +1,54 @@
+%------------------------------------------------
+\subsection{UC4: Inserimento nuova attività}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole inserire una nuova attività.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+DA01, DA05, DA06, DA07, DA08
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Gestore del personale
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+L'attività non è presente nel database.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+L'attività viene inserita nel database.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item Il gestore del personale preme il tasto “Aggiungi attività”.
+	\item Il gestore del personale compila la form in cui sono richiesti i dati dell'attività (codice, nome, postazione, descrizione). 
+	\item Il gestore del personale preme “OK”
+		\begin{enumerate}
+			\item I dati della nuova attività vengono inseriti nel database.
+			\item Il sistema mostra un riepilogo indicante i dati delle attività attualmente presenti nel database.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento dati errati}
+		\begin{itemize}
+			\item Al passo (2) sono inseriti dati errati, in questo caso l'inserimento è annullato e viene lanciato un messaggio di errore. 
+			\item Con “dati errati” si intende codice, nome, postazione o descrizione vuoti.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\paragraph{Estensioni}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Stampa dati di riepilogo}
+		\begin{itemize}
+			\item Al passo (3.b) il gestore del personale può cliccare sul pulsante “Stampa”, per stampare la scheda di riepilogo contenente i dati delle attività inserite. 
+		\end{itemize}
+\end{itemize}

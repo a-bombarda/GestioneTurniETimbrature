@@ -1,0 +1,106 @@
+\chapter{Requisiti}
+%------------------------------------------------
+\section{Introduzione}
+%------------------------------------------------
+Il cliente richiede lo sviluppo di un'applicazione per la gestione automatizzata degli orari e dei turni dei propri dipendenti.\\
+
+\noindent
+Il processo produttivo dell'azienda committente è attivo $7$ giorni a settimana. Ciascuna giornata è suddivisa in tre turnazioni:
+\begin{itemize}
+	\item 00:00 - 08:00
+	\item 08:00 - 16:00
+	\item 16:00 - 24:00
+\end{itemize}
+Nel corso del proprio turno lavorativo, ogni dipendente ha diritto a $30$ minuti continuativi di pausa.\\
+Al fine di organizzare al meglio le lavorazioni, per ogni attività del processo produttivo, l'azienda definisce settimanalmente il numero di dipendenti necessari contemporaneamente per il suo svolgimento.\\
+
+\noindent
+L'applicazione realizzata dovrà permettere al committente di svolgere le seguenti macro operazioni:
+\begin{enumerate}
+	\item Gestione dei dati dei dipendenti.
+	\item Calcolo degli orari mensili e degli stipendi dei dipendenti.
+	\item Allocazione dei dipendenti sui turni.
+\end{enumerate}
+Dei dipendenti si vogliono gestire i principali dati anagrafici (nome, cognome, data di nascita, etc.), un elenco di attività eseguibili dal dipendente, le informazioni riguardanti la paga base oraria ed il numero di ore settimanali contrattuali.\\
+
+\noindent
+Nella sede del cliente è presente una timbratrice che, una volta al giorno, memorizza all'interno di un percorso di rete noto un file \verb|.XML| (un esempio del quale è riportato nella sezione \ref{section:EsempioXML} del capitolo corrente) contenente tutte le timbrature effettuate dai dipendenti durante le $24\;h$ precedenti (indicando anche se è una timbratura di tipo "IN" o "OUT"). Ogni dipendente ha, infatti, un badge personale che permette la timbratura ad ogni entrata o uscita dall'area produttiva (compresa la pausa intermedia).\\
+Le informazioni raccolte dalla timbratrice tramite file \verb|.XML| dovranno essere utilizzate dall'applicazione per il calcolo degli orari mensili di ciascun dipendente. In particolare è richiesto il calcolo di:
+\begin{itemize}
+	\item Ore di lavoro ordinario
+	\item Ore di lavoro straordinario
+	\item Ore di malattia
+	\item Ore di ferie/permessi
+\end{itemize}
+Queste informazioni devono essere utilizzate anche per il calcolo della paga mensile, considerando che le ore di straordinario e le ore notturne (prima delle 08:00 e dopo le 22:00) sono pagate con un incremento percentuale, configurabile dall'utente.\\
+Il committente richiede inoltre di avere una tolleranza di $5$ minuti sugli orari (ad esempio un dipendente che deve iniziare alle 08:00, potrà timbrare fino alle 08:05 senza che venga conteggiato alcun permesso).\\
+
+\noindent
+Attualmente, il cliente calcola gli orari dei dipendenti in modo manuale, convertendo il file \verb|.XML| in \verb|.CSV| che viene successivamente importato in Microsoft Excel\textsuperscript\textregistered.\\
+Il processo di calcolo degli orari mensili dovrà essere eseguito in automatico dall'applicazione, ma dovrà essere anche presente una  sezione in cui l'addetto dell'ufficio amministrazione potrà eseguire una revisione dei calcoli, o una modifica manuale dei dati.\\
+Inoltre l'applicazione dovrà consentire la stampa di un report PDF contenente il quadro generale degli orari mensili di ciascun dipendente.\\
+
+\noindent
+Per quanto riguarda l'allocazione dei dipendenti sui turni, attualmente, il committente gestisce le turnazioni tramite accordo privato tra i dipendenti, senza alcuna automatizzazione del processo. L'applicazione dovrà, considerando il numero di dipendenti necessari in ogni turno e per ogni attività, fornire un piano settimanale, avendo cura di non superare il numero di ore contrattuali previste per ciascun dipendente.\\
+Dovrà essere anche prevista la possibilità di fare un cambio turno: quando un dipendente non può presentarsi al turno che gli è stato assegnato, deve essere ricalcolato il piano settimanale, in modo da coprire lo slot lasciato scoperto.\\
+
+\noindent
+Infine, avendo a disposizione i dati delle timbrature dei dipendenti e la programmazione dei turni, è richiesta l'implementazione di un sistema di controllo, utilizzabile al termine del mese, per verificare l'effettiva corrispondenza tra turni assegnati a ciascun dipendente e relativa presenza in azienda.
+%------------------------------------------------
+\section{Esempio di file .XML} \label{section:EsempioXML}
+%------------------------------------------------
+\lstset{
+    language=xml,
+    tabsize=3,
+    frame=lines,
+    caption=Esempio di file .XML generato dalla timbratrice,
+    label=code:sample,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    morekeywords={xmlns,version,type,encoding},
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={records,record,badgeID,time},emphstyle={\color{magenta}}}
+    
+\lstinputlisting[language=XML]{Requisiti/src/Records.xml}
+%------------------------------------------------
+\section{Tool chain}
+%------------------------------------------------
+Per la realizzazione del presente software verranno utilizzati i seguenti strumenti:
+\begin{itemize}
+	\item \underline{Modellazione}
+		\begin{enumerate}
+			\item \textbf{Use-case diagram, deployment diagram, component diagram}: \textit{UMLet} (\href{http://www.umlet.com}{http://www.umlet.com}), strumento Java open source, molto intuitivo ed utile per la realizzazione di diagrammi (principalmente UML).
+			\item \textbf{Class diagram, sequence diagram}: \textit{ObjectAid UML Explorer}, plugin di Eclipse in grado di generare in automatico i diagrammi.
+			\item \textbf{Database diagram}: \textit{Vertabelo} (\href{http://www.vertabelo.com}{http://www.vertabelo.com}), strumento online utile per la modellazione dei diagrammi di database e per la generazione automatica dei comandi DDL in codice SQL.
+		\end{enumerate}
+	\item \underline{Implementazione software}
+		\begin{enumerate}
+			\item \textbf{DBMS}: \textit{MySQL}, distribuito insieme all'applicativo Apache XAMPP (\href{https://www.apachefriends.org/it/index.html}{https://www.apachefriends.org})
+			\item \textbf{Linguaggio di programmazione e IDE}: \textit{JAVA}, tramite l'IDE \textit{Eclipse} (\href{http://www.eclipse.org}{http://www.eclipse.org}).
+			\item \textbf{Interfaccia grafica}: \textit{Windowbuilder}, plugin Eclipse che permette la progettazione di interfacce grafiche in maniera drag and drop (\href{https://eclipse.org/windowbuilder/download.php}{https://eclipse.org/windowbuilder/download.php}).
+			\item \textbf{Persistenza}: realizzata tramite \textit{JPA 2.0}.
+			\item \textbf{Parsing XML}: \textit{SAXParser}, già presente nella libreria standard di Java (\href{https://docs.oracle.com/javase/7/docs/api/javax/xml/parsers/SAXParser.html}{https://docs.oracle.com/javase/7/docs/api/javax/xml/parsers}).
+			\item \textbf{Classi e interfacce JCF}: \textit{List}, \textit{ArrayList} e \textit{Vector}, contenute nel package \verb|java.util| (\href{http://docs.oracle.com/javase/tutorial/collections/index.html}{http://docs.oracle.com/javase/tutorial/collections}). \\
+				Sono inoltre stati utilizzati alcune funzioni, contenute nella libreria, per lavorare sulle \verb|Collections|, come la \verb|Colelctions.sort|.
+		\end{enumerate}
+	\item \underline{Analisi del software}
+		\begin{enumerate}
+			\item \textbf{Analisi statica}: \textit{Stan4J}, plugin di Eclipse (\href{http://stan4j.com}{http://stan4j.com}).
+			\item \textbf{Analisi dinamica}: \textit{JUnit}, plugin integrato di default in Eclipse (\href{http://stackoverflow.com/questions/1962567/junit-eclipse-plugin}{http://stackoverflow.com/questions/1962567/junit-eclipse-plugin}).
+		\end{enumerate}
+	\item \underline{Documentazione e varie}
+		\begin{enumerate}
+			\item \textbf{Versioning}: \textit{GitHub}, gestito grazie alla relativa applicazione desktop (\href{https://github.com}{https://github.com}).
+			\item \textbf{Documentazione}: \textit{LaTex}, con scrittura tramite l'editor \textit{Texpad} (\href{https://www.texpad.com}{https://www.texpad.com})
+		\end{enumerate}
+\end{itemize}

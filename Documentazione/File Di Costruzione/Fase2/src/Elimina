@@ -1,0 +1,3 @@
+funzione eliminaDatiTimbrature()		
+	elimina dal database tutte le timbrature grezze
+fine funzione

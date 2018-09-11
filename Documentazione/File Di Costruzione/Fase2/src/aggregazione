@@ -1,0 +1,8 @@
+funzione aggregaOrari
+	dataMin <- min(data timbrature inserite)
+	dataMax <- max(data timbrature inserite)
+	creaRigheVuoteOrari(dataMax, dataMin)
+	posizionaOrari(dataMax, dataMin)
+	elaboraOrari(dataMax, dataMin)
+	eliminaDatiTimbrature()
+fine funzione

@@ -1,0 +1,78 @@
+%------------------------------------------------
+\subsection{UC11: Cambio turno dipendente}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole, una volta ricevuta una specifica richiesta da un dipendente, modificare il relativo turno. La modifica di questo turno dovrà comportare, eventualmente, la modifica del turno di altri dipendenti.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+TD01, TD02, TD09, TD10, TD11, TD12, TD15
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+\begin{itemize}
+	\item I dipendenti sono inseriti all'interno del database del programma.
+	\item E' già stata generata una turnazione per la giornata richiesta.
+\end{itemize}
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+\begin{itemize}
+	\item Turni modificati, generando un assegnamento consistente.
+	\item Mail contenente i nuovi turni inviata ai dipendenti che hanno subìto variazioni.
+\end{itemize}
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione preme il pulsante "Modifica turno dipendente".
+	\item L'impiegato dell'ufficio amministrazione seleziona il giorno per il quale vuole modificare la turnazione.
+	\item L'impiegato dell'ufficio amministrazione seleziona il dipendente per il quale vuole modificare la turnazione.
+	\item L'impiegato dell'ufficio amministrazione seleziona il nuovo turno da assegnare al dipendente.
+	\item L'impiegato dell'ufficio amministrazione preme il pulsante "Genera".
+		\begin{enumerate}
+			\item Il sistema modifica in automatico le turnazioni.
+			\item Il sistema mostra le turnazioni aggiornate all'impiegato dell'ufficio amministrazione.
+		\end{enumerate}
+	\item L'impiegato dell'ufficio amministrazione preme il pulsante "Conferma".
+		\begin{enumerate}
+			\item Le turnazioni aggiornate vengono inserite all'interno del database.
+			\item Ciascun dipendente che ha subìto modifiche riceve una mail contenente le indicazioni sulle modifiche subìte ai propri orari.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Selezione giorno errata}
+		\begin{itemize}
+			\item Al passo (2) l'impiegato dell'ufficio amministrazione seleziona una data non esistente o per la quale non è ancora stata generata una turnazione. Viene quindi mostrato un messaggio di errore.
+		\end{itemize}
+	\item \underline{Selezione dipendente errato}
+		\begin{itemize}
+			\item Al passo (3) l'impiegato dell'ufficio amministrazione seleziona un dipendente non esistente. Viene quindi mostrato un messaggio di errore.
+		\end{itemize}
+	\item \underline{Dipendenti non sufficienti}
+		\begin{itemize}
+			\item Al passo (4) il sistema non riesce a trovare un'allocazione ammissibile, poichè i dipendenti o la disponibilità di ore non sono sufficienti. Viene quindi mostrato un messaggio di errore.
+		\end{itemize}
+	\item \underline{Indirizzi e-mail non inseriti}
+		\begin{itemize}
+			\item Al passo (5) il sistema non trova gli indirizzi e-mail di alcuni dipendenti. Viene mostrata una finestra che comunica i dati mancanti.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\paragraph{Estensioni}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Generazione nuova turnazione}
+		\begin{itemize}
+			\item Al passo (6) l'impiegato dell'ufficio amministrazione clicca su "Genera nuova turnazione". Si riparte quindi dal passo (5.a).
+		\end{itemize}
+\end{itemize}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1533920529467" TestSessionContainerId="b2100c73-88a6-481e-b2fe-52af2992d7e2" version="1.0">
+<SrcFileList>
+<SrcFile Content="package gestioneOrariApplication;&#10;&#10;import java.text.ParseException;&#10;import java.text.SimpleDateFormat;&#10;import java.util.Date;&#10;&#10;/*&#10; * Classe utilizzata per validare le date inserite ed, in caso, permettere la modifica&#10; */&#10;public class DateValidator {&#10;&#10;&#9;public static void isThisDateValid(String dateToValidate, String dateFromat) throws ParseException{&#10;&#9;&#9;if(dateToValidate == null){&#10;&#9;&#9;&#9;throw new ParseException(&quot;Data vuota&quot;, 0);&#10;&#9;&#9;}&#10;&#9;&#9;SimpleDateFormat sdf = new SimpleDateFormat(dateFromat);&#10;&#9;&#9;sdf.setLenient(false);&#10;&#9;&#9;// Creazione della data usando i dati inseriti. Nel caso in cui il formato sia sbagliato viene lanciata una ParseException&#10;&#9;&#9;@SuppressWarnings(&quot;unused&quot;)&#10;&#9;&#9;Date date = sdf.parse(dateToValidate);&#9;&#9;&#10;&#9;}&#10;&#9;&#10;}&#10;" Filename="DateValidator.java" Intrnl_Id="1"/>
+</SrcFileList>
+<CritList>
+<CritListEntry Name="org.codecover.model.utils.criteria.LoopCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.QMOCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.SynchronizedStatementCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+</CritList>
+<BoolOpList/>
+<HierarchyLvlTypeList>
+<HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="2"/>
+<HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="3"/>
+<HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="4"/>
+<HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="5"/>
+</HierarchyLvlTypeList>
+<MASTRoot>
+<HierarchyLvl HierarchyLvlId="9" HierarchyLvlTypeId="5" Intrnl_Id="6" Name="default package">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="8" HierarchyLvlTypeId="2" Intrnl_Id="7" Name="gestioneOrariApplication">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="7" HierarchyLvlTypeId="4" Intrnl_Id="8" Name="DateValidator">
+<Header>
+<Loc EndOffset="247" SrcFileId="1" StartOffset="221"/>
+</Header>
+<LocList>
+<Loc EndOffset="720" SrcFileId="1" StartOffset="221"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="6" HierarchyLvlTypeId="3" Intrnl_Id="9" Name="isThisDateValid">
+<Header>
+<Loc EndOffset="350" SrcFileId="1" StartOffset="252"/>
+</Header>
+<LocList>
+<Loc EndOffset="716" SrcFileId="1" StartOffset="252"/>
+</LocList>
+<StmntSeq Intrnl_Id="10">
+<LocList>
+<Loc EndOffset="431" SrcFileId="1" StartOffset="354"/>
+<Loc EndOffset="490" SrcFileId="1" StartOffset="434"/>
+<Loc EndOffset="515" SrcFileId="1" StartOffset="493"/>
+<Loc EndOffset="711" SrcFileId="1" StartOffset="643"/>
+</LocList>
+<CondStmnt CovItemId="S1" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="11">
+<Branch CovItemId="B1" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Implct="false" Intrnl_Id="12">
+<Cond/>
+<LocList>
+<Loc EndOffset="431" SrcFileId="1" StartOffset="380"/>
+</LocList>
+<StmntSeq Intrnl_Id="13">
+<LocList>
+<Loc EndOffset="427" SrcFileId="1" StartOffset="385"/>
+</LocList>
+<BasicStmnt CovItemId="S2" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="14">
+<LocList>
+<Loc EndOffset="427" SrcFileId="1" StartOffset="385"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Implct="true" Intrnl_Id="15">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="16">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="356" SrcFileId="1" StartOffset="354"/>
+<LocList>
+<Loc EndOffset="431" SrcFileId="1" StartOffset="354"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="17">
+<BasicBoolTerm Intrnl_Id="18">
+<LocList>
+<Loc EndOffset="379" SrcFileId="1" StartOffset="357"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S3" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="19">
+<LocList>
+<Loc EndOffset="490" SrcFileId="1" StartOffset="434"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S4" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="20">
+<LocList>
+<Loc EndOffset="515" SrcFileId="1" StartOffset="493"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S5" CovItemPrefix="gestioneOrariApplication.DateValidator.java" Intrnl_Id="21">
+<LocList>
+<Loc EndOffset="711" SrcFileId="1" StartOffset="643"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</MASTRoot>
+</TestSessionContainer>

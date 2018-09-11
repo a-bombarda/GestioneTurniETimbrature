@@ -1,0 +1,55 @@
+%------------------------------------------------
+\subsection{UC19: Generazione report dipendente}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole stampare un report, per un dipendente selezionato, che rispecchia la situazione mensile lavorativa.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+SM03, SM13
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Sono già stati caricati i dati di ore di ordinario, straordinario, ferie, permessi e malattia per il dipendente.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Viene prodotto un report mensile del dipendente, con statistiche riguardanti le varie tipologie di lavoro svolto, resoconto delle timbrature e stipendio.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Stampa report dipendente".
+		\begin{enumerate}
+			\item Viene mostrata una form con la possibilità di selezionare il mese e l'anno di interesse, oltre che l'identificativo del dipendente per il quale si vuole ottenere il report.
+		\end{enumerate}
+	\item L'impiegato dell'ufficio amministrazione seleziona l'anno ed il mese di interesse.
+	\item L'impiegato dell'ufficio amministrazione seleziona l'identificativo del dipendendente di interesse.
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Genera".
+		\begin{enumerate}
+			\item Il sistema aggrega tutte le informazioni necessarie e produce il report PDF per il dipendente selezionato.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento anno o mese errato}
+		\begin{itemize}
+			\item Al passo (2), l'impiegato dell'ufficio amministrazione inserisce dei valori errati per l'anno o il mese. Viene, quindi, mostrato un messaggio di errore e viene data la possibilità di correggere i valori inseriti.
+		\end{itemize}
+	\item \underline{Inserimento anno o mese futuro}
+		\begin{itemize}
+			\item Al passo (2), l'impiegato dell'ufficio amministrazione inserisce dei valori futuri per l'anno o il mese (\textit{quindi per i quali ancora non si hanno indicazioni sulle timbrature}). Viene, quindi, mostrato un messaggio di errore e viene data la possibilità di correggere i valori inseriti.
+		\end{itemize}
+	\item \underline{Inserimento identificativo dipendente errato}
+		\begin{itemize}
+			\item Al passo (3), l'impiegato dell'ufficio amministrazione inserisce un identificativo di un dipendente non esistente. Viene, quindi, mostrato un messaggio di errore e viene data la possibilità di correggere i valori inseriti.
+		\end{itemize}
+\end{itemize}

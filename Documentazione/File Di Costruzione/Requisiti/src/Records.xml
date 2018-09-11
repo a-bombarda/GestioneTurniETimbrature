@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<records date="30/04/2018">
+	<record type = "IN">
+		<badgeID>00002</badgeID>
+		<time>00:00:00</time>
+	</record>
+	<record type = "IN">
+		<badgeID>00004</badgeID>
+		<time>07:48:00</time>
+	</record>
+	<record type = "OUT">
+		<badgeID>00002</badgeID>
+		<time>08:01:00</time>
+	</record>
+	<record  type = "IN">
+		<badgeID>00001</badgeID>
+		<time>08:02:00</time>
+	</record>
+	<record  type = "OUT">
+		<badgeID>00005</badgeID>
+		<time>10:30:00</time>
+	</record>
+</records>

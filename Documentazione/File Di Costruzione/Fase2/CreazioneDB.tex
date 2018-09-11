@@ -1,0 +1,30 @@
+\chapter{Creazione del Database}
+%------------------------------------------------
+\section{Creazione del DB}
+Per il funzionamento del software è necessario avere su di un Database Server (nella fase di sviluppo sarà \verb|localhost|) il database contenente le tabelle per la memorizzazione delle informazioni.\\
+
+\noindent
+La soluzione proposta prevede l'utilizzo del DMBS \verb|MySQL| e le query utilizzate per la generazione del database sono le seguenti:
+
+\lstset{
+    language=XML,
+    tabsize=3,
+    frame=lines,
+    caption=Query di creazione del database,
+    label=code:sample,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    morekeywords={xmlns,version,type,encoding},
+    keywordstyle=\color{blue}\bf,
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={records,record,badgeID,time,xs:schema, xs:element, xs:complexType, xs:attribute, xs:sequence},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=SQL]{Fase2/src/CreazioneDB.sql}

@@ -1,0 +1,20 @@
+funzione elaboraOrari(dataMax, dataMin)
+	ListaOrari <- elenco di tutti gli orari aggregati
+	for each orario in ListaOrari
+		if orario.Data between dataMax and dataMin then
+			oreOrdinario <- (orario.Uscita1 - orario.Entrata1) + (orario.Uscita2 - orario.Entrata2)
+			if oreOrdinario > 8 then
+				orario.oreOrdinario <- 8
+				orario.oreStraordinario <- oreOrdinario - 8
+				orario.oreFeriePermessi <- 0
+			else
+				orario.oreOrdinario <- oreOrdinario
+				orario.oreStraordinario <- 0
+				if oreOrdinario<8 then
+					orario.oreFeriePermessi <- 8 - oreOrdinario
+				end if
+			end if			
+		end if
+		salva dati in database
+	end for
+fine funzione

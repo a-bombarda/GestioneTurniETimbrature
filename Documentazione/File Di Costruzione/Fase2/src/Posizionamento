@@ -1,0 +1,25 @@
+funzione posizionaOrari(dataMax, dataMin)
+	Listadipendenti <- elenco di tutti i dipendenti in database
+	for each dipendente in Listadipendenti
+		for each data between dataMin and dataMax
+			orario <- giornata corrispondente alla data [data] per 
+				il dipendente [dipendente]
+			ListaTimbrature <- elenco delle timbrature del 
+				[dipendente] nel giorno [data]
+			ordina(ListaTimbrature) in ordine di orario
+			if ListaTimbrature[0] <> nil then
+				orario.Entrata1 <- ListaTimbrature[0].orario
+			end if
+			if ListaTimbrature[1] <> nil then
+				orario.Uscita1 <- ListaTimbrature[1].orario
+			end if
+			if ListaTimbrature[2] <> nil then
+				orario.Entrata2 <- ListaTimbrature[2].orario
+			end if
+			if ListaTimbrature[3] <> nil then
+				orario.Uscita2 <- ListaTimbrature[3].orario
+			end if
+			salva dati in database
+		end for
+	end for
+fine funzione

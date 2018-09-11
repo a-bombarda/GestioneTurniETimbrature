@@ -1,0 +1,77 @@
+\chapter{Test ed analisi del componente implementato}
+%------------------------------------------------
+\section{Analisi statica}
+Attraverso il tool \verb|Stan4j| è stata effettuata l'analisi statica della porzione del software sviluppata in questa fase.
+Analizzando quanto riportato in Figura \ref{fig:Stan4j2} risulta rispettata la struttura \verb|MVP| che ci si era proposti di realizzare.
+\addfig{Fase3/img/}{Stan4j2}{0.5}{Analisi statica del codice}{Analisi statica del codice}
+Dalla Figura \ref{fig:Stan4j2} si nota come la componente \verb|GUI| non comunica direttamente con la componente \verb|Data|, ma il tutto passa attraverso la componente \verb|Application|, proprio come previsto dal pattern \verb|MVP|.\\
+
+\noindent
+Il pattern \verb|MVP| viene mantenuto anche includendo nell'analisi di \verb|Stan4j| i package provenienti dalla Fase 2 (Figura \ref{fig:MVPGenerale}).
+\addfig{Fase3/img/}{MVPGenerale}{0.8}{Analisi statica del codice completo}{Analisi statica del codice completo}
+%------------------------------------------------
+\section{Analisi dinamica - testing}
+In questa sezione ci si concentrerà sull'implementazione di un certo numero di casi di test al fine di avere la massima copertura possibile del codice della porzione di software implementato in questa fase.\\
+
+\noindent
+Data la suddivisione, tramite pattern \verb|MVP|, del codice in \verb|GUI|, \verb|Application| e \verb|Data| è stato scelto di testare principalmente la componente \verb|Application|,  tralasciando i quattro \verb|Listener|, in quanto:
+\begin{itemize}
+	\item La componente \verb|GUI| è difficile da testare
+	\item La componente \verb|Data| è stata generata in automatico grazie alle API \verb|JPA|.
+\end{itemize}
+Inoltre, al fine di mantenere la migliore organizzazione possibile, si è scelto di inserire i casi di test in un package a parte, denominato \verb|gestioneTurniTest|.
+%------------------------------------------------
+\subsection{Test della classe ListIntersect}
+Per testare la classe \verb|ListIntersect|, utilizzata per calcolare la \verb|List| risultante dall'intersezione di due List, si è scelto di analizzare i seguenti casi:
+\begin{itemize}
+	\item Intersezione tra due List di \verb|Integer| con elementi in comune.
+	\item Intersezione tra due List di \verb|Integer| senza elementi in comune.
+	\item Intersezione tra due List di \verb|String| con elementi in comune.
+	\item Intersezione tra due List di \verb|String| senza elementi in comune.
+	\item Intersezione tra una List ed un \verb|Null|.
+	\item Intersezione tra due \verb|Null|.
+\end{itemize}
+\noindent
+I casi di test sono stati eseguiti tramite \verb|JUnit| ed il codice riportato in Codice \ref{codice:JUnitIntersect}.
+\lstset{
+    caption=Casi JUnit per il test della classe ListIntersect,
+    label=codice:JUnitIntersect
+ }
+
+\lstinputlisting[language=java]{Fase3/src/ListIntersectTest.java}
+\noindent
+Tutti i casi di test hanno dato esito positivo (Figura \ref{fig:EsitoInters}) ed hanno permesso di raggiungere un coverage della classe \verb|ListIntersect| del $100\%$ delle istruzioni (figura \ref{fig:CoperturaInters}).
+\addfig{Fase3/img/}{EsitoInters}{0.6}{Risultato dell'esecuzione dei casi di test}{Risultato dell'esecuzione dei casi di test}
+\addfig{Fase3/img/}{CoperturaInters}{1}{Livello di copertura dei casi di test}{Livello di copertura dei casi di test}
+%------------------------------------------------
+\subsection{Test della classe StaffScheduler}
+Per testare la classe \verb|StaffScheduler|, utilizzata come implementazione dell'algoritmo greedy di Staff Scheduling.
+Alcuni dei metodi presenti all'interno di questa classe sono \verb|private|, quindi risultano impossibili da testare in modo diretto. In base a queste considerazioni si è scelto di eseguire i seguenti test:
+\begin{itemize}
+	\item Test del metodo \verb|makeSchedule(Date, Date)|:
+		\begin{itemize}
+			\item Test con date inserite correttamente:
+				\begin{enumerate}
+					\item Con date per le quali è stato inserito un fabbisogno.
+					\item Con date per le quali non è stato inserito alcun fabbisogno
+					\item Con schedule possibile.
+					\item Con schedule non possibile.
+				\end{enumerate}
+			\item Test con date null.
+			\item Test con date distanti più di 7 giorni.
+		\end{itemize}
+\end{itemize}
+\noindent
+\noindent
+I casi di test sono stati eseguiti tramite \verb|JUnit| ed il codice riportato in Codice \ref{codice:JUnitSchedule}.
+\lstset{
+    caption=Casi JUnit per il test della classe StaffScheduler,
+    label=codice:JUnitSchedule
+ }
+
+\lstinputlisting[language=java]{Fase3/src/StaffSchedulerTest.java}
+\noindent
+Tutti i casi di test hanno dato esito positivo (Figura \ref{fig:EsitoSchedule}) ed hanno permesso di raggiungere un coverage della classe \verb|ListIntersect| del $99.4\%$ delle istruzioni (figura \ref{fig:CoperturaSchedule}).
+\addfig{Fase3/img/}{EsitoSchedule}{0.6}{Risultato dell'esecuzione dei casi di test}{Risultato dell'esecuzione dei casi di test}
+\addfig{Fase3/img/}{CoperturaSchedule}{1}{Livello di copertura dei casi di test}{Livello di copertura dei casi di test}
+

@@ -1,0 +1,126 @@
+\chapter{Architettura}
+%------------------------------------------------
+\section{Deployment diagram}
+%------------------------------------------------
+\subsection{Architettura hardware} \label{SS:A_HW}
+%------------------------------------------------
+\addfig{Specifiche/Img/}{ArchitetturaHW}{0.95}{Architettura hardware}{Architettura hardware}
+\noindent
+La figura \ref{fig:ArchitetturaHW} rappresenta l'architettura finale prevista per la realizzazione del sistema richiesto dal cliente. Attualmente, la dotazione hardware del cliente, è composta da:
+\begin{itemize}
+	\item Un server interno in cui vengono memorizzati i file \verb|.XML| prodotti dalla timbratrice, oltre ad altre informazioni non rilevanti per il progetto commissionato.
+	\item Client differenti (ufficio amministrazione, ufficio gestione personale e dipendenti), suddivisi in base alla loro collocazione all'interno della struttura del committente.
+\end{itemize}
+Tutti questi dispositivi possono accedere alla rete internet per mezzo di un firewall ed un router, al fine di garantire una maggiore sicurezza dei sistemi interni.\\
+
+\noindent
+Rispetto all'architettura pre-esistente, viene considerato necessario l'acquisto di uno spazio su un Database Server online. Una possibile soluzione, analizzata all'interno della corrente documentazione, è quella che prevede l'utilizzo dei servizi MySQL.
+%------------------------------------------------
+\subsection{Architettura software}
+%------------------------------------------------
+Di seguito sono riportati, in figura \ref{fig:Deployment_Diagram} ed in figura \ref{fig:Component_Diagram_2}, rispettivamente, il deployment diagram ed il component diagram della soluzione proposta per soddisfare la richiesta del committente.\\
+
+\noindent
+In particolare, per quanto riguarda il deployment diagram (figura \ref{fig:Deployment_Diagram}) sono state rappresentate solamente due tipologie di client:
+\begin{itemize}
+	\item \underline{Client "Dipendenti"}: è il più \textit{limitato} e permette ai dipendenti solamente la prenotazione per un certo numero di ore di straordinario.
+	\item \underline{Client "Uffici"}: rappresenta sia i computer degli impiegati dell'ufficio amministrazione, che quelli dell'ufficio di gestione del personale. A livello funzionale, questa tipologia di client è considerabile coincidente con il server.
+\end{itemize}
+\addfig{Specifiche/Img/}{Deployment_Diagram}{0.99}{Deployment diagram}{Deployment diagram}
+\addfig{Specifiche/Img/}{Component_Diagram_2}{0.8}{Component diagram}{Component diagram}
+Come si nota dalla figura \ref{fig:Component_Diagram_2}, ogni singolo componente viene suddiviso in tre blocchi:
+\begin{itemize}
+	\item \underline{GUI}: si occupa di svolgere il ruolo del presenter, ovvero dell'interfaccia grafica.
+	\item \underline{Application}: ha il compito di implementare la logica di funzionamento di ogni singolo componente.
+	\item \underline{Data}: permette l'interfaccia con il database.
+\end{itemize}
+La modalità di comunicazione tra i vari componenti, tramite metodi offerti dalle interfacce, verrà spiegata nel dettaglio di ogni singolo macro-blocco, nelle pagine seguenti.
+%------------------------------------------------
+\subsection{Analisi dei componenti}
+%------------------------------------------------
+Come evidente dalla figura \ref{fig:Component_Diagram_2}, l'intero sistema e tutti i suoi componenti (tranne il database) verranno sviluppati utilizzando il pattern Model-View-Presenter (MVP). Nel MVP, a differenza di MVC, le componenti View e Model interagiscono solo tramite il componente presenter. In questo modo, la View ha solamente il compito di raccogliere gli input dell'utente.
+\addfig{Specifiche/Img/}{MVP}{0.5}{Pattern Model-View-Presenter}{Pattern Model-View-Presenter}
+Questa soluzione permette di personalizzare la modalità di visualizzazione dei contenuti (in base alle eventuali preferenze dell'utente o in base alla categoria di utente che effettua un accesso), senza fare alcuna modifica sui livelli sottostanti.
+%------------------------------------------------
+\subsubsection{Component Database}
+%------------------------------------------------
+\addfig{Specifiche/Img/}{Database}{1}{Modello del database}{Modello del database}
+Nella figura \ref{fig:Database} è descritta la struttura del component database che si prevede di utilizzare. In particolare le entità riportate hanno i seguenti significati:
+\begin{itemize}
+	\item \underline{Dipendente}: contiene tutte le informazioni legate al dipendente, sia a livello personale che a livello lavorativo.
+	\item \underline{Timbratura}: contiene tutte le informazioni ottenute dal parsing del documento \verb|.XML| prodotto dalla timbratrice.
+	\item \underline{Orario}: contiene le informazioni elaborate ed aggregate, sulla base delle timbrature fatte dal dipendente.
+	\item \underline{Attività}: contiene tutte le informazioni riguardanti le attività previste nel processo produttivo dell'azienda committente.
+	\item \underline{Ruolo}: rappresenta l'implementazione di un "attributo multiplo", ovvero permette di gestire tutte le attività svolte da un dipendente.
+	\item \underline{Turno}: contiene le principali informazioni di ciascun turno previsto dall'organizzazione del committente.
+	\item \underline{Fabbisogno\_Dipendenti}: permette di programmare il fabbisogno di dipendenti, per ogni data e per ogni turno, in base alla loro attività ricoperta.
+	\item \underline{AssegnazioneTurno}: permette di definire l'allocazione dei dipendenti sui vari turni.
+	\item \underline{Straordinario}: contiene le informazioni, inserite dal committente, utili a gestire la necessità di straordinari, in base all'attività ed alla data.
+	\item \underline{PrenotazioneStraordinario}: contiene le informazioni riguardanti la "prenotazioni" fatte da ciascun dipendente per una specifica richiesta di straordinari.
+\end{itemize}
+%------------------------------------------------
+\subsubsection{Component Gestione orari}
+%------------------------------------------------
+Il componente di gestione degli orari è composto, come da pattern MVP, da tre macro-componenti:
+\begin{itemize}
+	\item Componente \verb|GUI|: Ha il compito di implementare le funzionalità offerte dalla view, ovvero proporre all'utilizzatore un'interfaccia grafica per visualizzare ed, eventualmente, modificare i dati relativi agli orari dei dipendenti.
+	\item Componente \verb|Application|: Ha il compito di implementare la logica di funzionamento della gestione degli orari. Esso, quindi, riceve le informazioni inserite dall'utente dal livello \verb|GUI| e le elabora combinandole con quelle ottenute dal livello \verb|Data|.
+	\item Componente \verb|Data|: Ha il compito di offrire un'interfaccia verso il database per il livello \verb|Application|, ovvero di fornire a tale livello i dati necessari.
+\end{itemize}
+Il componente di gestione degli orari necessita di avere un'interfaccia \verb|JDBC/http| per poter accedere ai dati del database che, come riportato all'interno della sottosezione \ref{SS:A_HW} del capitolo corrente, si trova su di un server esterno.
+\addfig{Specifiche/Img/}{Component_Gestione_orari}{1}{Component diagram del componente di gestione degli orari}{Component diagram del componente di gestione degli orari}
+%------------------------------------------------
+\paragraph{GUI}
+%------------------------------------------------
+Di seguito, in figura \ref{fig:ClassDiagramGestioneOrari}, è rappresentato il class diagram del componente GUI della gestione degli orari.\\
+Questo componente è pensato in modo da avere una GestioneOrariView (che estende la classe \textit{JFrame} delle librerie SWING di Java) nella quale è contenuto un \textit{JPanel}, compilato con un oggetto di una delle altre classi (che estendono la classe \textit{JPanel} delle librerie SWING di Java) in base alla scelta fatta dal menù.
+\addfig{Specifiche/Img/}{ClassDiagramGestioneOrari}{1}{Class diagram della GUI del componente di gestione degli orari}{Class diagram della GUI del componente di gestione degli orari}
+%------------------------------------------------
+\paragraph{Application}
+%------------------------------------------------
+Il component application sfrutta le interfacce messe a disposizione dal component data (\verb|QueryOrdinari|, \verb|QueryStraordinari|, \verb|QueryAggregazione|\\ \verb|Orari|, \verb|QueryPermessi/Ferie| e \verb|QueryMalattie|) per generare, visualizzare e gestire gli orari.\\
+
+\noindent
+Dato il pattern MVP scelto, il component application espone anche delle interfacce utili per l'interazione della GUI, ovvero \verb|GUIOrdinari|, \verb|GUIStraordinari|, \verb|GUIMalattie|, \verb|GUIOrari|, \verb|GUIFerie/Permessi|, \verb|GUIStipendio| e \verb|Report|.\\
+
+\noindent
+L'ultima interfaccia esposta dal component application è quella relativa ai report, che possono essere richiesti dall'utente tramite la GUI e che contengono le informazioni riguardanti gli orari inseriti all'interno del database.
+\addfig{Specifiche/Img/}{Component_Application_(Gestione_Orari)}{0.9}{Component diagram del componente Application}{Component diagram del componente Application}
+%------------------------------------------------
+\paragraph{Data}
+%------------------------------------------------
+Il component data si occupa di recuperare i dati dal database. Il sistema sviluppato è pensato in modo da permettere la persistenza tramite \verb|JPA| (\textit{Java Persistence API}). In figura \ref{fig:ClassDiagramGestioneOrariData} è mostrato il diagramma delle classi utilizzate per mantenere la persistenza dei dati del database all'interno del sistema software.
+\addfig{Specifiche/Img/}{ClassDiagramGestioneOrariData}{0.95}{Class diagram del componente data del componente di gestione degli orari}{Class diagram del componente data del componente di gestione degli orari}
+%------------------------------------------------
+\subsubsection{Component Gestione turni}
+%------------------------------------------------
+Il componente di gestione dei turni è composto, come da pattern MVP, da tre macro-componenti:
+\begin{itemize}
+	\item Componente \verb|GUI|: Ha il compito di implementare le funzionalità offerte dalla view, ovvero proporre all'utilizzatore un'interfaccia grafica per visualizzare ed, eventualmente, modificare i dati relativi ai turni dei dipendenti.
+	\item Componente \verb|Application|: Ha il compito di implementare la logica di funzionamento della gestione dei turni (ad esempio l'algoritmo di generazione della turnazione settimanale). Esso, quindi, riceve le informazioni inserite dall'utente dal livello \verb|GUI| e le elabora combinandole con quelle ottenute dal livello \verb|Data|.
+	\item Componente \verb|Data|: Ha il compito di offrire un'interfaccia verso il database per il livello \verb|Application|, ovvero di fornire a tale livello i dati necessari.
+\end{itemize}
+Il componente di gestione dei turni necessita di avere un'interfaccia \verb|JDBC/http| per poter accedere ai dati del database che, come riportato all'interno della sottosezione \ref{SS:A_HW} del capitolo corrente, si trova su di un server esterno.
+\addfig{Specifiche/Img/}{Component_Gestione_Turni}{1}{Component diagram del componente di gestione dei turni}{Component diagram del componente di gestione dei turni}
+%------------------------------------------------
+\paragraph{GUI}
+%------------------------------------------------
+Di seguito, in figura \ref{fig:ClassDiagramGestioneTurni}, è rappresentato il class diagram del componente GUI della gestione dei turni.\\
+Questo componente è pensato in modo da avere una GestioneTurniView (che estende la classe \textit{JFrame} delle librerie SWING di Java) nella quale è contenuto un \textit{JPanel}, compilato con un oggetto di una delle altre classi (che estendono la classe \textit{JPanel} delle librerie SWING di Java) in base alla scelta fatta dal menù.
+\addfig{Specifiche/Img/}{ClassDiagramGestioneTurni}{1}{Class diagram della GUI del componente di gestione dei turni}{Class diagram della GUI del componente di gestione dei turni}
+%------------------------------------------------
+\paragraph{Application}
+%------------------------------------------------
+Il component application sfrutta le interfacce messe a disposizione dal component data (\verb|QueryAttività|, \verb|QueryTurni| e \verb|QueryDipendente|) per generare, visualizzare e gestire le turnazioni.\\
+
+\noindent
+Dato il pattern MVP scelto, il component application espone anche delle interfacce utili per l'interazione della GUI, ovvero \verb|GUITurni| e \verb|GUICambioTurno|.\\
+
+\noindent
+L'ultima interfaccia esposta dal component application è quella relativa ai report, che possono essere richiesti dall'utente tramite la GUI e che contengono le informazioni riguardanti le turnazioni già generate dal software.
+\addfig{Specifiche/Img/}{Component_Application_(Gestione_Turni)}{0.8}{Component diagram del componente Application}{Component diagram del componente Application}
+%------------------------------------------------
+\paragraph{Data}
+%------------------------------------------------
+Il component data si occupa di recuperare i dati dal database. Il sistema sviluppato è pensato in modo da permettere la persistenza tramite \verb|JPA| (\textit{Java Persistence API}). In figura \ref{fig:ClassDiagramGestioneTurniData} è mostrato il diagramma delle classi utilizzate per mantenere la persistenza dei dati del database all'interno del sistema software.
+\addfig{Specifiche/Img/}{ClassDiagramGestioneTurniData}{0.9}{Class diagram del componente data del componente di gestione dei turni}{Class diagram del componente data del componente di gestione dei turni}

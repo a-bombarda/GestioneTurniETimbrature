@@ -1,0 +1,71 @@
+%------------------------------------------------
+\subsection{UC15: Visualizzazione e calcolo giornaliero ore di lavoro}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vogliono calcolare le ore di lavoro relative ai dipendenti, a partire dai dati derivanti dal parsing del file \verb|.XML| (si veda UC12).
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+SM00-SM02, SM04, SM25, SM27
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+\begin{itemize}
+	\item I dati relativi agli orari giornalieri dei dipendenti non sono presenti.
+	\item I dati grezzi (con eventuale modifica manuale o revisione) sono già stati importati dal file \verb|.XML| (si veda UC12).
+\end{itemize}
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Per ogni dipendente sono calcolate le ore giornaliere di lavoro ordinario, straordinario, di ferie, di permesso e malattia.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Visualizza orari dipendenti".
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Visualizza orari giornalieri".
+		\begin{enumerate}
+			\item Viene richiesto all'impiegato dell'ufficio amministrazione di inserire la data di interesse.
+		\end{enumerate}
+	\item L'impiegato dell'ufficio amministrazione inserisce la data di interesse e preme sul pulsante "Conferma" per avviare il processo.
+		\begin{enumerate}
+			\item Viene avviato il processo di calcolo degli orari del giorno selezionato:
+				\begin{itemize}
+					\item \underline{Lavoro ordinario}: se gli orari rientrano nelle fasce di lavoro ordinario, in base al turno assegnato a ciascun dipendente.
+					\item \underline{Lavoro straordinario}: se un dipendente supera gli orari di lavoro ordinario.
+					\item \underline{Ferie}: se il giorno d'interesse è stato inserito, per il dipendente considerato, come giorno di ferie (si veda UC14).
+					\item \underline{Permesso}: se le ore di ordinario sono inferiori a quelle giornaliere contrattuali.
+					\item \underline{Malattia}: se il giorno d'interesse è stato inserito, per il dipendente considerato, come giorno di malattia (si veda UC14).
+				\end{itemize}
+			\item Viene mostrata una maschera riassuntiva in cui, per ogni dipendente, è indicato il numero di ore giornaliere di lavoro ordinario, straordinario, di ferie, di permesso e di malattia.
+		\end{enumerate}	
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Dipendente in ferie presente}
+		\begin{itemize}
+			\item Al passo (3), il sistema rileva una timbratura per un dipendente che è considerato in ferie, in base ai dati inseriti. Viene, quindi, mostrato un messaggio di errore informativo.
+		\end{itemize}
+	\item \underline{Dipendente in malattia presente}
+		\begin{itemize}
+			\item Al passo (3), il sistema rileva una timbratura per un dipendente che è considerato in malattia, in base ai dati inseriti. Viene, quindi, mostrato un messaggio di errore informativo.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\paragraph{Estensioni}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Modifica orari timbratura}
+		\begin{itemize}
+			\item Al passo (3.b), l'impiegato dell'ufficio amministrazione può modificare gli orari di ingresso e uscita del dipendente.
+			\item In questo caso, una volta confermata la modifica, viene ripetuto il calcolo delle ore.
+		\end{itemize}
+\end{itemize}

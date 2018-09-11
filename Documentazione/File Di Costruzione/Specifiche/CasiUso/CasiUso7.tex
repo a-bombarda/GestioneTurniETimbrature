@@ -1,0 +1,51 @@
+%------------------------------------------------
+\subsection{UC7. Allocazione dipendenti per ogni attività}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole impostare il numero di dipendenti necessari per ogni attività in un intervallo di date.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+DA04-DA08
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Gestore del personale
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Sono presenti varie attività nel database.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Il numero impostato di dipendenti necessari per ogni attività viene inserito all’interno del database.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item Il gestore del personale preme il tasto “Imposta richiesta manodopera per attività”.
+	\item Il gestore del personale seleziona l’intervallo di date all’interno del quale vuole impostare la richiesta di manodopera necessaria per attività. 
+	\item Il gestore del personale seleziona l'attività.
+	\item Il gestore del personale seleziona il turno per il quale vuole impostare la richiesta di manodopera.
+	\item Il gestore del personale seleziona il numero di dipendenti, che eseguono l'attività richiesta, necessari per il turno selezionato.
+	\item Il gestore del personale clicca sul pulsante “Conferma”.
+		\begin{enumerate}
+			\item I nuovi dati vengono inseriti all’interno del database.
+			\item Il sistema mostra un riepilogo indicante i dati delle attività attualmente presenti nel database, con relative richieste di dipendenti, per l’intervallo di date selezionato.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento data errata}
+		\begin{itemize}
+			\item Al passo (2) il gestore del personale inserisce delle date non valide o con formato non corretto. Viene mostrato un messaggio di errore e viene data la possibilità di modificare le due date.
+		\end{itemize}
+	\item \underline{Inserimento numero dipendenti errato}
+		\begin{itemize}
+			\item Al passo (5) il gestore del personale inserisce un valore numerico negativo. Viene mostrato un messaggio di errore e viene data la possibilità di modificare il valore.
+		\end{itemize}
+\end{itemize}

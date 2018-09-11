@@ -1,0 +1,101 @@
+%------------------------------------------------
+\subsection{UC13: Gestione straordinari}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vogliono inserire/aggiornare o eliminare i dati relativi alle ore straordinarie necessarie in un determinato periodo.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+SM17-SM19, SM26
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+E' valida una di queste precondizioni:
+\begin{itemize}
+	\item Non è ancora stato inserito alcun dato riguardante le ore di straordinario necessarie.
+	\item I dati sulle ore di straordinario necessarie sono già stati inseriti e devono essere aggiornati.
+	\item I dati sulle ore di straordinario necessarie sono già stati inseriti e devono essere eliminati.
+\end{itemize}
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+In base all'azione eseguita è valida almeno una delle seguenti postcondizioni:
+\begin{itemize}
+	\item I nuovi dati riguardanti le ore di straordinario sono inseriti all'interno del database.
+	\item I dati riguardanti le ore di straordinario già presenti nel database sono stati aggiornati.
+	\item I dati riguardanti le ore di straordinario già presenti nel database sono stati eliminati.
+\end{itemize}
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Gestisci fabbisogno straordinari".
+	\item L'impiegato dell'ufficio amministrazione ha a disposizione tre scelte:
+		\begin{enumerate}
+			\item Può cliccare sul pulsante "Inserisci".
+			\item Può cliccare sul pulsante "Modifica".
+			\item Può cliccare sul pulsante "Elimina".
+		\end{enumerate}	
+	\item Se l'impiegato dell'ufficio amministrazione ha cliccato su "Inserisci":
+		\begin{enumerate}
+			\item L'impiegato dell'ufficio amministrazione inserisce la data per la quale vuole inserire le ore di straordinario necessarie.
+			\item L'impiegato dell'ufficio amministrazione inserisce l'attività per la quale sono necessarie le ore di straordinario.
+			\item L'impiegato dell'ufficio amministrazione inserisce il numero di ore necessarie.
+			\item L'impiegato dell'ufficio amministrazione preme il pulsante "Conferma" per confermare l'inserimento.
+				\begin{enumerate}
+					\item I dati vengono inseriti nel database.
+				\end{enumerate}
+		\end{enumerate}
+	\item Se l'impiegato dell'ufficio amministrazione ha cliccato su "Modifica":
+		\begin{enumerate}
+			\item L'impiegato dell'ufficio amministrazione inserisce la data per la quale vuole modificare le ore di straordinario necessarie.
+			\item L'impiegato dell'ufficio amministrazione inserisce l'attività per la quale vuole modificare le ore di straordinario necessarie.
+				\begin{enumerate}
+					\item Il campo contenente le ore di straordinario viene pre-compilato, indicando i dati già inseriti nel database.
+				\end{enumerate}
+			\item L'impiegato dell'ufficio amministrazione inserisce il nuovo numero di ore necessarie.
+			\item L'impiegato dell'ufficio amministrazione preme il pulsante "Conferma" per confermare l'aggiornamento.
+				\begin{enumerate}
+					\item I dati vengono aggiornati nel database.
+				\end{enumerate}
+		\end{enumerate}
+	\item Se l'impiegato dell'ufficio amministrazione ha cliccato su "Elimina":
+		\begin{enumerate}
+			\item L'impiegato dell'ufficio amministrazione inserisce la data per la quale vuole eliminare le ore di straordinario necessarie.
+			\item L'impiegato dell'ufficio amministrazione inserisce l'attività per la quale vuole eliminare le ore di straordinario necessarie.
+			\item L'impiegato dell'ufficio amministrazione preme il pulsante "Conferma eliminazione" per confermare la cancellazione.
+				\begin{enumerate}
+					\item I dati vengono eliminati dal database.
+				\end{enumerate}
+		\end{enumerate}	
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento dati errati}
+		\begin{itemize}
+			\item Ai passi (3.*), (4.*) o (5.*) vengono inseriti dei dati errati. L'operazione viene annullata e viene mostrato un messaggio di errore.
+			\item Per dati errati si intende:
+				\begin{itemize}
+					\item Date non corrette.
+					\item Attività non esistenti.
+					\item Numero di ore non corretto (\textit{ad esempio $<0$}).
+					\item Qualsiasi dato che non rispetta vincoli di dominio (\textit{ad esempio superamento del massimale di ore di straordinario possibili in una giornata}).
+				\end{itemize}
+		\end{itemize}
+	\item \underline{Modifica di una tupla non presente}
+		\begin{itemize}
+			\item Al passo (4.b) l'impiegato dell'ufficio amministrazione tenta di modificare una tupla non presente. Viene mostrato un messaggio di errore e viene data la possibilità di modificare i dati inseriti.
+		\end{itemize}
+	\item \underline{Eliminazione di una tupla non presente}
+		\begin{itemize}
+			\item Al passo (5.c) l'impiegato dell'ufficio amministrazione tenta di eliminare una tupla non presente. Viene mostrato un messaggio di errore e viene data la possibilità di modificare i dati inseriti.
+		\end{itemize}
+\end{itemize}

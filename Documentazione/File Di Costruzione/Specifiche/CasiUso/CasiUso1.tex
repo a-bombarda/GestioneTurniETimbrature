@@ -1,0 +1,78 @@
+%------------------------------------------------
+\subsection{UC1: Inserimento dipendente}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole inserire un nuovo dipendente.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+DD01, DD03-DD08, DA01, DA08
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Gestore del personale
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Il dipendente non è presente nel database.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Il dipendente è stato aggiunto al database.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item Il gestore del personale preme il tasto “Aggiungi dipendente”.
+	\item Il gestore del personale compila la form in cui sono richiesti i dati del dipendente (nome, cognome, data di nascita, data di inizio e fine contratto, indirizzo email, numero di ore contrattuali a settimana, attività svolte, numero del badge, etc.). 	
+	\item Il gestore del personale preme “OK” per confermare l’inserimento del dipendente.
+		\begin{enumerate}
+			\item Il sistema mostra il riepilogo dei dati inseriti per il dipendente.
+		\end{enumerate}
+	\item Il gestore del personale preme “Conferma” per confermare l’inserimento del dipendente.
+		\begin{enumerate}
+			\item I dati del dipendente vengono inseriti all’interno del database.
+			\item Il dipendente riceve una e-mail contenente la conferma di inserimento ed il riepilogo delle informazioni inserite.
+			\item Il sistema mostra un riepilogo indicante, per ogni attività disponibile, quali e quanti dipendenti sono disponibili.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento dati errati}
+		\begin{itemize}
+			\item Al passo (2) sono inseriti dati errati, in questo caso l’inserimento è annullato e viene lanciato un messaggio di errore. 
+			\item In alternativa ci si può accorgere di aver inserito dati errati al passo (3). In questo caso il gestore del personale può cliccare su “Modifica dati”, tornando, quindi, al passo (2).
+			\item Con “dati errati” si intende nome, cognome, posizione vuoti o formato delle date diverso da gg/mm/aaaa. 
+		\end{itemize}
+	\item \underline{Dipendente a tempo indeterminato}
+		\begin{itemize}
+			\item Al passo (2) non viene compilato il campo “data fine contratto”. 
+			\item Quando si clicca “Prosegui” viene lanciato un messaggio di avviso per informare del campo vuoto, ma è comunque possibile proseguire. 
+		\end{itemize}
+	\item \underline{Attività non presente}
+		\begin{itemize}
+			\item Al passo (2) il gestore del personale non trova l'attività da assegnare al dipendente.
+			\item Il gestore del personale clicca sul pulsante “Nuova Attività”.
+				\begin{itemize}
+					\item Da qua si procede come da UC4.
+				\end{itemize}
+		\end{itemize}
+		\item \underline{Dipendente senza indirizzo e-mail}
+		\begin{itemize}
+			\item Al passo (2) non viene compilato il campo “indirizzo e-mail”. 
+			\item Quando si clicca “Prosegui” viene lanciato un messaggio di avviso per informare del campo vuoto, ma è comunque possibile proseguire. 
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\paragraph{Estensioni}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Stampa dati dipendente}
+		\begin{itemize}
+			\item Al passo (3) il gestore del personale può cliccare sul pulsante “Stampa”, per stampare la scheda di riepilogo contenente i dati inseriti per il nuovo dipendente.
+		\end{itemize}
+\end{itemize}

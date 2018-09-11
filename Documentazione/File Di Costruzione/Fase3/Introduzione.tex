@@ -1,0 +1,50 @@
+\chapter{Introduzione}
+%------------------------------------------------
+\section{Scelta della funzione da implementare}
+\paragraph{Selezione del caso d'uso da implementare}
+Per questa \textit{Fase 3} del processo di sviluppo dell'applicazione si è scelto di implementare la seconda delle due funzionalità chiave del programma, ovvero la funzionalità descritta all'interno del caso d'uso \verb|UC8|: Generazione turnazione settimanale.
+
+\paragraph{Breve descrizione dell'obbiettivo}
+Si vuole creare una procedura che, considerando tutti i dipendenti dell'azienda committente, sia in grado di allocare i turni programmati per la settimana, rispettando il numero massimo di ore che possono essere lavorate da ciascun dipendente ogni settimana e rispettando il fabbisogno per ciascuna attività.
+
+\paragraph{Dati di input}
+I dati di input necessari per il funzionamento della funzionalità analizzata in questa fase sono:
+\begin{itemize}
+	\item Lista dei dipendenti dell'azienda committente.
+		\begin{itemize}
+			\item Numero massimo di ore settimanali per ciascun dipendente.
+		\end{itemize}
+	\item Lista delle attività da svolgere.
+	\item Lista dei turni.
+	\item Fabbisogno di dipendenti, per ciascun turno, in ciascuna data.
+\end{itemize}
+
+\paragraph{Dati di output}
+L'output prodotto dall'algoritmo è un piano di allocazione dei turni, che rispetta i vincoli che sono stati posti.
+%------------------------------------------------
+\section{Aggiornamento dei dati nel database}
+Anche per il caso d'uso \verb|UC8| sono necessari dei dati, all'interno del database, aggiuntivi rispetto a quelli inseriti nella \textit{Fase 2}.\\
+Nella versione finale del software, questi dati saranno inseribili da UI da parte dell'utente utilizzatore. A questo punto del processo di sviluppo, però, le funzionalità di inserimento dati non sono ancora state implementate, quindi si è scelto di realizzare uno script \verb|SQL| per l'inserimento di dati di prova (Codice \ref{code:InsertSQL}). \\
+
+\lstset{
+    language=XML,
+    tabsize=2,
+    frame=lines,
+    caption=Query di aggiornamento dei dati nel database,
+    label=code:InsertSQL,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    morekeywords={xmlns,version,type,encoding},
+    keywordstyle=\color{blue}\bf,
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={records,record,badgeID,time,xs:schema, xs:element, xs:complexType, xs:attribute, xs:sequence},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=SQL]{Fase3/src/AggiornamentoDB.sql}

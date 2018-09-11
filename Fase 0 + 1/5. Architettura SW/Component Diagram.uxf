@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>56</x>
+      <y>264</y>
+      <w>456</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;Component&gt;&gt;
+Database</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>56</x>
+      <y>408</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione dipendenti</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>208</x>
+      <y>408</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione dati base
+azienda</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>360</x>
+      <y>408</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione turni
+Dipendenti</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>360</x>
+      <y>88</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione file .XML</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>208</x>
+      <y>88</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione orari</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>56</x>
+      <y>88</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Prenotazione
+Straordinari</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>120</x>
+      <y>304</y>
+      <w>56</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-()
+&lt;&lt;JDBC&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>112</x>
+      <y>352</y>
+      <w>40</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=)-[v]</panel_attributes>
+    <additional_attributes>20.0;20.0;20.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>272</x>
+      <y>304</y>
+      <w>56</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-()
+&lt;&lt;JDBC&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>264</x>
+      <y>352</y>
+      <w>40</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=)-[v]</panel_attributes>
+    <additional_attributes>20.0;20.0;20.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>416</x>
+      <y>352</y>
+      <w>40</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=)-[v]</panel_attributes>
+    <additional_attributes>20.0;20.0;20.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>424</x>
+      <y>304</y>
+      <w>56</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-()
+&lt;&lt;JDBC&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>416</x>
+      <y>136</y>
+      <w>40</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=)-[v]</panel_attributes>
+    <additional_attributes>20.0;60.0;20.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>424</x>
+      <y>192</y>
+      <w>56</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-()
+&lt;&lt;JDBC&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>264</x>
+      <y>136</y>
+      <w>40</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=)-[v]</panel_attributes>
+    <additional_attributes>20.0;60.0;20.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>272</x>
+      <y>192</y>
+      <w>56</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-()
+&lt;&lt;JDBC&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>112</x>
+      <y>136</y>
+      <w>40</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=)-[v]</panel_attributes>
+    <additional_attributes>20.0;60.0;20.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>120</x>
+      <y>192</y>
+      <w>56</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-()
+&lt;&lt;JDBC&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>272</x>
+      <y>24</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-()
+</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>120</x>
+      <y>16</y>
+      <w>168</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=)-[v]</panel_attributes>
+    <additional_attributes>180.0;20.0;10.0;20.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>104</x>
+      <y>0</y>
+      <w>224</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>Visualizzazione straordinari disponibili</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>120</x>
+      <y>456</y>
+      <w>176</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-()
+</panel_attributes>
+    <additional_attributes>200.0;10.0;200.0;80.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>112</x>
+      <y>456</y>
+      <w>40</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=)-[v]</panel_attributes>
+    <additional_attributes>20.0;60.0;20.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>144</x>
+      <y>520</y>
+      <w>128</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Inserimento attività</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>568</x>
+      <y>56</y>
+      <w>464</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+Presenter
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>568</x>
+      <y>272</y>
+      <w>464</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+View</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>568</x>
+      <y>488</y>
+      <w>464</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+Model</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>568</x>
+      <y>752</y>
+      <w>464</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;Component&gt;&gt;
+Database</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>576</x>
+      <y>88</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione orari : GUI </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>576</x>
+      <y>304</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione orari : 
+Application </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>576</x>
+      <y>520</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione orari : 
+Data </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>792</x>
+      <y>648</y>
+      <w>56</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-()
+&lt;&lt;JDBC&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>784</x>
+      <y>704</y>
+      <w>40</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=)-[v]</panel_attributes>
+    <additional_attributes>20.0;20.0;20.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>728</x>
+      <y>88</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione turni 
+Dipendenti : GUI </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>728</x>
+      <y>304</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione turni 
+Dipendenti : Application </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>728</x>
+      <y>520</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione turni
+Dipendenti : Data
+ </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>880</x>
+      <y>88</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione file 
+XML : GUI </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>576</x>
+      <y>152</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Prenotazione
+Straordinari : GUI </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>728</x>
+      <y>152</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione dipendenti : 
+GUI </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>880</x>
+      <y>152</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione dati base
+azienda : GUI </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>608</x>
+      <y>216</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-[v]
+</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>968</x>
+      <y>216</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=[^]-[^]
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>880</x>
+      <y>304</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione file 
+XML : Application </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>576</x>
+      <y>368</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Prenotazione
+Straordinari : Application </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>728</x>
+      <y>368</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione  
+Dipendenti : Application </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>880</x>
+      <y>368</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione dati base
+azienda : Application </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>608</x>
+      <y>432</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=[v]-[v]
+</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>968</x>
+      <y>432</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=[^]-[^]
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>880</x>
+      <y>520</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione file 
+XML : Data
+ </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>576</x>
+      <y>584</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Prenotazione
+Straordinari : Data </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>728</x>
+      <y>584</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione
+Dipendenti : Data
+ </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>880</x>
+      <y>584</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione dati base
+azienda : Data
+ </panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

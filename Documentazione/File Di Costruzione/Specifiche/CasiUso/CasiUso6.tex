@@ -1,0 +1,63 @@
+%------------------------------------------------
+\subsection{UC6: Modifica di una attività}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole modificare un'attività precedentemente inserita.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+DA03, DA05-DA08
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Gestore del personale
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Sono presenti varie attività nel database.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+L'attività viene modificata nel database.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item Il gestore del personale preme il tasto “Lista attività”.
+		\begin{enumerate}
+			\item Viene visualizzata la lista di tutte le attività.
+		\end{enumerate}
+	\item Il gestore del personale seleziona una attività. 
+	\item Il gestore del personale clicca su "Modifica attività".
+		\begin{enumerate}
+			\item Viene mostrata una form nella quale è possibile modificare i vari dati.
+			\item Il gestore del personale modifica i dati.
+		\end{enumerate}
+	\item Il gestore del personale clicca su "Conferma modifica".
+		\begin{enumerate}
+			\item E' richiesta la conferma dell’azione: se l’azione è confermata, l'attività è modificata.
+			\item I nuovi dati dell'attività sono inseriti all’interno del database.
+			\item Il sistema mostra un riepilogo indicante i dati delle attività attualmente presenti nel database.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento dati errati}
+		\begin{itemize}
+			\item Al passo (3) sono inseriti dati errati, in questo caso l’inserimento è annullato e viene lanciato un messaggio di errore. 
+			\item Con “dati errati” si intende codice, nome, postazione o descrizione vuoti.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\paragraph{Estensioni}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Stampa dati di riepilogo}
+		\begin{itemize}
+			\item Al passo (4.c), il gestore del personale può cliccare sul pulsante “Stampa”, per stampare la scheda di riepilogo contenente i dati delle attività inserite.  
+		\end{itemize}
+\end{itemize}

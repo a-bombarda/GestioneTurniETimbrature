@@ -1,0 +1,48 @@
+%------------------------------------------------
+\subsection{UC5: Cancellazione di una attività}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole eliminare una attività precedentemente inserita.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+DA02, DA05, DA06
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Gestore del personale
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+Sono presenti varie attività nel database.
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+L'attività viene cancellata dal database.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item Il gestore del personale preme il tasto “Lista attività”.
+		\begin{enumerate}
+			\item Viene visualizzata la lista di tutte le attività.
+		\end{enumerate}
+	\item Il gestore del personale seleziona una attività. 
+	\item Il gestore del personale clicca su "Elimina attività".
+		\begin{enumerate}
+			\item E' richiesta la conferma dell’azione: se l’azione è confermata, l'attività è eliminata.
+			\item Viene aggiornata la lista di tutte le attività, in modo che si possa eventualmente procedere ad una ulteriore eliminazione.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Attività assegnata a dipendenti}
+		\begin{itemize}
+			\item Al passo (3) si sta cercando di eliminare una attività assegnata ancora da almeno un dipendente, la cancellazione è annullata e viene visualizzato un messaggio di errore.
+			\item In questa situazione sarà necessario, in via preventiva, rimuovere l'attività dalla lista di quelle ricoperte dal dipendente, come da UC3.
+		\end{itemize}
+\end{itemize}

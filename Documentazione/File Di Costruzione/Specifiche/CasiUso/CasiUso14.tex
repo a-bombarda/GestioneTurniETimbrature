@@ -1,0 +1,106 @@
+%------------------------------------------------
+\subsection{UC14: Gestione giorni di malattia/ferie}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vogliono inserire/aggiornare o eliminare i dati relativi ai giorni di malattia o di ferie comunicati dai dipendenti.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+SM09, SM14-SM16
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+E' valida una di queste precondizioni:
+\begin{itemize}
+	\item Non è ancora stato inserito alcun dato riguardante i giorni di malattia o di ferie per un dipendente.
+	\item I dati sui giorni di malattia o ferie di un dipendente sono già stati inseriti e devono essere aggiornati.
+	\item I dati sui giorni di malattia o ferie di un dipendente sono già stati inseriti e devono essere eliminati.
+\end{itemize}
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+In base all'azione eseguita è valida almeno una delle seguenti postcondizioni:
+\begin{itemize}
+	\item I nuovi dati riguardanti i giorni di malattia o ferie sono inseriti all'interno del database.
+	\item I dati riguardanti i giorni di malattia o ferie già presenti nel database sono stati aggiornati.
+	\item I dati riguardanti i giorni di malattia o ferie già presenti nel database sono stati eliminati.
+\end{itemize}
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione clicca sul pulsante "Gestisci giorni di ferie"/"Gestisci giorni di malattia".
+	\item L'impiegato dell'ufficio amministrazione ha a disposizione tre scelte:
+		\begin{enumerate}
+			\item Può cliccare sul pulsante "Inserisci".
+			\item Può cliccare sul pulsante "Modifica".
+			\item Può cliccare sul pulsante "Elimina".
+		\end{enumerate}	
+	\item Se l'impiegato dell'ufficio amministrazione ha cliccato su "Inserisci":
+		\begin{enumerate}
+			\item L'impiegato dell'ufficio amministrazione inserisce l'identificativo del dipendente in ferie/malattia.
+			\item L'impiegato dell'ufficio amministrazione inserisce l'intervallo di date per il quale il dipendente è in ferie/malattia.
+			\item L'impiegato dell'ufficio amministrazione preme il pulsante "Conferma" per confermare l'inserimento.
+				\begin{enumerate}
+					\item I dati vengono inseriti nel database.
+				\end{enumerate}
+		\end{enumerate}
+	\item Se l'impiegato dell'ufficio amministrazione ha cliccato su "Modifica":
+		\begin{enumerate}
+			\item L'impiegato dell'ufficio amministrazione inserisce l'identificativo del dipendente in ferie/malattia.
+			\item L'impiegato dell'ufficio amministrazione imposta l'intervallo di date contenente i giorni da modificare.
+				\begin{enumerate}
+					\item Vengono mostrati i dati del dipendente per il mese selezionato.
+				\end{enumerate}
+			\item L'impiegato dell'ufficio amministrazione modifica lo stato di uno o più giorni (ferie-no ferie / malattia-no malattia) e clicca sul pulsante "Conferma".
+				\begin{enumerate}
+					\item I dati vengono aggiornati nel database.
+				\end{enumerate}
+		\end{enumerate}
+	\item Se l'impiegato dell'ufficio amministrazione ha cliccato su "Elimina":
+		\begin{enumerate}
+			\item L'impiegato dell'ufficio amministrazione inserisce l'identificativo del dipendente in ferie/malattia.
+			\item L'impiegato dell'ufficio amministrazione imposta l'intervallo di date contenente i giorni da eliminare.
+				\begin{enumerate}
+					\item Vengono mostrati i dati del dipendente per il mese selezionato.
+				\end{enumerate}
+			\item L'impiegato dell'ufficio amministrazione elimina uno o più giorni e clicca sul pulsante "Conferma".
+				\begin{enumerate}
+					\item I dati vengono eliminati dal database.
+				\end{enumerate}
+		\end{enumerate}	
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Inserimento dati errati}
+		\begin{itemize}
+			\item Ai passi (3.*), (4.*) o (5.*) vengono inseriti dei dati errati. L'operazione viene annullata e viene mostrato un messaggio di errore.
+			\item Per dati errati si intende:
+				\begin{itemize}
+					\item Date non corrette.
+					\item Identificativo dipendente non esistente.
+					\item Qualsiasi dato che non rispetta vincoli di dominio.
+				\end{itemize}
+		\end{itemize}
+	\item \underline{Inserimento di dati incompatibili}
+		\begin{itemize}
+			\item Ai passi (3.*), (4.*) o (5.*) vengono inseriti dei dati incompatibili. L'operazione viene annullata e viene mostrato un messaggio di errore.
+			\item Per dati incompatibili si intende il caso in cui vengano inserite una o più giornate di ferie/malattia per un dipendente che ha già superato il monte ore disponibile.
+		\end{itemize}
+	\item \underline{Aggiornamento di una tupla non presente}
+		\begin{itemize}
+			\item Al passo (4.c) l'impiegato dell'ufficio amministrazione tenta di aggiornare una tupla non presente. Viene mostrato un messaggio di errore e viene data la possibilità di modificare i dati inseriti.
+		\end{itemize}
+	\item \underline{Eliminazione di una tupla non presente}
+		\begin{itemize}
+			\item Al passo (5.c) l'impiegato dell'ufficio amministrazione tenta di eliminare una tupla non presente. Viene mostrato un messaggio di errore e viene data la possibilità di modificare i dati inseriti.
+		\end{itemize}
+\end{itemize}

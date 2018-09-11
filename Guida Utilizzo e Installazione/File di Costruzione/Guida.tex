@@ -1,0 +1,131 @@
+\chapter{Installazione e set-up iniziale}
+%======================================
+\section{Installazione Database Server}
+Il primo passo per l'utilizzo del software di gestione dei turni e delle timbrature dei dipendenti è quello di installare sul server centrale del committente, un'applicazione che svolga il ruolo di Database Server.\\
+
+\noindent
+Il software utilizzato per questo progetto come Database Server è \verb|Apache Xampp|.\\
+Di seguito verrà descritta la procedura che deve essere seguita per l'installazione del software:
+\begin{itemize}
+	\item Il software \verb|Apache Xampp| può essere scaricato dalla pagina \href{https://www.apachefriends.org/it/index.html}{https://www.\\apachefriends.org/it/index.html}
+	\item Dalla pagina ufficiale scaricare la versione di XAMPP corrispondente al proprio sistema operativo (Figura \ref{fig:Sito}). 
+		\addfig{img/}{Sito}{0.9}{Selezione della versione del software}{Selezione della versione del software}
+	\item Fare doppio click sull'eseguibile scaricato, al fine di avviare il programma di installazione. Verrà mostrata la schermata in Figura \ref{fig:Installazione}.
+		\addfig{img/}{Installazione}{0.7}{Schermata iniziale della procedura di installazione}{Schermata iniziale della procedura di installazione}
+		\noindent
+		Per procedere con l'installazione, cliccare su \verb|Next|. Nella finestra successiva (Figura \ref{fig:Installazione2}) è possibile selezionare quali componenti si vogliono installare.\\
+		I tre componenti essenziali sono \verb|Apache Server|, \verb|Server MySQL| e \verb|phpMyAd| \verb|min|, ma è possibile installare anche i restanti.
+		\addfig{img/}{Installazione2}{0.7}{Seconda schermata della procedura di installazione}{Seconda schermata della procedura di installazione}
+		\noindent
+		Una volta effettuata la scelta è necessario confermare cliccando su \verb|Next|.\\
+		La schermata successiva (Figura \ref{fig:Installazione3}) permette di selezionare il percorso di installazione del software. E' possibile utilizzare senza alcun problema il percorso di default.
+		\addfig{img/}{Installazione3}{0.7}{Terza schermata della procedura di installazione}{Terza schermata della procedura di installazione}
+		\noindent
+		Cliccando su \verb|Next| si avvia il processo di installazione vero e proprio (Figura \ref{fig:Installazione4}). Una volta terminato il processo, per confermare l'installazione è sufficiente cliccare su \verb|Finish|.
+		\addfig{img/}{Installazione4}{0.7}{Quarta schermata della procedura di installazione}{Quarta schermata della procedura di installazione}
+\end{itemize}
+%======================================
+\section{Creazione del Database}
+Una volta installato \verb|Apache Xampp| è necessario importare al suo interno il database, al fine di avere già predisposte le tabelle ed alcuni valori di default.\\
+Per eseguire l'importazione è sufficiente eseguire i passi seguenti:
+\begin{itemize}
+	\item Aprire \verb|XAMPP Control Panel| e selezionare la lingua. Verrà mostrata la schermata in Figura \ref{fig:Control}.
+		\addfig{img/}{Control}{0.7}{XAMPP Control Panel}{XAMPP Control Panel}
+	\item Cliccare su \verb|Start| in corrispondenza delle due voci:
+		\begin{enumerate}
+			\item \verb|Apache|
+			\item \verb|MySQL|
+		\end{enumerate}
+	\item Aprire il proprio browser e recarsi all'indirizzo \verb|localhost|. In questo modo si accede alla schermata di gestione di \verb|Xampp| (Figura \ref{fig:Local}).
+		\addfig{img/}{Local}{0.7}{Finestra del browser per la gestione di Xampp}{Finestra del browser per la gestione di Xampp}
+		\noindent
+		Nella schermata in Figura \ref{fig:Local}, cliccare su \verb|phpMyAdmin|, in alto a destra, al fine di accedere alla gestione del database (Figura \ref{fig:Php}).
+		\addfig{img/}{Php}{0.99}{Interfaccia di phpMyAdmin}{interfaccia di phpMyAdmin}
+	\item Nella maschera in Figura \ref{fig:Php}, selezionare, nella barra dei menù in alto, la voce \verb|Importa|. In questo modo si accede alla schermata in Figura \ref{fig:Importa}, dalla quale è possibile, cliccando su \verb|Scegli file|, importare un file \verb|.sql| con il database.
+		\addfig{img/}{Importa}{0.7}{Schermata di importazione del database}{Schermata di importazione del database}
+		Cliccando su \verb|Scegli file|, è necessario selezionare il file \verb|Turni.sql|, contenuto nella cartella dell'applicativo. La conferma dell'importazione viene data con il click sul pulsante \verb|Esegui| a fondo pagina.\\
+		Al termine dell'importazione verrà mostrato il messaggio di conferma in Figura \ref{fig:Conferma}.
+		\addfig{img/}{Conferma}{0.6}{Testo di conferma dell'importazione}{Testo di conferma dell'importazione}		
+\end{itemize}
+%======================================
+\newpage
+\chapter{Utilizzo del software}
+%======================================
+\section{Apertura del software}
+%======================================
+Con un doppio click sul file \verb|Software.jar| è possibile avviare il programma di gestione dei turni e delle timbratura (Figura \ref{fig:SW}).
+\addfig{img/}{SW}{0.6}{Splash-screen iniziale dell'applicazione}{Splash-screen iniziale dell'applicazione}
+\noindent
+Cliccando sul pulsante \verb|Start| si accede alla schermata principale del programma (Figura \ref{fig:Principale}).
+\addfig{img/}{Principale}{1}{Schermata principale del SW}{Schermata principale del SW}
+%======================================
+\section{Caricamento file timbrature}
+Per importare il file \verb|XML| proveniente dalla timbratrice e contenente tutte le timbrature del giorno, è necessario, dalla maschera in figura \ref{fig:Principale}, cliccare sulla voce \verb|Importa XML| nella barra dei menù.\\
+
+\noindent
+Con il click su di questa voce, verrà mostrata la maschera per la selezione del file (Figura \ref{fig:Select}), dalla quale sarà possibile selezionare il file \verb|XML| con le timbrature.
+\addfig{img/}{Select}{0.7}{Schermata di selezione file}{Schermata di selezione file}
+\noindent
+\textit{N.B}: Un file \verb|XML| di esempio è presente anche all'interno della cartella dell'applicazione.\\
+
+\noindent
+Una volta selezionato il file desiderato, cliccando su \verb|Apri|, il file verrà processato ed, infine, verrà mostrata la schermata in Figura \ref{fig:Parse}, contenente il risultato del parsing del file \verb|XML|.
+\addfig{img/}{Parse}{0.8}{Schermata di visualizzazione del risultato del parsing}{Schermata di visualizzazione del risultato del parsing}
+%======================================
+\subsection{Modifica timbratura}
+Dalla finestra mostrata in Figura \ref{fig:Parse} è possibile modificare uno qualsiasi dei dati mostrati, semplicemente facendo un doppio click sul campo da modificare, ed inserendone il nuovo valore.
+\addfig{img/}{Mod}{0.8}{Modifica di una timbratura}{Modifica di una timbratura}
+%======================================
+\subsection{Cancellazione timbratura}
+Per cancellare una timbratura, dalla finestra mostrata in Figura \ref{fig:Parse}, è sufficiente cancellare uno dei valori della riga corrispondente alla timbratura da eliminare.
+%======================================
+\subsection{Salvataggio dati}
+Dalla finestra mostrata in Figura \ref{fig:Parse}, cliccando sul pulsante \verb|Salva|, presente in alto a destra, è possibile avviare il processo di salvataggio ed aggregazione degli orari.\\
+Tramite questa procedura, verranno anche calcolati le ore di ordinario/straordinario/ferie/permessi giornaliere dei vari dipendenti.
+%======================================
+\section{Gestione dei turni}
+Per gestire tutto ciò che riguarda i turni, la loro allocazione ed il fabbisogno di personale sarà necessario cliccare, dalla maschera in Figura \ref{fig:Principale} il pulsante \verb|Gestione turni|. In questo modo verrà mostrata la maschera riportata in Figura \ref{fig:Turni}.
+\addfig{img/}{Turni}{0.8}{Maschera di gestione dei turni}{Maschera di gestione dei turni}
+%======================================
+\subsection{Generazione turnazione settimanale}
+Per la generazione della turnazione settimanale sarà necessario, dalla maschera in Figura \ref{fig:Turni}, cliccare sul pulsante \verb|Genera| \verb|turnazione settimanale| presente nella barra dei menù.\\
+
+\noindent
+Una volta effettuato il click, verrà mostrata la maschera in Figura \ref{fig:Plan}, che permette di inserire l'intervallo di date (\verb|Da| e \verb|A|) per il quale si vuole generare lo schedule.
+\addfig{img/}{Plan}{0.8}{Maschera di generazione dello Schedule}{Maschera di generazione dello Schedule}
+\noindent
+Cliccando, quindi, sul pulsante \verb|Genera|, verrà generata la turnazione per il periodo richiesto.\\
+
+\noindent
+\begin{wrapfigure}{l}{0.08\textwidth}
+    \centering
+    \includegraphics[width=0.08\textwidth]{img/Attenzione}
+\end{wrapfigure}
+
+\noindent
+\textbf{Attenzione}: Lo schedule può essere generato per un massimo di $7$ giorni. Se le due date inserite differiscono per più di una settimana verrà mostrato il messaggio di errore mostrato in Figura \ref{fig:ErroreDate}.
+\addfig{img/}{ErroreDate}{0.8}{Messaggio di errore per date}{Messaggio di errore per date}
+%======================================
+\subsubsection{Schedule non ammissibile}
+Se le date inserite sono corrette ma lo schedule non può essere generato per mancanza di disponibilità di manodopera, il software restituirà il messaggio di errore riportato in Figura \ref{fig:ImgNonAmm}.
+\addfig{img/}{ImgNonAmm}{0.8}{Messaggio di errore per schedule non possibile}{Messaggio di errore per schedule non possibile}
+\noindent
+Nonostante questo, la turnazione parziale (\textit{fino al giorno nel quale si ha la mancanza di manodopera}) viene comunque mostrata nella maschera, come da Figura \ref{fig:TurniGenerati}.
+%======================================
+\subsubsection{Visualizzazione schedule}
+Lo schedule generato (completo o parziale - se ci sono stati errori per mancanza di disponibilità) verrà mostrato nella maschera come da Figura \ref{fig:TurniGenerati}
+\addfig{img/}{TurniGenerati}{0.8}{Risultato della generazione dello schedule}{Risultato della generazione dello schedule}
+\noindent
+Arrivati a questo punto sarà possibile confermare lo schedule generato, cliccando sul pulsante \verb|Conferma|, oppure generare un nuovo schedule cliccando sul pulsante \verb|Genera nuova|.\\
+La conferma del salvataggio dello schedule sarà data dal messaggio in Figura \ref{fig:ConfermaS}.
+\addfig{img/}{ConfermaS}{0.8}{Conferma salvataggio schedule}{Conferma salvataggio schedule}
+%======================================
+\subsection{Gestione del fabbisogno}
+Per la gestione del fabbisogno di dipendenti è necessario, dalla maschera in Figura \ref{fig:Turni}, cliccare sul pulsante \verb|Gestisci fabbisogno|. In questo modo viene mostrata la schermata in Figura \ref{fig:Fabb}.
+\addfig{img/}{Fabb}{0.8}{Maschera di gestione del fabbisogno}{Maschera di gestione del fabbisogno}
+\noindent
+Completando l'intervallo di date (\verb|Da| e \verb|A|) per il quale si vuole visualizzare il fabbisogno e cliccando sul pulsante \verb|Visualizza|, viene compilata la parte bassa della maschera con le informazioni attualmente inserite nel database (Figura \ref{fig:ViewFabb}).
+\addfig{img/}{ViewFabb}{0.8}{Visualizzazione del fabbisogno}{Visualizzazione del fabbisogno}
+%======================================
+\subsubsection{Cancellazione di una voce di fabbisogno}
+Per la cancellazione di una voce di fabbisogno è sufficiente, nella maschera mostrata in Figura \ref{fig:ViewFabb}, selezionare la riga che si vuole eliminare ed, infine, cliccare sul pulsante \verb|Elimina|.

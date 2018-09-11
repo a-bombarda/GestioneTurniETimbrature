@@ -1,0 +1,70 @@
+%------------------------------------------------
+\subsection{UC8: Generazione turnazione settimanale}
+%------------------------------------------------
+\paragraph{Descrizione}
+%------------------------------------------------
+Si vuole generare la turnazione di una nuova settimana, includendo tutti i dipendenti che non sono in ferie.\\
+L'assegnazione dei turni deve rispettare il numero massimo di ore settimanali di ciascun dipendente.
+%------------------------------------------------
+\paragraph{Requisiti coperti}
+%------------------------------------------------
+TD01, TD02, TD05, TD06, TD07, TD08,  TD12, TD15, DA04-DA08
+%------------------------------------------------
+\paragraph{Attori coinvolti}
+%------------------------------------------------
+Impiegato dell'ufficio amministrazione
+%------------------------------------------------
+\paragraph{Precondizioni}
+%------------------------------------------------
+\begin{itemize}
+	\item I dipendenti sono inseriti all'interno del database del programma.
+	\item Non è ancora stata generata una turnazione per la settimana.
+\end{itemize}
+%------------------------------------------------
+\paragraph{Postcondizioni}
+%------------------------------------------------
+Turni assegnati a tutti i dipendenti per la settimana richiesta, mail (contenente il resoconto della turnazione generata) inviata a ciascun dipendente.
+%------------------------------------------------
+\paragraph{Processo}
+%------------------------------------------------
+Di seguito è descritto il processo:
+\begin{enumerate}
+	\item L'impiegato dell'ufficio amministrazione preme il pulsante "Genera turnazione settimanale".
+	\item L'impiegato dell'ufficio amministrazione seleziona la settimana per la quale vuole generare la turnazione.
+	\item L'impiegato dell'ufficio amministrazione preme il pulsante "Genera".
+		\begin{enumerate}
+			\item Il sistema genera in automatico le turnazioni.
+			\item Il sistema mostra le turnazioni generate all'impiegato dell'ufficio amministrazione.
+		\end{enumerate}
+	\item L'impiegato dell'ufficio amministrazione preme il pulsante "Conferma"
+		\begin{enumerate}
+			\item Le turnazioni assegnate vengono inserite all'interno del database.
+			\item Ciascun dipendente riceve una mail contenente le indicazioni sui turni che gli sono stati assegnati per la settimana.
+		\end{enumerate}
+\end{enumerate}
+%------------------------------------------------
+\paragraph{Alternative}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Selezione settimana errata}
+		\begin{itemize}
+			\item Al passo (2) l'impiegato dell'ufficio amministrazione seleziona una settimana non esistente o per la quale è già stata assegnata una turnazione. Viene quindi mostrato un messaggio di errore.
+		\end{itemize}
+	\item \underline{Dipendenti non sufficienti}
+		\begin{itemize}
+			\item Al passo (3) il sistema non riesce a trovare un'allocazione ammissibile, poichè i dipendenti o la disponibilità di ore non sono sufficienti. Viene quindi mostrato un messaggio di errore.
+		\end{itemize}
+	\item \underline{Indirizzi e-mail non inseriti}
+		\begin{itemize}
+			\item Al passo (4) il sistema non trova gli indirizzi e-mail di alcuni dipendenti. Viene mostrata una finestra che comunica i dati mancanti.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\paragraph{Estensioni}
+%------------------------------------------------
+\begin{itemize}
+	\item \underline{Generazione nuova turnazione}
+		\begin{itemize}
+			\item Al passo (4) l'impiegato dell'ufficio amministrazione clicca su "Genera nuova turnazione". Si riparte quindi dal passo (3.a).
+		\end{itemize}
+\end{itemize}

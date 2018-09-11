@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>120</x>
+      <y>80</y>
+      <w>250</w>
+      <h>560</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;device&gt;&gt;
+Client uffici/Server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>160</x>
+      <y>140</y>
+      <w>170</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione dipendenti</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>160</x>
+      <y>240</y>
+      <w>170</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione dati base 
+azienda</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>160</x>
+      <y>340</y>
+      <w>170</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione turni 
+dipendenti</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>160</x>
+      <y>440</y>
+      <w>170</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione file .XML</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>160</x>
+      <y>540</y>
+      <w>170</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Gestione orari</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>500</x>
+      <y>80</y>
+      <w>250</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;database server&gt;&gt;
+DB</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>540</x>
+      <y>140</y>
+      <w>170</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Database</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>880</x>
+      <y>80</y>
+      <w>250</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;device&gt;&gt;
+Client Dipendenti</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>920</x>
+      <y>140</y>
+      <w>170</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+&lt;&lt;component&gt;&gt;
+Prenotazione 
+straordinari</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>140</y>
+      <w>170</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=[&lt;]-[&gt;]
+&lt;&lt;http&gt;&gt;
+</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>140</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=[&lt;]-[&gt;]
+&lt;&lt;http&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0</additional_attributes>
+  </element>
+</diagram>

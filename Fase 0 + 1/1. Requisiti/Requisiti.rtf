@@ -1,0 +1,68 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf400
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh16580\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs36 \cf0 Il cliente richiede lo sviluppo di un\'92applicazione per la gestione automatizzata degli orari e dei turni dei propri dipendenti.\
+\
+Il processo produttivo dell\'92azienda committente si basa su catena di montaggio attiva 7 giorni a settimana. Le giornate sono suddivise in tre turnazioni:\
+	* 00:00 - 08:00\
+	* 08:00 - 16:00\
+	* 16:00 - 24:00\
+Ciascun dipendente ha diritto a 30 minuti continuativi di pausa nel corso di ogni turno lavorativo.\
+Per ogni attivit\'e0 del processo produttivo, l\'92azienda definisce settimanalmente il numero di dipendenti necessari contemporaneamente per il suo svolgimento.\
+\
+L\'92applicazione realizzata dovr\'e0 permettere di svolgere le seguenti macro-operazioni:\
+	* Gestione dei dati dei dipendenti\
+	* Calcolo degli orari mensili dei dipendenti\
+	* Allocazione dei dipendenti sui turni\
+\
+Dei dipendenti si vogliono gestire i principali dati anagrafici (nome, cognome, data di nascita, etc.), un elenco di attivit\'e0 eseguibili dal dipendente, le informazioni riguardanti la paga base oraria e il numero di ore settimanali contrattuali. \
+\
+Nella sede del cliente \'e8 presente una timbratrice che, una volta al giorno, memorizza all\'92interno di un percorso di rete noto un file .XML  (un esempio del quale \'e8 riportato nella sezione XXX) contenente tutte le timbrature effettuate dai dipendenti durante le 24 ore precedenti (indicando anche se la timbratura \'e8 di tipo \'93IN\'94 o \'93OUT\'94). Ogni dipendente ha infatti un badge personale che permette la timbratura ogni volta che il dipendente entra o esce dall\'92area produttiva (anche per la pausa intermedia).\
+\
+Le informazioni raccolte dalla timbratrice tramite file .XML devono essere utilizzate dall\'92applicazione per il calcolo degli orari mensili di ciascun dipendente. In particolare, \'e8 richiesto il calcolo di:\
+	* Ore di lavoro ordinario\
+	* Ore di lavoro straordinario\
+	* Ore di malattia\
+	* Ore di ferie/permessi\
+Queste informazioni devono essere utilizzate anche per il calcolo della paga mensile, considerando che le ore di straordinario e le ore notturne (prima delle 08:00 e dopo le 22:00) sono pagate con un incremento percentuale, configurabile dal cliente.\
+Inoltre, il cliente chiede di avere una tolleranza di 5 minuti sugli orari (ad esempio un dipendente che deve iniziare alle 08:00 pu\'f2 timbrare fino alle 08:05 senza che venga conteggiato alcun permesso). \
+\
+Attualmente, il cliente calcola gli orari dei dipendenti in modo manuale, convertendo il file .XML in un file .CSV che viene successivamente importato in Microsoft Excel.\
+\
+Il processo di calcolo degli orari mensili dovr\'e0 essere eseguito in automatico dall\'92applicazione, ma dovr\'e0 anche essere presente una sezione in cui l\'92addetto dell\'92ufficio amministrazione pu\'f2 eseguire una revisione dei calcoli (ad esempio, impostare come \'93malattia\'94 un giorno che dall\'92applicazione era stato considerato giorno di ferie). Inoltre l\'92applicazione dovr\'e0 consentire la stampa di un report PDF contenente il quadro generale degli orari mensili di ciascun dipendente.\
+\
+Per quanto riguarda l\'92allocazione dei dipendenti sui turni, attualmente, il committente gestisce le turnazioni tramite accordo privato tra i dipendenti, senza alcuna automatizzazione del processo. L\'92applicazione dovr\'e0, considerando il numero di dipendenti necessari in ogni turno e per ogni attivit\'e0, fornire un piano settimanale, avendo cura di non superare il numero di ore contrattuali previste per ciascun dipendente.\
+Dovr\'e0 essere anche prevista la possibilit\'e0 di fare un cambio turno: quando un dipendente non pu\'f2 presentarsi al turno che gli \'e8 stato assegnato, deve essere ricalcolato il piano settimanale in modo da coprire lo slot lasciato scoperto.\
+\
+Infine, avendo a disposizione i dati delle timbrature dei dipendenti e la programmazione dei turni, \'e8 richiesta l\'92implementazione di un sistema di controllo, utilizzabile al termine del mese, per verificare l\'92effettiva corrispondenza tra turni assegnati a ciascun dipendente e relativa presenza in azienda.\
+\
+\
+ESEMPIO XML\
+\
+\
+<Records date=\'9330/04/2018\'94>\
+	<Record type = \'93IN\'94>\
+		<BadgeID>00002<\\BadgeID>\
+		<Time>00:00:00<\\Time>\
+	<\\Record>\
+	<Record type = \'93IN\'94>\
+		<BadgeID>00004<\\BadgeID>\
+		<Time>07:48:00<\\Time>\
+	<\\Record>\
+	<Record type = \'93OUT\'94>\
+		<BadgeID>00002<\\BadgeID>\
+		<Time>08:01:00<\\Time>\
+	<\\Record>\
+	<Record  type = \'93IN\'94>\
+		<BadgeID>00001<\\BadgeID>\
+		<Time>08:02:00<\\Time>\
+	<\\Record>\
+	<Record  type = \'93OUT\'94>\
+		<BadgeID>00005<\\BadgeID>\
+		<Time>10:30:00<\\Time>\
+	<\\Record>\
+<\\ Records>}

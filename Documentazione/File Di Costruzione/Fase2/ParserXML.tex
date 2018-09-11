@@ -1,0 +1,182 @@
+\chapter{Parser XML ed inserimento dati grezzi in DB}
+%------------------------------------------------
+\section{Formato file XML}
+Per avere un formato del file XML standard, si è deciso di creare un file di descrizione \verb|XSD|, di seguito riportato.
+
+\lstset{
+    language=XML,
+    tabsize=3,
+    frame=lines,
+    caption=Descrizione XSD del contenuto del file XML,
+    label=code:sample,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    morekeywords={xmlns,version,type,encoding},
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={records,record,badgeID,time,xs:schema, xs:element, xs:complexType, xs:attribute, xs:sequence},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=XML]{Fase2/src/XSD.xsd}
+
+\noindent
+Un esempio di file \verb|XML| prodotto dalla timbratrice, che verrà utilizzato nelle prove effettuate di seguito, è il seguente:
+
+\lstset{
+    language=XML,
+    tabsize=3,
+    frame=lines,
+    caption=Esempio di file XML prodotto dalla timbratrice,
+    label=code:sample,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    morekeywords={xmlns,version,type,encoding},
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={records,record,badgeID,time,xs:schema, xs:element, xs:complexType, xs:attribute, xs:sequence},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=XML]{Fase2/src/Records.xml}
+%------------------------------------------------
+\section{Set-up preventivo}
+Nella fase di importazione delle timbrature, gli unici dati che devono essere a disposizione del sistema sono quelli relativi ai dipendenti (\textit{in particolare quelli legati ai badgeID}). In questa prima fase dello sviluppo del software, però, non è ancora presente la componente di gestione dei dati dei dipendenti.\\
+
+\noindent	
+La soluzione scelta per riuscire comunque ad implementare, testare ed utilizzare la funzionalità è quella di effettuare in inserimento di dati di prova all'interno del database grazie ad una semplice query \verb|SQL|:
+
+\lstset{
+    language=SQL,
+    tabsize=3,
+    frame=lines,
+    caption=Query SQL per l'inserimento dei dati preventivi,
+    label=code:sample,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    morekeywords={xmlns,version,type,encoding},
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={records,record,badgeID,time,xs:schema, xs:element, xs:complexType, xs:attribute, xs:sequence},emphstyle={\color{magenta}}}
+
+
+\lstinputlisting[language=SQL]{Fase2/src/Query.sql}
+
+%------------------------------------------------
+\section{Implementazione del parser}
+Il file \verb|XML| viene convertito in una \verb|List<Timbratura>| utilizzando la classe \verb|SAXParser| già presente nella libreria standard di Java:
+
+\lstset{
+    language=java,
+    tabsize=2,
+    frame=lines,
+    caption=Classe che si occupa di effettuare il parsing del file XML,
+    label=code:sample,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={records,record,badgeID,time,xs:schema, xs:element, xs:complexType, xs:attribute, xs:sequence},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=java]{Fase2/src/RecordParser.java}
+\noindent
+Il metodo \verb|parserXML| della classe \verb|RecordParser| permette di ottenere una \verb|List<Timbratura>| che può, quindi, essere inserita all'interno del database nella relativa tabella.\\
+In questa classe viene utilizzato anche un oggetto della classe \verb|XMLHandler|, implementata estendendo la classe \verb|DefaultHandler| che permette la gestione automatica del processo di lettura di un file \verb|XML|.
+%------------------------------------------------
+\section{Funzionamento della classe XMLHandler}
+La classe \verb|XMLHandler| permette la gestione automatica del processo di lettura di un file \verb|XML| con il seguente funzionamento:
+\begin{itemize}
+	\item Quando si incontra l'apertura di un nuovo tag, viene chiamato in automatico il metodo \verb|startElement|.\\
+		Due importanti parametri di questo metodo sono \verb|qName|, che contiene il nome del tag incontrato, e \verb|attributes|, che contiene l'elenco di tutti gli eventuali attributi del tag.
+	\item Se all'interno del tag sono presenti dei dati, viene chiamato il metodo \verb|characters|.
+	\item Quando si incontra la terminazione del tag, viene chiamato in automatico il metodo \verb|endElement|.
+\end{itemize}
+
+\lstset{
+    caption=Classe XMLHandler
+ }
+\lstinputlisting[language=java]{Fase2/src/XMLHandler.java}
+%------------------------------------------------
+\subsection{Identificazione dei tag}
+La lista di tutti i tag possibili del file \verb|XML| è contenuta nella \verb|enum XMLTag| e viene utilizzata da tutti i metodi della classe \verb|XMLHandler| per decidere quale azione deve essere svolta, tag per tag.
+\lstset{
+    caption=Enumerazione XMLTag
+ }
+\lstinputlisting[language=java]{Fase2/src/XMLTag.java}
+Sulla base del tag incontrato, la funzione \verb|startElement| è in grado di capire se:
+\begin{itemize}
+	\item Ci si trova all'inizio del file
+	\item Si è nella necessità di creare una nuova \verb|Timbratura|
+	\item Devono essere inseriti dei dati in una \verb|Timbratura| creata in precedenza 	
+\end{itemize}
+\lstset{
+    caption=Metodo startElement
+ }
+\lstinputlisting[language=java]{Fase2/src/StartElement.java}
+%------------------------------------------------
+\subsection{Selezione del contenuto del tag}
+Noto il tag in cui ci si trova durante il processo di parsing, i dati interni possono essere salvati all'interno dell'oggetto di classe \verb|Timbratura|.
+\lstset{
+    caption=Metodo characters
+ }
+\lstinputlisting[language=java]{Fase2/src/Char.java}
+%------------------------------------------------
+\subsection{Chiusura del tag}
+E' importante non considerare solamente l'apertura di un tag ma anche la sua chiusura poichè, nel file \verb|XML| prodotto dalla timbratrice si hanno tag interni alla \verb|Timbratura|. Per questo motivo ci sono dei tag che devono dare origine alla creazione di un oggetto di classe \verb|Timbratura| e tag che invece sono relativi solamente ad alcuni campi di una \verb|Timbratura|.	\\
+La decisione sul tipo di tag incontrato viene fatta, come accennato in precedenza, dal metodo \verb|endElement|.  
+\lstset{
+    caption=Metodo endElement
+ }
+\lstinputlisting[language=java]{Fase2/src/EndElement.java}
+%------------------------------------------------
+\subsection{Risultato del Parsing}
+Il risultato dell'operazione di parsing è una \verb|List<Timbratura>|, che può essere ottenuta tramite la chiamata del metodo \verb|getRecordList()|.
+\lstset{
+    caption=Metodo getRecordList
+ }
+\lstinputlisting[language=java]{Fase2/src/GetRecordList.java}
+%------------------------------------------------
+\section{Inserimento dei dati grezzi nel database}
+Una volta che il file \verb|XML| è stato correttamente parsato, i dati vengono mostrati in una maschera dell'applicativo.
+\addfig{Fase2/img/}{EditOrari}{1}{Finestra per la modifica degli orari}{Finestra per la modifica degli orari}
+\noindent
+Come da \verb|UC12|, con il click sul pulsante \verb|Salva|, i dati grezzi (\textit{con le eventuali correzioni manuali}) devono essere inseriti all'interno del database dell'applicazione.
+
+\noindent
+Questa operazione viene fatta, sfruttando le API \verb|JPA| tramite il codice seguente:
+\lstset{
+    caption=Salvataggio dei dati grezzi provenienti dalla timbratrice
+ }
+\lstinputlisting[language=java]{Fase2/src/action.java}

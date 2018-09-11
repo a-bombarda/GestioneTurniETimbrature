@@ -1,0 +1,246 @@
+\chapter{Aggregazione degli orari}
+%------------------------------------------------
+\section{Introduzione}
+Una volta che i dati grezzi, relativi alle singole timbrature, sono stati inseriti all'interno del database, il passo successivo è quello di aggregare i dati di ogni singolo giorno per ogni dipendente.\\
+Di seguito verrà riportata l'analisi di questa funzionalità.
+%------------------------------------------------
+\section{Funzione di aggregazione}
+Il compito della funzione di aggregazione può essere riassunto dai seguenti passi:
+\begin{itemize}
+	\item Individuare tutte le timbrature fatte da un determinato dipendente in una determinata data.
+	\item Ordinare le timbrature individuate in ordine crescente.
+	\item Creare un "orario" completo, comprendente tutte le entrate ed uscite giornaliere del dipendente.
+	\item Per ogni giornata di lavoro calcolare:
+		\begin{itemize}
+			\item Ore di lavoro ordinario
+			\item Ore di lavoro straordinario
+			\item Ore di ferie/permesso
+		\end{itemize}
+\end{itemize}
+La funzione può essere implementata dal seguente pseudocodice:
+\lstset{
+    language=java,
+    tabsize=2,
+    frame=lines,
+    caption=Pseudocodice della funzione di aggregazione,
+    label=code:pseudoAggregazione,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={fine,funzione,min,max},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=java]{Fase2/src/aggregazione}
+\noindent
+Come da Codice \ref{code:pseudoAggregazione}, la funzione \verb|aggregaOrari| comprende al suo interno diverse chiamate a procedure che si occupano di svolgere i vari passi necessari al processo di aggregazione.
+%------------------------------------------------
+\subsection{Funzione di creazione delle righe vuote}
+La funzione di creazione delle righe vuote si occupa di predisporre la tabella degli \verb|Orari|, completandola con tutte le giornate, per ogni dipendente, comprese tra la minima e la massima data contenuta all'interno del file \verb|XML| importato dalla timbratrice.\\
+
+\noindent
+La funzione può essere rappresentata dal \textit{flow-chart} in figura \ref{fig:CreazioneRigheVuote} ed implementata dallo pseudocodice riportato in Codice \ref{code:PseudoVuote}.
+
+\addfig{Fase2/img/}{CreazioneRigheVuote}{0.9}{Flow-chart per la funzione di creazione delle righe vuote}{Flow-chart per la funzione di creazione delle righe vuote}
+
+\lstset{
+    language=java,
+    tabsize=2,
+    frame=lines,
+    caption=Pseudocodice della funzione di creazione delle righe vuote,
+    label=code:PseudoVuote,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={fine,funzione,min,max,for,each,end,between, in, and},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=java]{Fase2/src/vuote}
+%------------------------------------------------
+\subsubsection{Analisi della complessità}
+Consideriamo:
+\begin{itemize}
+	\item $n$, il numero di dipendenti dell'azienda
+	\item $m$, il numero di giorni tra \verb|dataMin| e \verb|dataMax|
+\end{itemize}
+La complessità di questa funzione, considerando le operazioni di accesso al database di costo unitario $O(1)$ (\textit{semplificazione}), può essere considerata pari a
+\begin{equation}
+	O(n\cdot m)
+\end{equation}
+Inoltre, supponendo di lavorare con un committente che abbia un numero significativo di dipendenti e che importi i dati della timbratrice con un intervallo abbastanza breve, possiamo considerare
+\begin{equation}
+	n \gg m
+\end{equation}
+ovvero, passiamo ad una complessità della funzione pari a
+\begin{equation}
+	O(n)
+\end{equation}
+%------------------------------------------------
+\subsection{Funzione di posizionamento degli orari}
+La funzione di posizionamento degli orari si occupa di copiare, in ciascuna delle righe della tabella degli \verb|Orari| predisposte dalla funzione precedente, tutte le timbrature effettuate da un dipendente in una specifica giornata. In modo è possibile avere la situazione complessiva delle entrate e delle uscite del dipendente dall'area produttiva.\\
+La copia delle timbrature deve essere effettuata in ordine orario crescente.\\
+
+\noindent
+La funzione può essere rappresentata dal \textit{flow-chart} in figura \ref{fig:Posizionamento} ed implementata dallo pseudocodice riportato in Codice \ref{code:PseudoPosizionamento}.
+
+\addfig{Fase2/img/}{Posizionamento}{1}{Flow-chart per la funzione di posizionamento degli orari}{Flow-chart per la funzione di posizionamento degli orari}
+
+\lstset{
+    language=java,
+    tabsize=2,
+    frame=lines,
+    caption=Pseudocodice della funzione di posizionamento degli orari,
+    label=code:PseudoPosizionamento,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={fine,funzione,min,max,for,each,end,between, in, and},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=java]{Fase2/src/Posizionamento}
+%------------------------------------------------
+\subsubsection{Analisi della complessità}
+Consideriamo:
+\begin{itemize}
+	\item $n$, il numero di dipendenti dell'azienda
+	\item $m$, il numero di giorni tra \verb|dataMin| e \verb|dataMax|
+	\item Ordinamento eseguito tramite un algoritmo ottimo, con complessità $O(n\cdot \log{n})$.\\
+		Questa assunzione vale solamente a livello teorico, in quanto l'ordinamento verrà eseguito tramite una query SQL e, di conseguenza, gestito dal DMBS con algoritmo non-noto.
+\end{itemize}
+La complessità di questa funzione, considerando le operazioni di accesso al database di costo unitario $O(1)$ (\textit{semplificazione}), può essere considerata pari a
+\begin{equation}
+	O(n\cdot m \cdot n \cdot \log{n}) = O(n^2 \cdot m \cdot \log{n})
+\end{equation}
+Inoltre, supponendo di lavorare con un committente che abbia un numero significativo di dipendenti e che importi i dati della timbratrice con un intervallo abbastanza breve, possiamo considerare
+\begin{equation}
+	n \gg m
+\end{equation}
+ovvero, passiamo ad una complessità della funzione pari a
+\begin{equation}
+	O(n^2 \cdot \log{n})
+\end{equation}
+%------------------------------------------------
+\subsection{Funzione di elaborazione degli orari}
+La funzione di elaborazione degli orari deve, basandosi su quanto prodotto dalla funzione precedente, calcolare, per ogni giornata e per ogni dipendente, le ore di:
+\begin{itemize}
+	\item Ordinario
+	\item Straordinario
+	\item Ferie/Permessi
+\end{itemize}
+Per scelta del committente, gli il numero di ore viene gestito a scatti di mezz'ora, arrotondando alla mezz'ora più vicina.\\
+
+\noindent
+La funzione può essere rappresentata dal \textit{flow-chart} in figura \ref{fig:Elaborazione} ed implementata dallo pseudocodice riportato in Codice \ref{code:PseudoElabora}.
+
+
+\addfig{Fase2/img/}{Elaborazione}{1}{Flow-chart per la funzione di elaborazione degli orari}{Flow-chart per la funzione di elaborazione degli orari}
+
+\lstset{
+    language=java,
+    tabsize=2,
+    frame=lines,
+    caption=Pseudocodice della funzione di elaborazione degli orari,
+    label=code:PseudoElabora,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={fine,funzione,min,max,for,each,end,between, in, and},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=java]{Fase2/src/Elabora}
+%------------------------------------------------
+\subsubsection{Analisi della complessità}
+Consideriamo:
+\begin{itemize}
+	\item $k$, il numero di righe inserite nella tabella degli \verb|Orari| aggregati
+\end{itemize}
+La complessità di questa funzione, considerando le operazioni di accesso al database di costo unitario $O(1)$ (\textit{semplificazione}), può essere considerata pari a
+\begin{equation}
+	O(k)
+\end{equation}
+%------------------------------------------------
+\subsection{Funzione di eliminazione dei dati grezzi}
+Una volta che gli orari sono stati aggregati ed elaborati correttamente, per ottimizzare lo spazio, è richiesta la cancellazione dei dati delle \verb|Timbrature| grezze, importate dal file \verb|XML| prodotto dalla timbratrice.\\
+
+\noindent
+Questa operazione, concettualmente molto semplice, viene svolta dallo pseudocodice in Codice \ref{code:Elimina}.
+
+\lstset{
+    language=java,
+    tabsize=2,
+    frame=lines,
+    caption=Pseudocodice della funzione di eliminazione delle timbrature grezze,
+    label=code:Elimina,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    keywordstyle=\color{blue}\bf,
+    commentstyle=\color{Green},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={fine,funzione,min,max,for,each,end,between, in, and},emphstyle={\color{magenta}}}
+
+\lstinputlisting[language=java]{Fase2/src/Elimina}
+%------------------------------------------------
+\subsubsection{Analisi della complessità}
+Questa funzione effettua solamente delle operazioni di accesso al database, quindi per le assunzioni fatte in precedenza possiamo considerare la sua complessità pari a
+\begin{equation}
+	O(1)
+\end{equation}
+%------------------------------------------------
+\subsection{Analisi della complessità generale}
+Guardando l'algoritmo di aggregazione ed elaborazione degli orari nella sua completezza, è possibile stabilire la sua complessità come la somma di tutte le complessità delle singole funzioni che lo compongono.\\
+In particolare, considerando
+\begin{itemize}
+	\item $n$, il numero di dipendenti dell'azienda
+	\item $m$, il numero di giorni tra \verb|dataMin| e \verb|dataMax|
+	\item $k$, il numero di giornate inserite nella tabella degli \verb|Orari| aggregati
+	\item Ordinamento eseguito tramite un algoritmo ottimo, con complessità $O(n\cdot \log{n})$.\\
+		Questa assunzione vale solamente a livello teorico, in quanto l'ordinamento verrà eseguito tramite una query SQL e, di conseguenza, gestito dal DMBS con algoritmo non-noto.
+\end{itemize}
+e mantenendo valide tutte le ipotesi semplificative fatte nelle singole analisi, la complessità totale della funzionalità di aggregazione risulta pari a
+\begin{equation}
+	O(n) + O(n^2 \cdot \log{n}) + O(k) + O(1) = O(n^2 \cdot \log{n})
+\end{equation}
+

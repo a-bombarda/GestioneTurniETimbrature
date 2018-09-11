@@ -1,0 +1,228 @@
+\chapter{Progettazione algoritmo}
+%------------------------------------------------
+\section{Modello del problema}
+Il problema di allocazione dei dipendenti sui turni, in base al numero massimo di ore ricopribili da ciascun dipendente ed in base all'attività che può essere svolta da ciascuna persona, può essere rappresentato dal modello di programmazione lineare intera binaria descritto di seguito.\\
+
+\noindent
+Questo problema è noto, in letteratura, con il nome di \verb|Staff Scheduling| o \verb|Employee Scheduling|.
+%------------------------------------------------
+\subsection{Indici utilizzati}
+Nella trattazione successiva, gli indici utilizzati a pedice, avranno i seguenti significati:
+\begin{itemize}
+	\item $j$, viene utilizzato per identificare la j-esima \verb|attività|.
+	\item $i$, viene utilizzato per indicare l'i-esimo \verb|dipendente|.
+	\item $l$, viene utilizzato per indicare l'l-esimo \verb|giorno|.\\
+		Nella situazione qui analizzata si ha:
+		\begin{equation}
+			1 \leq l \leq 7
+		\end{equation}
+	\item $k$, viene utilizzato per indicare il k-esimo \verb|turno|.\\
+		Nella situazione qui analizzata si ha:
+		\begin{equation}
+			1 \leq k \leq 3
+		\end{equation}
+\end{itemize}
+%------------------------------------------------
+\subsection{Variabili decisionali}
+L'unica variabile decisionale utilizzata in questo problema è
+\begin{equation}
+	x_{ijkl} =
+	\begin{cases}
+		1\\
+		0
+	\end{cases}
+\end{equation}
+con $x_{ijkl} = 1$ se il dipendente $i$, per l'attività $j$ viene assegnato al turno $k$ nel giorno $j$, mentre $x_{ijkl} = 0$ altrimenti.
+%------------------------------------------------
+\subsection{Variabili considerate}
+Al fine di riuscire a stabilire il fabbisogno di dipendenti, considerando il numero massimo di ore lavorabili da ciascun dipendente, sono state individuate due ulteriori variabili importanti:
+\begin{itemize}
+	\item $R_{jkl}$, viene utilizzata per indicare il fabbisogno di dipendenti per l'attività $j$, nel turno $k$ del giorno $l$.
+	\item $L_i$, viene utilizzata per indicare il numero di ore massime settimanali lavorabili da un dipendente $i$.
+	\item $F_i$, viene utilizzata per indicare il numero di ore che possono essere ancora assegnate per il dipendente $i$.
+\end{itemize}
+%------------------------------------------------
+\subsection{Vincoli}
+Per il problema dell'allocazione dei turni, si sono individuati i seguenti vincoli:
+\begin{itemize}
+	\item Ogni dipendente può lavorare al massimo un turno per giorno:
+		\begin{equation}
+			\sum_{j} \sum_{k} x_{ijkl} \leq 1 \;\;\;\;,\;\;\;\forall i,\forall l
+		\end{equation}
+	\item Il fabbisogno di dipendenti in ogni attività e per ogni giorno deve essere coperto:
+		\begin{equation}
+			\sum_{i} x_{ijkl} = R_{jkl} \;\;\;\;,\;\;\;\forall i,\forall l, \forall k
+		\end{equation}
+	\item La somma delle ore lavorate da ciascun dipendente, nella settimana, non deve eccedere il limite di ore del singolo dipendente:
+		\begin{equation}
+			8 \cdot \sum_{k} \sum_{j} \sum_{l} x_{ijkl} \leq L_i \;\;\;\;,\;\;\;\forall i
+		\end{equation}
+\end{itemize}
+%------------------------------------------------
+\subsection{Funzione obbiettivo}
+La funzione obbiettivo per un problema di questo tipo deve riuscire a minimizzare il numero di dipendenti che vengono fatti lavorare nella settimana considerata, in modo da non avere inutili eccedenze di personale.\\
+
+\noindent
+In particolare, introduciamo una nuova variabile $y_i \in \lbrace 0,1 \rbrace$ che viene posta uguale ad $1$ se l'i-esimo dipendente viene fatto lavorare, a $0$ altrimenti. Si ottiene in questo modo la seguente funzione obbiettivo:
+\begin{equation}
+	\phi = \min{\sum_{i} y_i}
+\end{equation}
+%------------------------------------------------
+\section{Algoritmo greedy per la risoluzione}
+Per la risoluzione del problema di Staff Scheduling in oggetto, si è scelto di utilizzare l'algoritmo greedy il cui pseudocodice è riportato nel Codice \ref{codice:AlgoritmoGreedy}. Questo tipo di algoritmo è stato mutuato (e riadattato) dal problema del \verb|MCMS| (ordinamento di lavori su macchine, con minimizzazione del numero di macchine).
+
+\paragraph{Passi dell'algoritmo} L'algoritmo greedy per la risoluzione del problema di Staff Scheduling con minimizzazione del numero di operai può è composto dai seguenti passi:
+\begin{itemize}
+	\item \underline{Inizializzazione}:
+		\begin{itemize}
+			\item Nessun turno è assegnato
+			\item Nessun dipendente è selezionato per lavorare ($y_i=0$)
+			\item Per ciascun dipendente $F_i = L_i$
+		\end{itemize}
+	\item \underline{Iterazione}, per ogni slot (\textit{turno + data + tipo di attività}) da assegnare:
+		\begin{itemize}
+			\item Se lo slot è stato completamente allocato, si passa allo slot successivo.
+			\item Altrimenti...
+			\item Se lo slot può essere ricoperto da un dipendente che è già stato utilizzato nel processo di allocazione (ovvero con $y_i=1$ e $F_i \geq 8$), si assegna lo slot a quel dipendente, e si passa all'allocazione successiva.
+			\item Altrimenti...
+			\item Tra tutti i dipendenti che sono in grado di svolgere l'attività da allocare, che non hanno lavorato già un turno lo stesso giorno dello slot considerato, e che hanno $F_i \geq 8$ si seleziona il dipendente più promettente, in base ad una determinata euristica.\\
+				Se non è possibile trovare un'allocazione, il problema non è risolvibile, quindi non è possibile trovare nessun tipo di schedulazione.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\subsection{Pseudocodice dell'algoritmo}
+\lstset{
+    language=Java,
+    tabsize=2,
+    frame=lines,
+    caption=Pseudocodice per l'algoritmo Greedy di Staff Scheduling,
+    label=codice:AlgoritmoGreedy,
+    frame=shadowbox,
+    rulesepcolor=\color{gray},
+    xleftmargin=20pt,
+    framexleftmargin=15pt,
+    morekeywords={xmlns,version,type,encoding,algoritmo,each},
+    keywordstyle=\color{blue}\bf,
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    basicstyle=\footnotesize,
+    emph={end,each, algoritmo,then,fine,add,between, and},emphstyle={\color{blue}\textbf}}
+
+\lstinputlisting[language=Java]{Fase3/src/AlgoritmoGreedy}
+\noindent
+\paragraph{Euristica}
+In questo algoritmo greedy, come euristica utilizzata nell'ordinamento della lista dei dipendenti si è scelto di considerare il numero di attività che possono essere svolte da ciascun dipendente, prendendo per primi i dipendenti che possono svolgere meno attività.\\
+In questo modo si lasciano per ultimi i vari dipendenti che possono svolgere più attività e si hanno a disposizione delle scelte "Jolly" con il diminuire delle possibilità di scelta.
+
+%------------------------------------------------
+\subsection{Analisi della complessità dell'algoritmo}
+Analizziamo ora la complessità dell'algoritmo di Staff Scheduling, ponendosi nella situazione peggiore. Consideriamo:
+\begin{itemize}
+	\item $n$, il numero di dipendenti dell'azienda
+	\item $7$ giorni come orizzonte di pianificazione
+	\item $3$ turni da pianificare per ogni giornata
+	\item $m$, il numero totale di attività da pianificare ogni giorno 
+\end{itemize}
+In questo modo possiamo fare le seguenti considerazioni:
+\begin{itemize}
+	\item L'operazione di inizializzazione (righe \verb|10-13| del Codice \ref{codice:AlgoritmoGreedy}) viene eseguita una volta per ogni dipendente, quindi ha un costo $O(n)$.
+	\item L'operazione di selezione della lista di tutti i dipendenti che sono in grado di svolgere l'attività (righe \verb|25-29| del Codice \ref{codice:AlgoritmoGreedy}) è scomponibile in diverse operazioni con costo unitario $O(1)$, un eventuale ciclo sui dipendenti con costo $O(n)$ ed un ordinamento che, considerando un algoritmo di ordinamento ottimo, può essere considerato con costo $O(n\cdot \log{n})$.\\
+		L'intera complessità computazionale di questa sezione della funzione risulta quindi:
+		\begin{equation}
+			O(1)+O(n)+O(n\cdot \log{n})=O(n\cdot \log{n})
+		\end{equation}
+	\item Il ciclo for-each (riga \verb|19| del Codice \ref{codice:AlgoritmoGreedy}) viene eseguito, nel peggiore dei casi $7\cdot 3 \cdot m$ volte, quindi si ha una complessità computazionale pari a:
+		\begin{equation}
+			O(7 \cdot 3 \cdot m) = O(m)
+		\end{equation}
+	\item Il ciclo while (riga \verb|21| del Codice \ref{codice:AlgoritmoGreedy}) viene eseguito, nel peggiore dei casi un numero di volte pari ad un terzo del numero dei dipendenti (\textit{caso in cui tutti i dipendenti sono in grado di svolgere tutte le attività, quindi vengono divisi equamente nella giornata}), quindi ha una complessità pari a:
+		\begin{equation}
+			O\left( \dfrac{1}{3} n \right) = O(n)
+		\end{equation}
+\end{itemize}
+Unendo tutte le complessità individuate per ciascuna sezione, si arriva alla conclusione che la complessità computazionale totale dell'algoritmo greedy proposto risulta:
+\begin{equation}
+	T(n)=O(n)+O(m \cdot n \cdot n\cdot \log{n})=O(m\cdot n^2 \cdot \log{n})
+\end{equation}
+Con buona approssimazione, data la dimensione dell'azienda committente, è possibile considerare il numero di attività $m$ molto inferiore al numero di dipendenti $n$, ovvero $m \ll n$. Con questa approssimazione è possibile considerare una complessità finale totale pari a:
+\begin{equation}
+	T(n)\simeq O(n^2 \cdot \log{n})
+\end{equation}
+%------------------------------------------------
+\subsection{Flow-chart dell'algoritmo}
+L'algoritmo presentato nello pseudocodice \ref{codice:AlgoritmoGreedy} può essere visto anche sotto forma di diagramma di flusso, così come rappresentato in Figura \ref{fig:newFlowChartAlgoritmo}.
+\addfig{Fase3/img/}{newFlowChartAlgoritmo}{1}{Flow chart dell'algoritmo greedy per il problema dello Staff Scheduling}{Flow chart dell'algoritmo greedy per il problema dello Staff Scheduling}
+%------------------------------------------------
+\subsection{Risultato atteso}
+In base ai dati inseriti manualmente nel database, ci si attende che l'algoritmo di staff scheduling non sia in grado di coprire interamente una settimana. Infatti, la schedulazione avviene correttamente fino al quinto giorno compreso, mentre il sesto giorno risulta impossibile programmare il terzo turno per la seconda attività (\verb|MNT-MEC|).\\
+Il risultato atteso, in questo caso, è riportato in Figura \ref{fig:ScheduleParziale}.
+\addfig{Fase3/img/}{ScheduleParziale}{1}{Schedule parziale per 6 giorni}{Schedule parziale per 6 giorni}
+%------------------------------------------------
+\section{Implementazione dell'algoritmo}
+%------------------------------------------------
+\subsection{Interfaccia Scheduler}
+Per l'implementazione dell'algoritmo di Staff Scheduling si è scelto di realizzare una interfaccia \verb|Scheduler<T>|, che definisce il metodo \verb|Vector<T> makeSchedule| \verb|(Date dataMin, Date dataMax)|, utilizzato per generare la turnazione all'interno di un intervallo di date.\\
+Il codice di questa interfaccia è riportato all'interno del Codice \ref{code:interf}.
+\lstset{
+    caption=Interfaccia Scheduler,
+    label=code:interf }
+\lstinputlisting[language=Java]{Fase3/src/Scheduler.java}
+Questo metodo dichiara, tramite l'istruzione \verb|throws| che può essere lanciata una eccezione personalizzata di tipo \verb|ImpossibleSchedulingException|, definita come da Codice \ref{code:Exception}.
+\lstset{
+    caption=Eccezione ImpossibleSchedulingException,
+    label=code:Exception }
+\lstinputlisting[language=Java]{Fase3/src/ImpossibleSchedulingException.java}
+%------------------------------------------------
+\subsection{Classe StaffScheduler}
+La classe \verb|StaffScheduler| implementa l'interfaccia \verb|Scheduler| e viene utilizzata per risolvere il problema dello Staff Scheduling.\\
+Lo scheletro del codice di questa classe è riportato in Codice \ref{code:Staff}.
+\lstset{
+    caption=Classe StaffScheduler,
+    label=code:Staff }
+\lstinputlisting[language=Java]{Fase3/src/StaffScheduler.java}
+All'interno di questa classe sono stati inseriti:
+\begin{itemize}
+	\item \textbf{Attributi}:
+		\begin{itemize}
+			\item \verb|listaBadgeUtilizzati|: viene utilizzato dai metodi della classe per tenere memorizzata la lista di tutti i badge dei dipendenti che sono già stati impiegati durante la giornata.
+			\item \verb|dataCorrente|: viene utilizzato per la memorizzazione della data per la quale si sta generando lo schedule.
+			\item \verb|listaResultErr|: viene utilizzato per la memorizzazione dello schedule nel caso di errore, in modo che si riesca comunque ad accedere (nonostante l'eccezione) alle giornate schedulate correttamente.
+		\end{itemize}
+	\item \textbf{Metodi}:
+		\begin{itemize}
+			\item \verb|getPossiblePredicate|: metodo utilizzato per la generazione del predicato di filtro dei dipendenti ad ogni iterazione del processo di staff scheduling.\\
+				Per ogni allocazione è necessario, infatti, considerare solamente i dipendenti che:
+				\begin{enumerate}
+					\item Non hanno superato il massimo numero di ore settimanali.
+					\item Non sono già stati schedulati per un turno nella giornata considerata.
+					\item Sono in grado di compiere l'attività per la quale si sta generando lo schedule.
+				\end{enumerate}
+			\item \verb|getAssignedPredicate|: metodo utilizzato per la generazione del predicato di filtro dei dipendenti già considerati nel corso nella settimana.\\
+				Questo predicato è utile poichè, per minimizzare il numero di dipendenti utilizzati, è richiesto che si assegni (per quanto possibile) la maggior parte possibile degli slot a dipendenti che sono già stati considerati.
+			\item \verb|makeSchedule|: metodo principale per la classe StaffScheduler, utilizzato per la generazione di uno schedule, per le giornate tra \verb|dataMin| e \verb|dataMax|.
+			\item \verb|getPartialSchedule|: metodo utilizzato per la restituzione dello schedule parziale, nel caso ci siano stati errori nel processo di schedulazione.
+		\end{itemize}
+\end{itemize}
+%------------------------------------------------
+\subsection{Classe ListIntersect<T>}
+Come riportato nel flow-chart in Figura \ref{fig:newFlowChartAlgoritmo}, nell'algoritmo greedy per la risoluzione del problema di Staff Scheduling è fondamentale poter calcolare una \textit{intersezione} tra l'insieme dei dipendenti che possono coprire un certo slot di tempo e l'insieme dei dipendenti che sono già stati assegnati.\\
+Questo passo è proprio quello che permette di minimizzare il numero di dipendenti necessari all'azienda committente per soddisfare il fabbisogno richiesto.\\
+
+\noindent
+A tal fine, è stata realizzata una classe \verb|ListIntersect<T>| che implementa l'interfaccia \verb|Intersect<T>| e che, essendo generica, permette di calcolare l'intersezione tra due qualsiasi List (Codice \ref{Code:Intersezione}) tramite la chiamata del metodo \verb|intersect(List<T> a, List<T> b)|.
+\lstset{
+    caption=Classe ListIntersect,
+    label=Code:Intersezione }
+\lstinputlisting[language=Java]{Fase3/src/ListIntersect.java}
+%------------------------------------------------
+\section{Risultato ottenuto}
+Come riportato nella Figura \ref{fig:ScheduleParziale}, utilizzando i dati di prova inseriti all'interno del database, si deve ottenere un errore nella schedulazione.\\
+Utilizzando la porzione di software implementata in questa fase si ottiene, infatti, il messaggio di errore riportato in Figura \ref{fig:ErroreSchedulazione}.
+\addfig{Fase3/img/}{ErroreSchedulazione}{0.9}{Messaggio di errore nella schedulazione}{Messaggio di errore nella schedulazione}
+\noindent
+Inoltre, cliccando su \verb|Ok|, viene mostrata comunque la schedulazione parziale che è stata realizzata, come da Figura \ref{fig:ScheduleParzialeSW} (coincidente con quella in Figura \ref{fig:ScheduleParziale}).
+\addfig{Fase3/img/}{ScheduleParzialeSW}{0.9}{Schedule parziale prodotto dal software}{Schedule parziale prodotto dal software}
